@@ -4,7 +4,7 @@ import { LiveStreamSection } from "@/components/live-stream-section";
 import { VotingSection } from "@/components/voting-section";
 import { Footer } from "@/components/Footer";
 import { NFTGallerySection } from "@/components/nft-gallery-section";
-import { StakingSection } from "@/components/staking-section";
+import { CommunityHubSection } from "@/components/community-hub-section";
 
 const Index = () => {
   return (
@@ -14,7 +14,7 @@ const Index = () => {
       <LiveStreamSection />
       <VotingSection />
       <NFTGallerySection />
-      <StakingSection />
+      <CommunityHubSection />
       <Footer />
     </div>
   );

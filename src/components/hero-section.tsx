@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Wallet, Play, Vote, Trophy, Zap } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 export const HeroSection = () => {
@@ -57,19 +58,25 @@ export const HeroSection = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <Button variant="wallet" size="lg" className="text-lg px-8">
-              <Wallet className="mr-2" />
-              Wallet Verbinden
+            <Button variant="wallet" size="lg" className="text-lg px-8" asChild>
+              <Link to="/livestream">
+                <Wallet className="mr-2" />
+                Wallet Verbinden
+              </Link>
             </Button>
             
-            <Button variant="bitcoin" size="lg" className="text-lg px-8">
-              <Play className="mr-2" />
-              Live Stream Starten
+            <Button variant="bitcoin" size="lg" className="text-lg px-8" asChild>
+              <Link to="/livestream">
+                <Play className="mr-2" />
+                Live Stream Starten
+              </Link>
             </Button>
             
-            <Button variant="voting" size="lg" className="text-lg px-8">
-              <Vote className="mr-2" />
-              Jetzt Abstimmen
+            <Button variant="voting" size="lg" className="text-lg px-8" asChild>
+              <Link to="/voting">
+                <Vote className="mr-2" />
+                Jetzt Abstimmen
+              </Link>
             </Button>
           </div>
 
