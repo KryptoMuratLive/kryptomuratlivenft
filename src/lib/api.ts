@@ -28,21 +28,24 @@ export const sendVoteWebhook = async (voteData: VoteData) => {
   }
 };
 
-export const sendTelegramNotification = async (message: string) => {
+export const sendTelegramNotification = async (message: string, chatId?: string) => {
   try {
-    // Placeholder for Telegram bot integration
-    // Will be implemented when bot token is configured
-    console.log('Telegram notification:', message);
-    
     const response = await fetch('/api/telegram', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ 
+        message,
+        chatId: chatId || '@KryptoMurat_Live' // Default channel
+      }),
     });
 
-    return response.ok;
+    if (!response.ok) {
+      throw new Error('Failed to send Telegram notification');
+    }
+
+    return await response.json();
   } catch (error) {
     console.error('Telegram notification error:', error);
     return false;

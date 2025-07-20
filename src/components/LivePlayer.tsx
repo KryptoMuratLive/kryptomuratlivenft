@@ -2,12 +2,19 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Volume2, Maximize, MessageCircle, Settings } from "lucide-react";
+import { Play, Pause, Volume2, Maximize, MessageCircle, Settings, Eye } from "lucide-react";
+import { getPlaybackUrl } from "@/lib/livepeer";
 
 export const LivePlayer = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [volume, setVolume] = useState(80);
   const [viewers, setViewers] = useState(1247);
+  const [isLive, setIsLive] = useState(true);
+  const [quality, setQuality] = useState<'720p' | '480p' | 'source'>('source');
+  
+  // Demo playback ID - replace with actual stream data
+  const demoPlaybackId = "bafybeigtqixgtb5gkr7zbfyghbtlqddxhceewjsxzem7rvybqmzn3dxf5e";
+  
   const [chatMessages, setChatMessages] = useState([
     { user: "CryptoFan123", message: "Murat läuft direkt in die Falle! 😱", time: "12:34" },
     { user: "BitcoinHODLer", message: "Er sollte die U-Bahn nehmen!", time: "12:35" },
@@ -30,14 +37,34 @@ export const LivePlayer = () => {
         <CardContent className="p-0">
           {/* Video Container */}
           <div className="relative aspect-video bg-black">
-            {/* Placeholder for Livepeer Player */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <Play className="mx-auto mb-4 text-white" size={64} />
-                <p className="text-white text-lg">Live Stream Player</p>
-                <p className="text-white/60 text-sm">Livepeer Integration Placeholder</p>
+            {isLive ? (
+              <video
+                className="w-full h-full object-cover"
+                controls
+                muted={volume === 0}
+                autoPlay
+                playsInline
+              >
+                <source 
+                  src={getPlaybackUrl(demoPlaybackId, quality)} 
+                  type="application/x-mpegURL" 
+                />
+                <p className="text-white p-4">
+                  Dein Browser unterstützt HTML5 Video nicht. 
+                  <a href={getPlaybackUrl(demoPlaybackId, quality)} className="text-bitcoin underline">
+                    Direkten Link öffnen
+                  </a>
+                </p>
+              </video>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <Eye className="mx-auto mb-4 text-white" size={64} />
+                  <p className="text-white text-lg">Stream Offline</p>
+                  <p className="text-white/60 text-sm">Murat bereitet sich auf die nächste Episode vor...</p>
+                </div>
               </div>
-            </div>
+            )}
             
             {/* Live Badge */}
             <Badge className="absolute top-4 left-4 bg-red-600 text-white animate-pulse">
