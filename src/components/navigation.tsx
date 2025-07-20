@@ -17,11 +17,11 @@ export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
-    { name: "Live Stream", href: "#stream", icon: Play },
-    { name: "Voting", href: "#voting", icon: Vote },
-    { name: "NFT Gallery", href: "#nfts", icon: Trophy },
-    { name: "Staking", href: "#staking", icon: BarChart3 },
-    { name: "Community", href: "#community", icon: Users },
+    { name: "Live Stream", href: "/livestream", icon: Play },
+    { name: "Voting", href: "/voting", icon: Vote },
+    { name: "NFT Gallery", href: "/gallery", icon: Trophy },
+    { name: "Staking", href: "/staking", icon: BarChart3 },
+    { name: "Mint NFT", href: "/mint", icon: Users },
   ];
 
   return (
