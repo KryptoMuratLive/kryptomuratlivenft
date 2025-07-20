@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
-import { Vote, Check } from "lucide-react";
+import { CheckCircle } from "lucide-react";
+import { useWallet } from "@/hooks/useWallet";
+import { useToast } from "@/hooks/use-toast";
+import { sendVoteWebhook, sendTelegramNotification } from "@/lib/api";
 
 interface VoteOption {
   id: number;
@@ -12,138 +14,138 @@ interface VoteOption {
   percentage: number;
 }
 
-interface VoteData {
+interface Vote {
   question: string;
   options: VoteOption[];
   totalVotes: number;
 }
 
 interface VotingPanelProps {
-  vote: VoteData;
+  vote: Vote;
 }
 
 export const VotingPanel = ({ vote }: VotingPanelProps) => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
-  const [isVoting, setIsVoting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { address, isConnected } = useWallet();
+  const { toast } = useToast();
 
-  const handleVote = async (optionId: number) => {
-    if (hasVoted) return;
-    
-    setIsVoting(true);
-    setSelectedOption(optionId);
-    
-    // Simulate vote submission
-    setTimeout(() => {
+  const handleVote = async () => {
+    if (selectedOption === null || !isConnected || !address) {
+      toast({
+        title: "Voting Error",
+        description: "Please connect your wallet and select an option",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const selectedOptionText = vote.options.find(opt => opt.id === selectedOption)?.text || '';
+      
+      const voteData = {
+        wallet: address,
+        choice: selectedOptionText,
+        timestamp: new Date().toISOString(),
+        votingId: `vote_${Date.now()}`,
+      };
+
+      // Send webhook
+      await sendVoteWebhook(voteData);
+      
+      // Send Telegram notification
+      const message = `🗳️ New Vote Cast!\nWallet: ${address.slice(0, 6)}...${address.slice(-4)}\nChoice: ${selectedOptionText}\nTime: ${new Date().toLocaleString()}`;
+      await sendTelegramNotification(message);
+
       setHasVoted(true);
-      setIsVoting(false);
-    }, 1500);
+      toast({
+        title: "Vote Submitted!",
+        description: `Your vote for "${selectedOptionText}" has been recorded`,
+      });
+    } catch (error) {
+      toast({
+        title: "Vote Failed",
+        description: "Failed to submit vote. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="space-y-6">
-      {/* Question */}
-      <div className="text-center">
-        <h3 className="text-xl font-bold text-foreground mb-4">
+      <div className="text-center mb-6">
+        <h3 className="text-xl font-bold text-foreground mb-2">
           {vote.question}
         </h3>
-        <Badge variant="secondary" className="bg-blue-600 text-white">
-          <Vote className="mr-1" size={16} />
-          {vote.totalVotes} Stimmen abgegeben
-        </Badge>
+        <p className="text-sm text-muted-foreground">
+          Wähle eine Option und bestimme den Verlauf der Geschichte
+        </p>
       </div>
 
-      {/* Voting Options */}
       <div className="space-y-4">
         {vote.options.map((option) => (
-          <Card key={option.id} className="bg-card border-border overflow-hidden">
-            <CardContent className="p-0">
-              <Button
-                variant="ghost"
-                className="w-full h-auto p-4 justify-start text-left hover:bg-secondary/50 disabled:opacity-100"
-                onClick={() => handleVote(option.id)}
-                disabled={hasVoted || isVoting}
-              >
-                <div className="w-full space-y-3">
-                  {/* Option Text and Status */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-foreground font-medium">{option.text}</span>
-                    <div className="flex items-center space-x-2">
-                      {hasVoted && selectedOption === option.id && (
-                        <Check className="text-green-400" size={20} />
-                      )}
-                      {hasVoted && (
-                        <span className="text-sm text-muted-foreground">
-                          {option.votes} Stimmen
-                        </span>
-                      )}
-                    </div>
+          <Card 
+            key={option.id} 
+            className={`cursor-pointer transition-colors ${
+              selectedOption === option.id ? 'ring-2 ring-bitcoin' : ''
+            } ${hasVoted ? 'cursor-default' : 'hover:bg-secondary/50'}`}
+            onClick={() => !hasVoted && setSelectedOption(option.id)}
+          >
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="font-medium text-foreground">{option.text}</span>
+                {hasVoted && selectedOption === option.id && (
+                  <CheckCircle className="text-green-400" size={20} />
+                )}
+              </div>
+              
+              {hasVoted && (
+                <div className="space-y-2">
+                  <Progress value={option.percentage} className="h-2" />
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{option.votes} Stimmen</span>
+                    <span className="text-foreground font-medium">{option.percentage}%</span>
                   </div>
-                  
-                  {/* Progress Bar (only show after voting) */}
-                  {hasVoted && (
-                    <div className="space-y-1">
-                      <Progress value={option.percentage} className="h-2" />
-                      <div className="flex justify-between text-xs text-muted-foreground">
-                        <span>{option.percentage}%</span>
-                        {selectedOption === option.id && (
-                          <span className="text-green-400 font-medium">Deine Wahl</span>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Vote Button State */}
-                  {!hasVoted && !isVoting && (
-                    <div className="text-xs text-muted-foreground">
-                      Klicken zum Abstimmen
-                    </div>
-                  )}
-                  
-                  {isVoting && selectedOption === option.id && (
-                    <div className="text-xs text-bitcoin">
-                      Abstimmung wird übertragen...
-                    </div>
-                  )}
                 </div>
-              </Button>
+              )}
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Voting Status */}
-      <div className="text-center space-y-2">
-        {!hasVoted ? (
-          <p className="text-sm text-muted-foreference">
-            Wähle eine Option um abzustimmen
+      {!isConnected ? (
+        <div className="mt-6 p-4 bg-muted rounded-lg text-center">
+          <p className="text-sm text-muted-foreground">
+            Verbinde deine Wallet, um abstimmen zu können
           </p>
-        ) : (
-          <div>
-            <p className="text-sm text-green-400 font-medium">
-              ✓ Abstimmung erfolgreich übertragen
-            </p>
-            <p className="text-xs text-muted-foreference">
-              Das Ergebnis wird die nächste Szene beeinflussen
-            </p>
-          </div>
-        )}
-        
-        <div className="text-xs text-muted-foreground">
-          <p>Nur NFT-Holder können abstimmen • 1 NFT = 1 Stimme</p>
         </div>
-      </div>
-
-      {/* Real-time Updates */}
-      {hasVoted && (
-        <Card className="bg-secondary/20 border-bitcoin/20">
-          <CardContent className="p-4 text-center">
-            <p className="text-sm text-bitcoin">
-              🔥 Die Abstimmung ist noch offen! Das Ergebnis kann sich noch ändern.
-            </p>
-          </CardContent>
-        </Card>
+      ) : (
+        <Button 
+          onClick={handleVote}
+          disabled={selectedOption === null || hasVoted || isSubmitting}
+          size="lg"
+          className="w-full mt-6"
+        >
+          {hasVoted ? (
+            <>
+              <CheckCircle className="mr-2" size={20} />
+              Stimme abgegeben
+            </>
+          ) : isSubmitting ? (
+            "Wird übertragen..."
+          ) : (
+            "Stimme abgeben"
+          )}
+        </Button>
       )}
+
+      <div className="text-center text-xs text-muted-foreground">
+        <p>Nur NFT-Holder können abstimmen • 1 NFT = 1 Stimme</p>
+      </div>
     </div>
   );
 };

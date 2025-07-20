@@ -84,14 +84,7 @@ const Staking = () => {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Staking Form */}
-            <Card className="bg-card border-border">
-              <CardHeader>
-                <CardTitle className="text-foreground">Neue Stake erstellen</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <StakeForm pools={stakingPools} />
-              </CardContent>
-            </Card>
+            <StakeForm />
 
             {/* Staking Pools */}
             <Card className="bg-card border-border">

@@ -6,10 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, Users, MessageCircle } from "lucide-react";
+import { useWallet } from "@/hooks/useWallet";
 
 const LiveStream = () => {
   const [hasNFT, setHasNFT] = useState(false);
-  const [isConnected, setIsConnected] = useState(false);
+  const { isConnected } = useWallet();
+
+  const handleNFTVerification = (nftStatus: boolean) => {
+    setHasNFT(nftStatus);
+  };
 
   return (
     <div className="min-h-screen bg-crypto-dark">
@@ -66,7 +71,7 @@ const LiveStream = () => {
         {/* NFT Gate or Stream */}
         <div className="max-w-4xl mx-auto">
           {!isConnected ? (
-            <NFTGate onConnect={() => setIsConnected(true)} />
+            <NFTGate onConnect={handleNFTVerification} />
           ) : !hasNFT ? (
             <div className="text-center p-12 bg-card rounded-xl border border-border">
               <h3 className="text-2xl font-bold text-foreground mb-4">

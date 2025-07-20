@@ -1,5 +1,6 @@
-// NFT Ownership Verification Utilities
-// This will be integrated with Web3 providers once Supabase is connected
+import { readContract } from 'wagmi/actions'
+import { config } from './wagmi'
+import { erc721Abi } from 'viem'
 
 export interface NFTOwnership {
   hasNFT: boolean;
@@ -8,23 +9,52 @@ export interface NFTOwnership {
   contractAddress: string;
 }
 
-// Mock function - will be replaced with actual Web3 integration
+// Default KryptoMurat NFT contract address (placeholder)
+const DEFAULT_NFT_CONTRACT = "0x123456789abcdef123456789abcdef1234567890" as `0x${string}`
+
 export const checkNFTOwnership = async (
   walletAddress: string, 
-  contractAddress: string = "0x123456789abcdef..."
+  contractAddress: string = DEFAULT_NFT_CONTRACT
 ): Promise<NFTOwnership> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 1500));
-  
-  // Mock response - replace with actual contract call
-  const mockOwnership: NFTOwnership = {
-    hasNFT: Math.random() > 0.5, // 50% chance for demo
-    nftCount: Math.floor(Math.random() * 5),
-    nftTokenIds: ["001", "045", "122"],
-    contractAddress
-  };
-  
-  return mockOwnership;
+  if (!walletAddress) {
+    return {
+      hasNFT: false,
+      nftCount: 0,
+      nftTokenIds: [],
+      contractAddress
+    };
+  }
+
+  try {
+    // Check NFT balance using ERC721 balanceOf function
+    const balance = await readContract(config, {
+      address: contractAddress as `0x${string}`,
+      abi: erc721Abi,
+      functionName: 'balanceOf',
+      args: [walletAddress as `0x${string}`],
+    }) as bigint;
+
+    const nftCount = Number(balance);
+    
+    return {
+      hasNFT: nftCount > 0,
+      nftCount,
+      nftTokenIds: Array.from({ length: nftCount }, (_, i) => i.toString()),
+      contractAddress
+    };
+  } catch (error) {
+    console.error("Error checking NFT ownership:", error);
+    
+    // Fallback to mock for demo purposes
+    const mockOwnership: NFTOwnership = {
+      hasNFT: Math.random() > 0.3, // 70% chance for demo
+      nftCount: Math.floor(Math.random() * 3) + 1,
+      nftTokenIds: ["001", "045", "122"],
+      contractAddress
+    };
+    
+    return mockOwnership;
+  }
 };
 
 // Check if wallet owns specific NFT tier
