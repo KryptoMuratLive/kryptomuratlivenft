@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useWallet } from "@/hooks/useWallet";
 import { LiveStatusBadge } from "@/components/LiveStatusBadge";
 import { LanguageSelector } from "@/components/LanguageSelector";
@@ -53,14 +54,14 @@ export const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className="flex items-center space-x-2 text-muted-foreground hover:text-bitcoin transition-colors duration-200"
               >
                 <item.icon size={18} />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -101,10 +102,10 @@ export const Navigation = () => {
             <LanguageSelector />
 
             {isOrganizer && (
-              <Button variant="ghost" size="sm" asChild>
-                <a href="/organizer">
+            <Button variant="ghost" size="sm" asChild>
+                <Link to="/organizer">
                   <Settings size={16} />
-                </a>
+                </Link>
               </Button>
             )}
           </div>
@@ -126,15 +127,15 @@ export const Navigation = () => {
           <div className="md:hidden border-t border-border">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="flex items-center space-x-3 px-3 py-2 text-muted-foreground hover:text-bitcoin hover:bg-secondary/50 rounded-md transition-all duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <item.icon size={20} />
                   <span>{item.name}</span>
-                </a>
+                </Link>
               ))}
               
               <div className="pt-4 space-y-2">
@@ -173,10 +174,10 @@ export const Navigation = () => {
                 
                 {isOrganizer && (
                   <Button variant="outline" className="w-full" size="sm" asChild>
-                    <a href="/organizer">
+                    <Link to="/organizer">
                       <Settings className="mr-2" size={16} />
                       <TranslatedText>Veranstalter-Dashboard</TranslatedText>
-                    </a>
+                    </Link>
                   </Button>
                 )}
 
