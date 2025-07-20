@@ -80,9 +80,14 @@ const LiveStream = () => {
               <p className="text-muted-foreground mb-6">
                 Du benötigst ein Jäger-NFT, um den Live-Stream zu sehen.
               </p>
-              <Button variant="default" size="lg" onClick={() => window.location.href = '/mint'}>
-                NFT erhalten
-              </Button>
+              <div className="space-y-4">
+                <Button variant="default" size="lg" onClick={() => window.location.href = '/mint'}>
+                  NFT jetzt minten
+                </Button>
+                <Button variant="outline" onClick={() => window.location.reload()}>
+                  NFT-Zugang erneut prüfen
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="aspect-video bg-black rounded-xl overflow-hidden">
