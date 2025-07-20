@@ -41,7 +41,7 @@ export const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
             <div className="w-10 h-10 bg-gradient-bitcoin rounded-full flex items-center justify-center shadow-bitcoin">
               <span className="text-crypto-dark font-bold text-lg">₿</span>
             </div>
@@ -49,7 +49,7 @@ export const Navigation = () => {
               <h1 className="text-xl font-bold text-foreground">KryptoMurat</h1>
               <p className="text-xs text-muted-foreground">Live Jagd auf Bitcoin</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
