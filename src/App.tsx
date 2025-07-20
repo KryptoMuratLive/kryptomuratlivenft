@@ -13,6 +13,9 @@ import Staking from "./pages/Staking";
 import Mint from "./pages/Mint";
 import Gallery from "./pages/Gallery";
 import Organizer from "./pages/Organizer";
+import Impressum from "./pages/Impressum";
+import Datenschutz from "./pages/Datenschutz";
+import Barrierefreiheit from "./pages/Barrierefreiheit";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +37,9 @@ const App = () => (
               <Route path="/mint" element={<Mint />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/organizer" element={<Organizer />} />
+              <Route path="/impressum" element={<Impressum />} />
+              <Route path="/datenschutz" element={<Datenschutz />} />
+              <Route path="/barrierefreiheit" element={<Barrierefreiheit />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
