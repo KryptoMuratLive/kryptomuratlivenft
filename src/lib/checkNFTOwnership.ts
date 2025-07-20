@@ -1,6 +1,4 @@
-import { readContract } from 'wagmi/actions'
-import { config } from './wagmi'
-import { erc721Abi } from 'viem'
+import { supabase } from '@/integrations/supabase/client'
 
 export interface NFTOwnership {
   hasNFT: boolean;
@@ -14,33 +12,37 @@ const DEFAULT_NFT_CONTRACT = "0x123456789abcdef123456789abcdef1234567890" as `0x
 
 export const checkNFTOwnership = async (
   walletAddress: string, 
-  contractAddress: string = DEFAULT_NFT_CONTRACT
+  contractAddress?: string,
+  chain: string = 'polygon'
 ): Promise<NFTOwnership> => {
   if (!walletAddress) {
     return {
       hasNFT: false,
       nftCount: 0,
       nftTokenIds: [],
-      contractAddress
+      contractAddress: contractAddress || ''
     };
   }
 
   try {
-    // Check NFT balance using ERC721 balanceOf function
-    const balance = await readContract(config, {
-      address: contractAddress as `0x${string}`,
-      abi: erc721Abi,
-      functionName: 'balanceOf',
-      args: [walletAddress as `0x${string}`],
-    }) as bigint;
+    // Call our edge function to check NFT ownership via Moralis
+    const { data, error } = await supabase.functions.invoke('check-nft-ownership', {
+      body: { 
+        walletAddress, 
+        contractAddress,
+        chain 
+      }
+    });
 
-    const nftCount = Number(balance);
-    
+    if (error) {
+      throw new Error(error.message);
+    }
+
     return {
-      hasNFT: nftCount > 0,
-      nftCount,
-      nftTokenIds: Array.from({ length: nftCount }, (_, i) => i.toString()),
-      contractAddress
+      hasNFT: data.hasNFT,
+      nftCount: data.nftCount,
+      nftTokenIds: data.nftTokenIds,
+      contractAddress: data.contractAddress
     };
   } catch (error) {
     console.error("Error checking NFT ownership:", error);
@@ -50,7 +52,7 @@ export const checkNFTOwnership = async (
       hasNFT: Math.random() > 0.3, // 70% chance for demo
       nftCount: Math.floor(Math.random() * 3) + 1,
       nftTokenIds: ["001", "045", "122"],
-      contractAddress
+      contractAddress: contractAddress || ''
     };
     
     return mockOwnership;
