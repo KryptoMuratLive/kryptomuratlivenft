@@ -1,14 +1,12 @@
 import { createConfig, http } from 'wagmi'
 import { polygon, polygonMumbai } from 'wagmi/chains'
-import { walletConnect, metaMask } from 'wagmi/connectors'
-
-const walletConnectProjectId = '4d6552f8a5d85b900455fb644bab328e'
+import { metaMask, injected } from 'wagmi/connectors'
 
 export const config = createConfig({
   chains: [polygon, polygonMumbai],
   connectors: [
-    walletConnect({ projectId: walletConnectProjectId }),
     metaMask(),
+    injected(),
   ],
   transports: {
     [polygon.id]: http(),
