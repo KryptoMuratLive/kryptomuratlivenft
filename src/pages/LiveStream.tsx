@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
 import { NFTGate } from "@/components/NFTGate";
-import { LivePlayer } from "@/components/LivePlayer";
+// import { LivePlayer } from "@/components/LivePlayer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -85,7 +85,17 @@ const LiveStream = () => {
               </Button>
             </div>
           ) : (
-            <LivePlayer />
+            <div className="aspect-video bg-black rounded-xl overflow-hidden">
+              <div className="flex items-center justify-center h-full">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-bitcoin rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Eye className="text-black" size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-2">Live Stream</h3>
+                  <p className="text-gray-300">Willkommen beim KryptoMurat Live Stream!</p>
+                </div>
+              </div>
+            </div>
           )}
         </div>
 
