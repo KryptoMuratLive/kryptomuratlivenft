@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
+import { useWallet } from "@/hooks/useWallet";
 import { 
   Wallet, 
   Menu, 
@@ -10,11 +11,14 @@ import {
   Trophy, 
   BarChart3, 
   Users,
-  Settings 
+  Settings,
+  LogOut,
+  CheckCircle
 } from "lucide-react";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { address, isConnected, isConnecting, connectWallet, disconnectWallet } = useWallet();
 
   const navigation = [
     { name: "Live Stream", href: "/livestream", icon: Play },
@@ -62,10 +66,32 @@ export const Navigation = () => {
             </Badge>
 
             {/* Wallet Button */}
-            <Button variant="wallet" size="sm">
-              <Wallet className="mr-2" size={16} />
-              Wallet verbinden
-            </Button>
+            {!isConnected ? (
+              <Button 
+                variant="wallet" 
+                size="sm" 
+                onClick={connectWallet}
+                disabled={isConnecting}
+              >
+                <Wallet className="mr-2" size={16} />
+                {isConnecting ? "Verbinde..." : "Wallet verbinden"}
+              </Button>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Badge variant="secondary" className="bg-green-600 text-white">
+                  <CheckCircle className="mr-1" size={12} />
+                  {address?.slice(0, 6)}...{address?.slice(-4)}
+                </Badge>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={disconnectWallet}
+                  className="text-muted-foreground hover:text-foreground"
+                >
+                  <LogOut size={16} />
+                </Button>
+              </div>
+            )}
 
             <Button variant="ghost" size="sm">
               <Settings size={16} />
@@ -101,10 +127,34 @@ export const Navigation = () => {
               ))}
               
               <div className="pt-4 space-y-2">
-                <Button variant="wallet" className="w-full" size="sm">
-                  <Wallet className="mr-2" size={16} />
-                  Wallet verbinden
-                </Button>
+                {!isConnected ? (
+                  <Button 
+                    variant="wallet" 
+                    className="w-full" 
+                    size="sm"
+                    onClick={connectWallet}
+                    disabled={isConnecting}
+                  >
+                    <Wallet className="mr-2" size={16} />
+                    {isConnecting ? "Verbinde..." : "Wallet verbinden"}
+                  </Button>
+                ) : (
+                  <div className="space-y-2">
+                    <Badge variant="secondary" className="bg-green-600 text-white w-full justify-center py-2">
+                      <CheckCircle className="mr-2" size={14} />
+                      Verbunden: {address?.slice(0, 6)}...{address?.slice(-4)}
+                    </Badge>
+                    <Button 
+                      variant="outline" 
+                      className="w-full" 
+                      size="sm"
+                      onClick={disconnectWallet}
+                    >
+                      <LogOut className="mr-2" size={16} />
+                      Wallet trennen
+                    </Button>
+                  </div>
+                )}
                 
                 <Badge variant="secondary" className="bg-red-600 text-white animate-pulse w-full justify-center py-2">
                   <div className="w-2 h-2 bg-white rounded-full mr-2 animate-ping" />
