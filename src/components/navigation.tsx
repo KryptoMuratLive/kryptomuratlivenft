@@ -30,6 +30,7 @@ export const Navigation = () => {
     { name: "NFT Gallery", href: "/gallery", icon: Trophy },
     { name: "Staking", href: "/staking", icon: BarChart3 },
     { name: "Mint NFT", href: "/mint", icon: Users },
+    { name: "Whitepaper", href: "/whitepaper", icon: CheckCircle },
   ];
 
   const isOrganizer = isConnected && address?.toLowerCase() === ORGANIZER_ADDRESS.toLowerCase();

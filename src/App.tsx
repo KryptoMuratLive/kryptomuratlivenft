@@ -16,6 +16,7 @@ import Organizer from "./pages/Organizer";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import Barrierefreiheit from "./pages/Barrierefreiheit";
+import Whitepaper from "./pages/Whitepaper";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/barrierefreiheit" element={<Barrierefreiheit />} />
+              <Route path="/whitepaper" element={<Whitepaper />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
