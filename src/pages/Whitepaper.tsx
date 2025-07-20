@@ -163,13 +163,6 @@ const Whitepaper = () => {
                   <li>• <TranslatedText>Proof-of-Attendance NFTs</TranslatedText></li>
                 </ul>
               </div>
-              <div className="bg-primary/10 p-4 rounded-lg border border-primary/20">
-                <p className="text-sm text-muted-foreground">
-                  <TranslatedText>
-                    Integration über https://github.com/KryptoMuratLive/kryptomuratlivenft
-                  </TranslatedText>
-                </p>
-              </div>
             </CardContent>
           </Card>
 
