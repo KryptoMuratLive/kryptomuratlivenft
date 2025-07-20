@@ -61,7 +61,28 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// Custom KryptoMurat colors
+				bitcoin: 'hsl(var(--bitcoin))',
+				'bitcoin-glow': 'hsl(var(--bitcoin-glow))',
+				'crypto-dark': 'hsl(var(--crypto-dark))',
+				'crypto-darker': 'hsl(var(--crypto-darker))',
+				'electric-blue': 'hsl(var(--electric-blue))',
+				'electric-blue-glow': 'hsl(var(--electric-blue-glow))'
+			},
+			backgroundImage: {
+				'gradient-bitcoin': 'var(--gradient-bitcoin)',
+				'gradient-crypto': 'var(--gradient-crypto)',
+				'gradient-electric': 'var(--gradient-electric)',
+				'gradient-hero': 'var(--gradient-hero)'
+			},
+			boxShadow: {
+				'bitcoin': 'var(--shadow-bitcoin)',
+				'electric': 'var(--shadow-electric)',
+				'card-glow': 'var(--shadow-card)'
+			},
+			transitionProperty: {
+				'glow': 'var(--transition-glow)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

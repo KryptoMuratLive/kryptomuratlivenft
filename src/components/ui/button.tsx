@@ -18,6 +18,11 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // KryptoMurat custom variants
+        bitcoin: "bg-gradient-bitcoin text-crypto-dark hover:shadow-bitcoin hover:scale-105 transition-all duration-300",
+        electric: "bg-gradient-electric text-background hover:shadow-electric hover:scale-105 transition-all duration-300",
+        wallet: "bg-secondary border border-bitcoin text-foreground hover:bg-bitcoin hover:text-crypto-dark transition-all duration-300",
+        voting: "bg-electric-blue text-background hover:bg-electric-blue-glow hover:shadow-electric transition-all duration-300",
       },
       size: {
         default: "h-10 px-4 py-2",
