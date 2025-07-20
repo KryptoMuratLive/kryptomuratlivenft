@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { WagmiWrapper } from './components/WagmiProvider';
 import { LiveProvider } from './contexts/LiveContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import Index from "./pages/Index";
 import LiveStream from "./pages/LiveStream";
 import Voting from "./pages/Voting";
@@ -19,11 +20,12 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <WagmiWrapper>
-      <LiveProvider>
-        <TooltipProvider>
-          <BrowserRouter>
-            <Toaster />
-            <Sonner />
+      <LanguageProvider>
+        <LiveProvider>
+          <TooltipProvider>
+            <BrowserRouter>
+              <Toaster />
+              <Sonner />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/livestream" element={<LiveStream />} />
@@ -38,8 +40,9 @@ const App = () => (
           </BrowserRouter>
         </TooltipProvider>
       </LiveProvider>
-    </WagmiWrapper>
-  </QueryClientProvider>
+    </LanguageProvider>
+  </WagmiWrapper>
+</QueryClientProvider>
 );
 
 export default App;
