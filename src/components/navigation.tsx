@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { useWallet } from "@/hooks/useWallet";
+import { LiveStatusBadge } from "@/components/LiveStatusBadge";
+import { ORGANIZER_ADDRESS } from "@/lib/contracts";
 import { 
   Wallet, 
   Menu, 
@@ -27,6 +29,8 @@ export const Navigation = () => {
     { name: "Staking", href: "/staking", icon: BarChart3 },
     { name: "Mint NFT", href: "/mint", icon: Users },
   ];
+
+  const isOrganizer = isConnected && address?.toLowerCase() === ORGANIZER_ADDRESS.toLowerCase();
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-crypto-dark/80 backdrop-blur-md border-b border-border">
@@ -59,11 +63,8 @@ export const Navigation = () => {
 
           {/* Wallet Status & Controls */}
           <div className="hidden md:flex items-center space-x-4">
-            {/* Live Status */}
-            <Badge variant="secondary" className="bg-red-600 text-white animate-pulse">
-              <div className="w-2 h-2 bg-white rounded-full mr-1 animate-ping" />
-              LIVE
-            </Badge>
+            {/* Live Status Badge */}
+            <LiveStatusBadge />
 
             {/* Wallet Button */}
             {!isConnected ? (
@@ -93,9 +94,13 @@ export const Navigation = () => {
               </div>
             )}
 
-            <Button variant="ghost" size="sm">
-              <Settings size={16} />
-            </Button>
+            {isOrganizer && (
+              <Button variant="ghost" size="sm" asChild>
+                <a href="/organizer">
+                  <Settings size={16} />
+                </a>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -156,10 +161,18 @@ export const Navigation = () => {
                   </div>
                 )}
                 
-                <Badge variant="secondary" className="bg-red-600 text-white animate-pulse w-full justify-center py-2">
-                  <div className="w-2 h-2 bg-white rounded-full mr-2 animate-ping" />
-                  LIVE STREAM AKTIV
-                </Badge>
+                <div className="w-full flex justify-center">
+                  <LiveStatusBadge />
+                </div>
+                
+                {isOrganizer && (
+                  <Button variant="outline" className="w-full" size="sm" asChild>
+                    <a href="/organizer">
+                      <Settings className="mr-2" size={16} />
+                      Veranstalter-Dashboard
+                    </a>
+                  </Button>
+                )}
               </div>
             </div>
           </div>
