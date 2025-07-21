@@ -1,0 +1,33 @@
+{
+  "welcome": "Welcome to KryptoMurat Live – Hunt for Bitcoin!",
+  "navigation": {
+    "home": "Home",
+    "livestream": "Live Stream",
+    "voting": "Voting",
+    "nft_gallery": "NFT Gallery",
+    "staking": "Staking",
+    "whitepaper": "Whitepaper"
+  },
+  "hero": {
+    "title": "KryptoMurat Live",
+    "subtitle": "Hunt for Bitcoin",
+    "description": "Experience the exciting world of cryptocurrencies in real-time!",
+    "cta_button": "Join now"
+  },
+  "wallet": {
+    "connect": "Connect Wallet",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnect": "Disconnect Wallet"
+  },
+  "footer": {
+    "contact_support": "Contact & Support",
+    "email": "Email:",
+    "quick_access": "Quick Access",
+    "all_rights_reserved": "All rights reserved.",
+    "legal_notice": "Legal Notice",
+    "privacy_policy": "Privacy Policy",
+    "accessibility": "Accessibility",
+    "disclaimer": "This project is for educational and entertainment purposes only. Not financial advice."
+  }
+}

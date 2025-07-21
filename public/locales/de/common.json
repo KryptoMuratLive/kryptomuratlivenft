@@ -1,0 +1,33 @@
+{
+  "welcome": "Willkommen bei KryptoMurat Live – Jagd auf den Bitcoin!",
+  "navigation": {
+    "home": "Startseite",
+    "livestream": "Live Stream",
+    "voting": "Abstimmung",
+    "nft_gallery": "NFT Gallery",
+    "staking": "Staking",
+    "whitepaper": "Whitepaper"
+  },
+  "hero": {
+    "title": "KryptoMurat Live",
+    "subtitle": "Jagd auf den Bitcoin",
+    "description": "Erlebe die aufregende Welt der Kryptowährungen in Echtzeit!",
+    "cta_button": "Jetzt teilnehmen"
+  },
+  "wallet": {
+    "connect": "Wallet verbinden",
+    "connecting": "Verbinde...",
+    "connected": "Verbunden",
+    "disconnect": "Wallet trennen"
+  },
+  "footer": {
+    "contact_support": "Kontakt & Support",
+    "email": "E-Mail:",
+    "quick_access": "Schnellzugriff",
+    "all_rights_reserved": "Alle Rechte vorbehalten.",
+    "legal_notice": "Impressum",
+    "privacy_policy": "Datenschutzerklärung",
+    "accessibility": "Barrierefreiheit",
+    "disclaimer": "Dieses Projekt dient ausschließlich Bildungs- und Unterhaltungszwecken. Keine Finanzberatung."
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "welcome": "¡Bienvenido a KryptoMurat Live – Caza del Bitcoin!",
+  "navigation": {
+    "home": "Inicio",
+    "livestream": "Transmisión en Vivo",
+    "voting": "Votación",
+    "nft_gallery": "Galería NFT",
+    "staking": "Staking",
+    "whitepaper": "Libro Blanco"
+  },
+  "hero": {
+    "title": "KryptoMurat Live",
+    "subtitle": "Caza del Bitcoin",
+    "description": "¡Experimenta el emocionante mundo de las criptomonedas en tiempo real!",
+    "cta_button": "Únete ahora"
+  },
+  "wallet": {
+    "connect": "Conectar Billetera",
+    "connecting": "Conectando...",
+    "connected": "Conectado",
+    "disconnect": "Desconectar Billetera"
+  },
+  "footer": {
+    "contact_support": "Contacto y Soporte",
+    "email": "Correo:",
+    "quick_access": "Acceso Rápido",
+    "all_rights_reserved": "Todos los derechos reservados.",
+    "legal_notice": "Aviso Legal",
+    "privacy_policy": "Política de Privacidad",
+    "accessibility": "Accesibilidad",
+    "disclaimer": "Este proyecto es solo para fines educativos y de entretenimiento. No es asesoramiento financiero."
+  }
+}

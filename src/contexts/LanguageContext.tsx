@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export type SupportedLanguage = 'de' | 'en' | 'tr' | 'es' | 'ar';
+export type SupportedLanguage = 'de' | 'en' | 'tr' | 'es' | 'fr';
 
 export interface LanguageConfig {
   code: SupportedLanguage;
@@ -15,7 +15,7 @@ export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
   { code: 'tr', name: 'Turkish', nativeName: 'Türkçe', flag: '🇹🇷' },
   { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', rtl: true },
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
 ];
 
 interface LanguageContextType {

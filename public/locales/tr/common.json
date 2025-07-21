@@ -1,0 +1,33 @@
+{
+  "welcome": "KryptoMurat Live'a Hoş Geldiniz – Bitcoin Avı!",
+  "navigation": {
+    "home": "Ana Sayfa",
+    "livestream": "Canlı Yayın",
+    "voting": "Oylama",
+    "nft_gallery": "NFT Galerisi",
+    "staking": "Stake",
+    "whitepaper": "Beyaz Kitap"
+  },
+  "hero": {
+    "title": "KryptoMurat Live",
+    "subtitle": "Bitcoin Avı",
+    "description": "Kripto para dünyasının heyecanını gerçek zamanlı yaşayın!",
+    "cta_button": "Şimdi katıl"
+  },
+  "wallet": {
+    "connect": "Cüzdan Bağla",
+    "connecting": "Bağlanıyor...",
+    "connected": "Bağlandı",
+    "disconnect": "Cüzdan Ayır"
+  },
+  "footer": {
+    "contact_support": "İletişim ve Destek",
+    "email": "E-posta:",
+    "quick_access": "Hızlı Erişim",
+    "all_rights_reserved": "Tüm hakları saklıdır.",
+    "legal_notice": "Yasal Bildirim",
+    "privacy_policy": "Gizlilik Politikası",
+    "accessibility": "Erişilebilirlik",
+    "disclaimer": "Bu proje sadece eğitim ve eğlence amaçlıdır. Mali tavsiye değildir."
+  }
+}
