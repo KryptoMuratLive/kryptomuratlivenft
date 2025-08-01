@@ -26,7 +26,8 @@ export const Navigation = () => {
   const { address, isConnected, isConnecting, connectWallet, disconnectWallet } = useWallet();
 
   const navigation = [
-    { name: "Live Stream", href: "/livestream", icon: Play },
+    { name: "Live Stream (Events)", href: "/livestream", icon: Play },
+    { name: "Privater Stream", href: "/private-stream", icon: Play },
     { name: "Voting", href: "/voting", icon: Vote },
     { name: "NFT Gallery", href: "/gallery", icon: Trophy },
     { name: "Staking", href: "/staking", icon: BarChart3 },

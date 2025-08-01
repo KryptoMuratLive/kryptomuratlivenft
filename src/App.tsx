@@ -8,6 +8,7 @@ import { LiveProvider } from './contexts/LiveContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Index from "./pages/Index";
 import LiveStream from "./pages/LiveStream";
+import PrivateStream from "./pages/PrivateStream";
 import Voting from "./pages/Voting";
 import Staking from "./pages/Staking";
 import Mint from "./pages/Mint";
@@ -33,6 +34,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/livestream" element={<LiveStream />} />
+              <Route path="/private-stream" element={<PrivateStream />} />
               <Route path="/voting" element={<Voting />} />
               <Route path="/staking" element={<Staking />} />
               <Route path="/mint" element={<Mint />} />
