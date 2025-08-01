@@ -20,36 +20,80 @@ export const NFTGallerySection = () => {
     story: [
       {
         id: 1,
-        title: "Episode 1: Der Erste Hinweis",
-        description: "Murat entdeckt die erste Spur zum Bitcoin-Versteck",
-        image: "/api/placeholder/300/400",
-        rarity: "Common",
+        title: "Jagd auf den Bitcoin #001",
+        description: "Warum rennst du mit meinen Coins?! - Fang mich, wenn du kannst!",
+        image: "/lovable-uploads/b2fe4902-9a19-45b8-9bb7-58973b181eef.png",
+        rarity: "Legendary",
         owned: true,
-        price: "0.1 ETH",
-        holders: 234,
+        price: "2.5 ETH",
+        holders: 156,
         unlocks: "Exklusiver Chat-Zugang"
       },
       {
         id: 2,
-        title: "Episode 3: Die Verfolgung beginnt", 
-        description: "Der Bitcoin-Jäger nimmt die Verfolgung auf",
-        image: "/api/placeholder/300/400",
-        rarity: "Rare",
+        title: "Egal wo du bist, KryptoMurat",
+        description: "Ich werde auch da sein! - Der Jäger wird niemals aufgeben",
+        image: "/lovable-uploads/e8089fb6-0917-4be6-bc88-0589ed422548.png",
+        rarity: "Epic",
         owned: false,
-        price: "0.25 ETH",
+        price: "1.8 ETH",
         holders: 89,
         unlocks: "Voting Power x2"
       },
       {
         id: 3,
-        title: "Episode 5: Live Escape",
-        description: "Aktuelle Live-Episode NFT - nur während Stream verfügbar",
-        image: "/api/placeholder/300/400", 
+        title: "Katze und Maus",
+        description: "Hör auf, mir zu entkommen! - Das ultimative Katz-und-Maus-Spiel",
+        image: "/lovable-uploads/3675c6a2-1411-4a51-bd60-e8044ad46de0.png",
+        rarity: "Epic",
+        owned: false,
+        price: "1.5 ETH",
+        holders: 73,
+        unlocks: "Spezial-Stream Zugang"
+      },
+      {
+        id: 4,
+        title: "U-Bahn Verfolgung",
+        description: "Die Spannung steigt - Verfolgung in den Tunneln der Stadt",
+        image: "/lovable-uploads/5c6539d5-e209-4a90-86d6-6538d45e466c.png",
+        rarity: "Rare",
+        owned: false,
+        price: "1.2 ETH",
+        holders: 45,
+        unlocks: "Behind-the-Scenes Content"
+      },
+      {
+        id: 5,
+        title: "Langfristige Stabilität",
+        description: "Schutz vor Übernahme - Der Kampf um Web3 Dominanz",
+        image: "/lovable-uploads/8659deab-9234-4128-998d-97563a74bc19.png",
         rarity: "Legendary",
         owned: false,
-        price: "0.5 ETH",
+        price: "3.0 ETH",
+        holders: 23,
+        unlocks: "VIP Analytics Dashboard"
+      },
+      {
+        id: 6,
+        title: "Bitcoin vs XRP Race",
+        description: "I Love Bitcoin vs I Love XRP - Das ultimative Crypto-Rennen",
+        image: "/lovable-uploads/13bf4ef5-1c70-42e9-9ea1-a297b15d7aca.png",
+        rarity: "Epic",
+        owned: true,
+        price: "2.0 ETH",
+        holders: 67,
+        unlocks: "Trading Signals Access"
+      },
+      {
+        id: 7,
+        title: "Murat - Dein rationaler Anker",
+        description: "Der rationale Anker im Multichain-Web3 - Führung und Weisheit",
+        image: "/lovable-uploads/2ced2c72-29f2-410c-94ad-3deb0c56c18a.png",
+        rarity: "Legendary",
+        owned: false,
+        price: "4.0 ETH",
         holders: 12,
-        unlocks: "Admin Chat & Behind-Scenes",
+        unlocks: "Alle Premium Features",
         isLive: true
       }
     ],
@@ -159,13 +203,11 @@ export const NFTGallerySection = () => {
             >
               {/* NFT Image */}
               <div className="relative aspect-[3/4] bg-gradient-to-br from-crypto-dark to-crypto-darker">
-                {/* Placeholder for NFT image */}
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-secondary to-muted">
-                  <div className="text-center">
-                    <Trophy className="text-bitcoin mx-auto mb-2" size={48} />
-                    <p className="text-sm text-muted-foreground">NFT Preview</p>
-                  </div>
-                </div>
+                <img 
+                  src={nft.image} 
+                  alt={nft.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
 
                 {/* Live Badge */}
                 {nft.isLive && (
