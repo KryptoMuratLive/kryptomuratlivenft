@@ -99,24 +99,24 @@ export const NFTGallerySection = () => {
     ],
     characters: [
       {
-        id: 4,
+        id: 8,
         title: "Murat - Der Protagonist",
-        description: "Legendärer Protagonist NFT mit speziellen Eigenschaften",
-        image: "/api/placeholder/300/400",
+        description: "I ❤️ KRYPTO - Der sympathische Held unserer Geschichte",
+        image: "/lovable-uploads/cba50bdb-cb2b-48b5-b69c-a8662f60f0d7.png",
         rarity: "Legendary", 
         owned: true,
-        price: "1.0 ETH",
+        price: "5.0 ETH",
         holders: 50,
         unlocks: "Alle Premium Features"
       },
       {
-        id: 5,
-        title: "Bitcoin-Jäger",
-        description: "Der mysteriöse Antagonist der Serie",
-        image: "/api/placeholder/300/400",
+        id: 9,
+        title: "Der Jäger - Bitcoin Hunter",
+        description: "Der mysteriöse und bedrohliche Antagonist mit Bitcoin-Pendant",
+        image: "/lovable-uploads/a3709dd4-6c96-4b86-9c81-4aab2403adbc.png",
         rarity: "Epic",
         owned: false,
-        price: "0.75 ETH", 
+        price: "3.5 ETH", 
         holders: 25,
         unlocks: "Jäger-Perspektive Stream"
       }
