@@ -1,0 +1,28 @@
+// Contract addresses and constants
+export const MURAT_TOKEN_ADDRESS = "0x1234567890123456789012345678901234567890" as const; // Placeholder - replace with actual MURAT token address
+
+export const SUPPORTED_CHAINS = {
+  POLYGON: 137,
+  POLYGON_MUMBAI: 80001,
+  ETHEREUM: 1,
+} as const;
+
+export const QUICKSWAP_URL = "https://quickswap.exchange/#/swap";
+export const CROSSMINT_URL = "https://www.crossmint.com/";
+
+export const ERC20_ABI = [
+  {
+    name: "balanceOf",
+    type: "function",
+    stateMutability: "view",
+    inputs: [{ name: "owner", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+  },
+  {
+    name: "decimals",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "uint8" }],
+  },
+] as const;

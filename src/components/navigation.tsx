@@ -73,15 +73,15 @@ export const Navigation = () => {
 
             {/* Wallet Button */}
             {!isConnected ? (
-              <Button 
-                variant="wallet" 
-                size="sm" 
-                onClick={connectWallet}
-                disabled={isConnecting}
-              >
-                <Wallet className="mr-2" size={16} />
-                <TranslatedText>{isConnecting ? "Verbinde..." : "Wallet verbinden"}</TranslatedText>
-              </Button>
+              <Link to="/login">
+                <Button 
+                  variant="wallet" 
+                  size="sm"
+                >
+                  <Wallet className="mr-2" size={16} />
+                  <TranslatedText>Wallet verbinden</TranslatedText>
+                </Button>
+              </Link>
             ) : (
               <div className="flex items-center space-x-2">
                 <Badge variant="secondary" className="bg-green-600 text-white">
@@ -141,16 +141,16 @@ export const Navigation = () => {
               
               <div className="pt-4 space-y-2">
                 {!isConnected ? (
-                  <Button 
-                    variant="wallet" 
-                    className="w-full" 
-                    size="sm"
-                    onClick={connectWallet}
-                    disabled={isConnecting}
-                  >
-                    <Wallet className="mr-2" size={16} />
-                    <TranslatedText>{isConnecting ? "Verbinde..." : "Wallet verbinden"}</TranslatedText>
-                  </Button>
+                  <Link to="/login">
+                    <Button 
+                      variant="wallet" 
+                      className="w-full" 
+                      size="sm"
+                    >
+                      <Wallet className="mr-2" size={16} />
+                      <TranslatedText>Wallet verbinden</TranslatedText>
+                    </Button>
+                  </Link>
                 ) : (
                   <div className="space-y-2">
                     <Badge variant="secondary" className="bg-green-600 text-white w-full justify-center py-2">
