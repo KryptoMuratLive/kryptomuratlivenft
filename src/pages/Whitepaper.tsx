@@ -76,7 +76,7 @@ const Whitepaper = () => {
                 </div>
                 <div className="bg-muted/30 p-4 rounded-lg">
                   <h4 className="font-semibold mb-2">Supply</h4>
-                  <p className="text-muted-foreground">1.000.000.000 (1 Milliarde Tokens)</p>
+                  <p className="text-muted-foreground">10.000.000 (10 Millionen Tokens)</p>
                 </div>
                 <div className="bg-muted/30 p-4 rounded-lg">
                   <h4 className="font-semibold mb-2">Typ</h4>
@@ -119,37 +119,37 @@ const Whitepaper = () => {
                     <tr>
                       <td className="border border-border p-3">Community Airdrops</td>
                       <td className="border border-border p-3">20 %</td>
-                      <td className="border border-border p-3">200.000.000 Token - Airdrops, Belohnungen, Community-Initiativen</td>
+                      <td className="border border-border p-3">2.000.000 Token - Airdrops, Belohnungen, Community-Initiativen</td>
                     </tr>
                     <tr>
                       <td className="border border-border p-3">Staking Rewards</td>
                       <td className="border border-border p-3">20 %</td>
-                      <td className="border border-border p-3">200.000.000 Token - Laufende Belohnungen für Token-Halter</td>
+                      <td className="border border-border p-3">2.000.000 Token - Laufende Belohnungen für Token-Halter</td>
                     </tr>
                     <tr>
                       <td className="border border-border p-3">Ecosystem Fund</td>
                       <td className="border border-border p-3">15 %</td>
-                      <td className="border border-border p-3">150.000.000 Token - Plattformwachstum, Partnerschaften, Entwicklung</td>
+                      <td className="border border-border p-3">1.500.000 Token - Plattformwachstum, Partnerschaften, Entwicklung</td>
                     </tr>
                     <tr>
                       <td className="border border-border p-3">Team & Founders</td>
                       <td className="border border-border p-3">15 %</td>
-                      <td className="border border-border p-3">150.000.000 Token - Team-Allocation mit Vesting-Zeitraum</td>
+                      <td className="border border-border p-3">1.500.000 Token - Team-Allocation mit Vesting-Zeitraum</td>
                     </tr>
                     <tr>
                       <td className="border border-border p-3">AI & Dev Innovation</td>
                       <td className="border border-border p-3">10 %</td>
-                      <td className="border border-border p-3">100.000.000 Token - KI-Integration, technische Innovationen</td>
+                      <td className="border border-border p-3">1.000.000 Token - KI-Integration, technische Innovationen</td>
                     </tr>
                     <tr>
                       <td className="border border-border p-3">Treasury / DAO</td>
                       <td className="border border-border p-3">10 %</td>
-                      <td className="border border-border p-3">100.000.000 Token - DAO-Governance, langfristige Stabilität</td>
+                      <td className="border border-border p-3">1.000.000 Token - DAO-Governance, langfristige Stabilität</td>
                     </tr>
                     <tr>
                       <td className="border border-border p-3">Initial Liquidity Pool</td>
                       <td className="border border-border p-3">10 %</td>
-                      <td className="border border-border p-3">100.000.000 Token - DEX-Liquidität auf Polygon (gelockt)</td>
+                      <td className="border border-border p-3">1.000.000 Token - DEX-Liquidität auf Polygon (gelockt)</td>
                     </tr>
                   </tbody>
                 </table>
