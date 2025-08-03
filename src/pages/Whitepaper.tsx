@@ -117,34 +117,39 @@ const Whitepaper = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="border border-border p-3">Community</td>
-                      <td className="border border-border p-3">40 %</td>
-                      <td className="border border-border p-3">Airdrops, Belohnungen, Spiel-Beteiligung, Creator-Initiativen</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-border p-3">Liquidity (gelockt)</td>
+                      <td className="border border-border p-3">Community Airdrops</td>
                       <td className="border border-border p-3">20 %</td>
-                      <td className="border border-border p-3">DEX-Pools auf Polygon & später Base/Arbitrum</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-border p-3">Projektentwicklung</td>
-                      <td className="border border-border p-3">15 %</td>
-                      <td className="border border-border p-3">Creator, Infrastruktur, Tools</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-border p-3">Marketing & Partner</td>
-                      <td className="border border-border p-3">10 %</td>
-                      <td className="border border-border p-3">Launch-Strategien, Web3-Influencer, Kollaborationen</td>
+                      <td className="border border-border p-3">200.000.000 Token - Airdrops, Belohnungen, Community-Initiativen</td>
                     </tr>
                     <tr>
                       <td className="border border-border p-3">Staking Rewards</td>
-                      <td className="border border-border p-3">10 %</td>
-                      <td className="border border-border p-3">Laufende Belohnung für Halter</td>
+                      <td className="border border-border p-3">20 %</td>
+                      <td className="border border-border p-3">200.000.000 Token - Laufende Belohnungen für Token-Halter</td>
                     </tr>
                     <tr>
-                      <td className="border border-border p-3">Reserve & Treasury</td>
-                      <td className="border border-border p-3">5 %</td>
-                      <td className="border border-border p-3">Für langfristige Systemstabilität</td>
+                      <td className="border border-border p-3">Ecosystem Fund</td>
+                      <td className="border border-border p-3">15 %</td>
+                      <td className="border border-border p-3">150.000.000 Token - Plattformwachstum, Partnerschaften, Entwicklung</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-border p-3">Team & Founders</td>
+                      <td className="border border-border p-3">15 %</td>
+                      <td className="border border-border p-3">150.000.000 Token - Team-Allocation mit Vesting-Zeitraum</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-border p-3">AI & Dev Innovation</td>
+                      <td className="border border-border p-3">10 %</td>
+                      <td className="border border-border p-3">100.000.000 Token - KI-Integration, technische Innovationen</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-border p-3">Treasury / DAO</td>
+                      <td className="border border-border p-3">10 %</td>
+                      <td className="border border-border p-3">100.000.000 Token - DAO-Governance, langfristige Stabilität</td>
+                    </tr>
+                    <tr>
+                      <td className="border border-border p-3">Initial Liquidity Pool</td>
+                      <td className="border border-border p-3">10 %</td>
+                      <td className="border border-border p-3">100.000.000 Token - DEX-Liquidität auf Polygon (gelockt)</td>
                     </tr>
                   </tbody>
                 </table>
