@@ -6,14 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { LivePlayer } from '@/components/LivePlayer';
 import { Navigation } from '@/components/navigation';
-import { Eye, Users, Clock } from 'lucide-react';
+import { Eye, Users, Clock, Zap } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { MURAT_STREAM_CONFIG, checkMuratStreamStatus, getPlaybackUrl } from '@/lib/livepeer';
 
 export default function PrivateStream() {
   const { address, isConnected, connectWallet } = useWallet();
   const [hasAccess, setHasAccess] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [viewerCount, setViewerCount] = useState(127);
+  const [isStreamLive, setIsStreamLive] = useState(false);
   const { toast } = useToast();
 
   const checkAccess = async () => {
@@ -23,6 +25,11 @@ export default function PrivateStream() {
     try {
       const ownership = await checkNFTOwnership(address);
       setHasAccess(ownership.hasNFT);
+      
+      // Check if stream is live
+      const streamStatus = await checkMuratStreamStatus();
+      setIsStreamLive(streamStatus);
+      console.log('Stream status:', streamStatus, 'Stream URL:', getPlaybackUrl());
       
       if (ownership.hasNFT) {
         toast({
@@ -182,7 +189,51 @@ export default function PrivateStream() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-              <LivePlayer />
+              {isStreamLive ? (
+                <div className="relative aspect-video bg-black">
+                  <video 
+                    className="w-full h-full object-cover"
+                    controls
+                    autoPlay
+                    muted
+                    src={getPlaybackUrl()}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                  
+                  {/* Live indicator */}
+                  <div className="absolute top-4 left-4">
+                    <Badge className="bg-red-600 text-white animate-pulse">
+                      <div className="w-2 h-2 bg-white rounded-full mr-2 animate-ping" />
+                      LIVE
+                    </Badge>
+                  </div>
+                  
+                  {/* Viewer count */}
+                  <div className="absolute top-4 right-4">
+                    <Badge variant="secondary" className="bg-black/50 text-white">
+                      <Eye size={16} className="mr-1" />
+                      {viewerCount} Zuschauer
+                    </Badge>
+                  </div>
+                </div>
+              ) : (
+                <div className="aspect-video bg-gradient-to-br from-background to-muted flex items-center justify-center">
+                  <div className="text-center">
+                    <Zap className="mx-auto h-16 w-16 text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-semibold mb-2">Stream Offline</h3>
+                    <p className="text-muted-foreground">Der private Stream ist momentan nicht aktiv</p>
+                    <Button 
+                      onClick={checkAccess} 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-4"
+                    >
+                      Status prüfen
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 

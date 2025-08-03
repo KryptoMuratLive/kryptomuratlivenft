@@ -3,6 +3,14 @@
 const LIVEPEER_API_KEY = "0b8aedbd-2eca-494c-a5fd-2e5b3770b382";
 const LIVEPEER_BASE_URL = "https://livepeer.studio/api";
 
+// Your live stream configuration
+export const MURAT_STREAM_CONFIG = {
+  streamId: "029f5234-890e-42ea-be17-f16278af0656",
+  playbackId: "029feh9xp563f1nv",
+  playbackUrl: "https://livepeercdn.studio/hls/029feh9xp563f1nv/index.m3u8",
+  name: "MURAT Private Stream"
+};
+
 export interface StreamData {
   id: string;
   name: string;
@@ -112,6 +120,19 @@ export const getAllStreams = async (): Promise<StreamData[]> => {
 };
 
 // Get playback URL for a stream
-export const getPlaybackUrl = (playbackId: string, quality: '720p' | '480p' | 'source' = 'source'): string => {
-  return `https://livepeercdn.studio/hls/${playbackId}/index.m3u8`;
+export const getPlaybackUrl = (playbackId?: string, quality: '720p' | '480p' | 'source' = 'source'): string => {
+  // Use the configured MURAT stream if no playbackId provided
+  const id = playbackId || MURAT_STREAM_CONFIG.playbackId;
+  return `https://livepeercdn.studio/hls/${id}/index.m3u8`;
+};
+
+// Check if MURAT stream is live
+export const checkMuratStreamStatus = async (): Promise<boolean> => {
+  try {
+    const streamData = await getStream(MURAT_STREAM_CONFIG.streamId);
+    return streamData?.isActive || false;
+  } catch (error) {
+    console.error('Error checking MURAT stream status:', error);
+    return false;
+  }
 };
