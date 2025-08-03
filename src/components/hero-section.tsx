@@ -108,12 +108,12 @@ export const HeroSection = () => {
 
             <Card className="bg-card/80 backdrop-blur border-border hover:shadow-card-glow transition-all duration-300 group">
               <div className="p-6 text-center">
-                <div className="bg-gradient-bitcoin w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-bitcoin transition-all duration-300">
-                  <Zap className="text-crypto-dark" size={32} />
+                <div className="bg-gradient-electric w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:shadow-electric transition-all duration-300">
+                  <Zap className="text-background" size={32} />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">$MURAT Staking</h3>
+                <h3 className="text-xl font-semibold mb-2">Exklusive Community</h3>
                 <p className="text-muted-foreground">
-                  Stake deine Token und erhalte bis zu 8% Rendite pro Jahr
+                  Werde Teil der $MURAT Community und erhalte Zugang zu privaten Streams
                 </p>
               </div>
             </Card>
