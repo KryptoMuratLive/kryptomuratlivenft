@@ -1,5 +1,5 @@
 // Contract addresses and constants
-export const MURAT_TOKEN_ADDRESS = "0x1234567890123456789012345678901234567890" as const; // Placeholder - replace with actual MURAT token address
+export const MURAT_TOKEN_ADDRESS = "0xF6A10e806d38b0c12E022a5f7A8b161937760A51" as const;
 
 export const SUPPORTED_CHAINS = {
   POLYGON: 137,
