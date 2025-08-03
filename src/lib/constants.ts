@@ -7,7 +7,7 @@ export const SUPPORTED_CHAINS = {
   ETHEREUM: 1,
 } as const;
 
-export const QUICKSWAP_URL = "https://quickswap.exchange/#/swap";
+export const QUICKSWAP_URL = "https://dapp.quickswap.exchange/swap/best/ETH/0xF6A10e806d38b0c12E022a5f7A8b161937760A51";
 export const CROSSMINT_URL = "https://www.crossmint.com/";
 
 export const ERC20_ABI = [
