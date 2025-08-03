@@ -189,15 +189,16 @@ export default function PrivateStream() {
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0">
-              {isStreamLive ? (
+              {true ? ( // Always show for testing
                 <div className="relative aspect-video bg-black">
                   <video 
                     className="w-full h-full object-cover"
                     controls
                     autoPlay
                     muted
-                    src={getPlaybackUrl()}
+                    crossOrigin="anonymous"
                   >
+                    <source src="https://livepeercdn.studio/hls/029feh9xp563f1nv/index.m3u8" type="application/x-mpegURL" />
                     Your browser does not support the video tag.
                   </video>
                   
