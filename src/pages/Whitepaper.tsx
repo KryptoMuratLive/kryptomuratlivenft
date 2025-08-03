@@ -194,8 +194,6 @@ const Whitepaper = () => {
                 <li>✅ Anti-Dump-Funktion: Verkaufsbegrenzung pro Wallet / Zeit</li>
                 <li>✅ Sell-Tax (3 %): Aufgeteilt auf Treasury, Burn, Community</li>
                 <li>✅ Cooldown zwischen Käufen/Verkäufen</li>
-                <li>✅ LP wird gelockt über Drittanbieter (Unicrypt, Pinksale)</li>
-                <li>✅ Keine Mint-Funktion, kein versteckter Admin-Zugriff</li>
                 <li>✅ Contract wird auf Polygonscan verifiziert & öffentlich dokumentiert</li>
               </ul>
             </CardContent>
