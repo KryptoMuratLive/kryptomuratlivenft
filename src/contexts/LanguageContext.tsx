@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-export type SupportedLanguage = 'de' | 'en' | 'tr';
+export type SupportedLanguage = 'de' | 'en' | 'tr' | 'es' | 'fr';
 
 export interface LanguageConfig {
   code: SupportedLanguage;
@@ -11,9 +11,11 @@ export interface LanguageConfig {
 }
 
 export const SUPPORTED_LANGUAGES: LanguageConfig[] = [
-  { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪' },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
   { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
-  { code: 'tr', name: 'Türkçe', nativeName: 'Türkçe', flag: '🇹🇷' },
+  { code: 'tr', name: 'Turkish', nativeName: 'Türkçe', flag: '🇹🇷' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
 ];
 
 interface LanguageContextType {
@@ -38,7 +40,7 @@ const detectBrowserLanguage = (): SupportedLanguage => {
     return browserLang;
   }
   
-  return 'de'; // fallback to German (main language)
+  return 'en'; // fallback to English
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
