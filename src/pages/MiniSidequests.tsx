@@ -10,7 +10,6 @@ import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/Footer';
 import { Progress } from '@/components/ui/progress';
 import { Clock, Star, Gift, MapPin, Zap, Lock, Trophy, Play, Crown, Timer, Image } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 interface QuizOption {
   label: string;
@@ -142,12 +141,10 @@ export default function MiniSidequests() {
   const [hasAccess, setHasAccess] = useState(false);
   const [quests, setQuests] = useState<MiniQuest[]>(MINI_QUESTS);
   const [completedQuests, setCompletedQuests] = useState<number[]>([]);
-  const [selectedQuest, setSelectedQuest] = useState<MiniQuest | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [showQuizModal, setShowQuizModal] = useState(false);
-  const [currentAnswer, setCurrentAnswer] = useState<string>('');
-  const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [activeQuest, setActiveQuest] = useState<MiniQuest | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [timerActive, setTimerActive] = useState(false);
+  const [timerDone, setTimerDone] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -194,59 +191,32 @@ export default function MiniSidequests() {
     }
   };
 
-  const startQuest = async (quest: MiniQuest) => {
-    if (!address || !hasAccess) return;
-    
-    setSelectedQuest(quest);
-    setCurrentAnswer('');
-    setShowQuizModal(true);
-    
-    // Start timer for timer-based quests
-    if (quest.type === 'timer' && quest.duration) {
-      setTimeLeft(quest.duration);
-      setTimerActive(true);
-    }
+  const startTimer = (duration: number, questId: number) => {
+    setTimerActive(true);
+    setTimeout(() => {
+      setTimerDone(true);
+      completeQuest(questId);
+    }, duration);
   };
 
-  // Timer effect for timer-based quests
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
+  const checkAnswer = () => {
+    if (!activeQuest) return;
     
-    if (timerActive && timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft(prev => {
-          if (prev <= 1000) {
-            setTimerActive(false);
-            handleAnswerSubmit(currentAnswer);
-            return 0;
-          }
-          return prev - 100;
-        });
-      }, 100);
-    }
-    
-    return () => clearInterval(interval);
-  }, [timerActive, timeLeft, currentAnswer]);
-
-  const handleAnswerSubmit = (answer: string) => {
-    if (!selectedQuest) return;
-    
-    const isCorrect = answer === selectedQuest.answer;
-    setShowQuizModal(false);
-    setTimerActive(false);
+    const isCorrect = selectedAnswer === activeQuest.answer;
     
     if (isCorrect) {
-      completeQuest(selectedQuest.id);
+      completeQuest(activeQuest.id);
+      setActiveQuest(null);
+      setSelectedAnswer('');
+      setTimerActive(false);
+      setTimerDone(false);
     } else {
       toast({
         title: "❌ Falsche Antwort!",
-        description: "Versuche es noch einmal. Die Quest bleibt verfügbar.",
+        description: "Versuche es noch einmal.",
         variant: "destructive",
       });
     }
-    
-    setSelectedQuest(null);
-    setCurrentAnswer('');
   };
 
   const completeQuest = async (questId: number) => {
@@ -423,6 +393,80 @@ export default function MiniSidequests() {
               </div>
             </div>
 
+            {/* Active Quest Display */}
+            {activeQuest && (
+              <Card className="mb-6 bg-yellow-50 border-yellow-300">
+                <CardContent className="pt-6">
+                  {activeQuest.type === "text" && (
+                    <>
+                      <h2 className="text-xl font-semibold mb-2 text-black">{activeQuest.question}</h2>
+                      <div className="space-y-2 mb-4">
+                        {(activeQuest.options as string[])?.map((opt, i) => (
+                          <button
+                            key={i}
+                            onClick={() => setSelectedAnswer(opt)}
+                            className={`block w-full text-left px-4 py-2 rounded-xl border transition-all ${
+                              selectedAnswer === opt 
+                                ? 'bg-blue-600 text-white border-blue-600' 
+                                : 'bg-white hover:bg-blue-100 border-border text-black'
+                            }`}
+                          >
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                      <Button onClick={checkAnswer} className="bg-green-600 hover:bg-green-700">
+                        ✅ Antwort prüfen
+                      </Button>
+                    </>
+                  )}
+
+                  {activeQuest.type === "image" && (
+                    <>
+                      <h2 className="text-xl font-semibold mb-4 text-black">{activeQuest.question}</h2>
+                      <div className="grid grid-cols-3 gap-4 mb-4">
+                        {(activeQuest.options as QuizOption[])?.map((opt, i) => (
+                          <div
+                            key={i}
+                            onClick={() => setSelectedAnswer(opt.label)}
+                            className={`cursor-pointer p-2 rounded-xl border transition-all ${
+                              selectedAnswer === opt.label 
+                                ? 'border-blue-600 bg-blue-100' 
+                                : 'hover:border-blue-300 border-border'
+                            }`}
+                          >
+                            <img src={opt.image} alt={opt.label} className="w-full h-24 object-contain mb-2" />
+                            <p className="text-center text-black">{opt.label}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <Button onClick={checkAnswer} className="bg-green-600 hover:bg-green-700">
+                        ✅ Antwort prüfen
+                      </Button>
+                    </>
+                  )}
+
+                  {activeQuest.type === "timer" && (
+                    <div className="text-center">
+                      <h2 className="text-xl font-semibold mb-2 text-black">⏱ Mission läuft...</h2>
+                      {!timerActive && (
+                        <Button 
+                          onClick={() => startTimer(activeQuest.duration || 5000, activeQuest.id)} 
+                          className="bg-blue-600 hover:bg-blue-700"
+                        >
+                          ▶️ Starten
+                        </Button>
+                      )}
+                      {timerActive && !timerDone && (
+                        <p className="text-black">⏳ Laufzeit: {Math.ceil((activeQuest.duration || 5000) / 1000)}s ...</p>
+                      )}
+                      {timerDone && <p className="text-green-600">✅ Mission abgeschlossen!</p>}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
             {/* Quest List */}
             <div className="space-y-4">
               {quests.map((quest) => {
@@ -497,12 +541,12 @@ export default function MiniSidequests() {
                       <div className="flex gap-2">
                         {!quest.completed ? (
                           <Button
-                            onClick={() => startQuest(quest)}
-                            disabled={loading || (quest.requirements && !quest.requirements.includes('JÄGER'))}
+                            onClick={() => setActiveQuest(quest)}
+                            disabled={quest.requirements && !quest.requirements.includes('JÄGER')}
                             className="flex items-center gap-2"
                           >
                             <Play className="h-4 w-4" />
-                            {loading && selectedQuest?.id === quest.id ? 'Startet...' : 'Quest starten'}
+                            Quest starten
                           </Button>
                         ) : (
                           <Button variant="outline" disabled>
@@ -536,87 +580,6 @@ export default function MiniSidequests() {
       </main>
 
       <Footer />
-
-      {/* Quiz Modal */}
-      <Dialog open={showQuizModal} onOpenChange={setShowQuizModal}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              {selectedQuest?.type === 'timer' && <Timer className="h-5 w-5 text-red-500" />}
-              {selectedQuest?.type === 'image' && <Image className="h-5 w-5 text-blue-500" />}
-              {selectedQuest?.title}
-            </DialogTitle>
-          </DialogHeader>
-
-          {selectedQuest && (
-            <div className="space-y-6">
-              {/* Timer Display */}
-              {selectedQuest.type === 'timer' && timerActive && (
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-500 mb-2">
-                    ⏱️ {Math.ceil(timeLeft / 1000)}s
-                  </div>
-                  <Progress value={(timeLeft / (selectedQuest.duration || 5000)) * 100} className="h-3" />
-                </div>
-              )}
-
-              {/* Question */}
-              <div className="text-center">
-                <h3 className="text-xl font-semibold mb-4">{selectedQuest.question}</h3>
-              </div>
-
-              {/* Answer Options */}
-              <div className="space-y-3">
-                {selectedQuest.type === 'image' ? (
-                  // Image-based options
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    {(selectedQuest.options as QuizOption[])?.map((option, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleAnswerSubmit(option.label)}
-                        className={`p-4 border-2 rounded-lg transition-all hover:border-primary ${
-                          currentAnswer === option.label ? 'border-primary bg-primary/10' : 'border-border'
-                        }`}
-                      >
-                        <img 
-                          src={option.image} 
-                          alt={option.label}
-                          className="w-full h-32 object-cover rounded mb-2"
-                        />
-                        <p className="font-medium">{option.label}</p>
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  // Text-based options
-                  <div className="space-y-2">
-                    {(selectedQuest.options as string[])?.map((option, index) => (
-                      <button
-                        key={index}
-                        onClick={() => selectedQuest.type === 'timer' ? handleAnswerSubmit(option) : setCurrentAnswer(option)}
-                        className={`w-full p-4 text-left border-2 rounded-lg transition-all hover:border-primary ${
-                          currentAnswer === option ? 'border-primary bg-primary/10' : 'border-border'
-                        }`}
-                      >
-                        <span className="font-medium">{String.fromCharCode(65 + index)})</span> {option}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Manual Submit for non-timer quests */}
-              {selectedQuest.type !== 'timer' && currentAnswer && (
-                <div className="text-center">
-                  <Button onClick={() => handleAnswerSubmit(currentAnswer)} size="lg">
-                    Antwort bestätigen
-                  </Button>
-                </div>
-              )}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
