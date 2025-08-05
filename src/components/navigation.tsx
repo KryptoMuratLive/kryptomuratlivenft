@@ -16,7 +16,9 @@ import {
   Users,
   Settings,
   LogOut,
-  CheckCircle
+  CheckCircle,
+  Image,
+  Zap
 } from "lucide-react";
 
 export const Navigation = () => {
@@ -28,6 +30,8 @@ export const Navigation = () => {
     { name: "Privater Stream", href: "/private-stream", icon: Play },
     { name: "Voting", href: "/voting", icon: Vote },
     { name: "NFT Gallery", href: "/gallery", icon: Trophy },
+    { name: "Meme Battle", href: "/meme-battle", icon: Zap },
+    { name: "Meme Galerie", href: "/meme-gallery", icon: Image },
     { name: "Staking", href: "/staking", icon: BarChart3 },
     { name: "Mint NFT", href: "/mint", icon: Users },
     { name: "Whitepaper", href: "/whitepaper", icon: CheckCircle },

@@ -23,6 +23,7 @@ import Game from "./pages/Game";
 import NFTAccess from "./pages/NFTAccess";
 import MemeGenerator from "./pages/MemeGenerator";
 import MemeBattle from "./pages/MemeBattle";
+import MemeGallery from "./pages/MemeGallery";
 import GameMap from "./pages/GameMap";
 import VaultPage from "./pages/VaultPage";
 import BattlePage from "./pages/BattlePage";
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="/nft" element={<NFTAccess />} />
               <Route path="/memes" element={<MemeGenerator />} />
               <Route path="/meme-battle" element={<MemeBattle />} />
+              <Route path="/meme-gallery" element={<MemeGallery />} />
               <Route path="/map" element={<GameMap />} />
               <Route path="/vault" element={<VaultPage />} />
               <Route path="/battle" element={<BattlePage />} />
