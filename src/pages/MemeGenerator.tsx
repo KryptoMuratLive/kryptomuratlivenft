@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Navigation } from "@/components/navigation";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 const MemeGenerator = () => {
   const { isConnected } = useWallet();
   const { toast } = useToast();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [memeText, setMemeText] = useState("");
@@ -92,6 +93,98 @@ const MemeGenerator = () => {
     }
   ];
 
+  // Canvas-basierte Meme-Erstellung
+  const createMeme = async (characterImage: string, text: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const canvas = canvasRef.current;
+      if (!canvas) {
+        reject(new Error('Canvas not available'));
+        return;
+      }
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        reject(new Error('Canvas context not available'));
+        return;
+      }
+
+      // Set canvas size
+      canvas.width = 600;
+      canvas.height = 600;
+
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      img.onload = () => {
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw character image
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
+        // Add text overlay
+        if (text.trim()) {
+          // Text styling
+          ctx.fillStyle = 'white';
+          ctx.strokeStyle = 'black';
+          ctx.lineWidth = 3;
+          ctx.font = 'bold 36px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          
+          // Split text into lines if too long
+          const maxWidth = canvas.width - 40;
+          const lines = wrapText(ctx, text.toUpperCase(), maxWidth);
+          
+          // Calculate starting Y position
+          const lineHeight = 45;
+          const totalHeight = lines.length * lineHeight;
+          const startY = canvas.height - 80 - totalHeight/2;
+          
+          // Draw text with outline
+          lines.forEach((line, index) => {
+            const y = startY + (index * lineHeight);
+            
+            // Draw stroke (outline)
+            ctx.strokeText(line, canvas.width / 2, y);
+            // Draw fill (text)
+            ctx.fillText(line, canvas.width / 2, y);
+          });
+        }
+        
+        // Convert to data URL
+        const dataUrl = canvas.toDataURL('image/png');
+        resolve(dataUrl);
+      };
+      
+      img.onerror = () => {
+        reject(new Error('Failed to load character image'));
+      };
+      
+      img.src = characterImage;
+    });
+  };
+
+  // Text wrapping helper function
+  const wrapText = (ctx: CanvasRenderingContext2D, text: string, maxWidth: number): string[] => {
+    const words = text.split(' ');
+    const lines: string[] = [];
+    let currentLine = words[0];
+
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i];
+      const width = ctx.measureText(currentLine + ' ' + word).width;
+      if (width < maxWidth) {
+        currentLine += ' ' + word;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    }
+    lines.push(currentLine);
+    return lines;
+  };
+
   const handleGenerateMeme = async () => {
     if (!selectedCharacter || !memeText.trim()) {
       toast({
@@ -104,30 +197,75 @@ const MemeGenerator = () => {
 
     setIsGenerating(true);
     
-    // Simulate meme generation (later replace with AI)
-    setTimeout(() => {
-      setGeneratedMeme("https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=600&h=600&fit=crop");
-      setIsGenerating(false);
+    try {
+      const selectedChar = filteredCharacters.find(c => c.id === selectedCharacter);
+      if (!selectedChar) {
+        throw new Error('Charakter nicht gefunden');
+      }
+
+      const memeDataUrl = await createMeme(selectedChar.image, memeText);
+      setGeneratedMeme(memeDataUrl);
       
       toast({
         title: "Meme generiert!",
-        description: "Dein KryptoMurat Meme ist bereit",
+        description: `Dein ${selectedChar.name} Meme ist bereit`,
       });
-    }, 3000);
+    } catch (error) {
+      console.error('Meme generation error:', error);
+      toast({
+        title: "Fehler beim Generieren",
+        description: "Meme konnte nicht erstellt werden. Versuche es erneut.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleDownload = () => {
+    if (!generatedMeme) return;
+    
+    const link = document.createElement('a');
+    link.download = `meme-${selectedCharacter}-${Date.now()}.png`;
+    link.href = generatedMeme;
+    link.click();
+    
     toast({
-      title: "Download startet",
-      description: "Meme wird heruntergeladen...",
+      title: "Download gestartet",
+      description: "Dein Meme wird heruntergeladen...",
     });
   };
 
-  const handleShare = () => {
-    toast({
-      title: "Teilen",
-      description: "Meme in Zwischenablage kopiert",
-    });
+  const handleShare = async () => {
+    if (!generatedMeme) return;
+    
+    try {
+      if (navigator.share) {
+        // Web Share API für mobile Geräte
+        const response = await fetch(generatedMeme);
+        const blob = await response.blob();
+        const file = new File([blob], 'meme.png', { type: 'image/png' });
+        
+        await navigator.share({
+          files: [file],
+          title: 'KryptoMurat Meme',
+          text: memeText
+        });
+      } else {
+        // Fallback: Copy to clipboard
+        await navigator.clipboard.writeText(generatedMeme);
+        toast({
+          title: "In Zwischenablage kopiert",
+          description: "Meme-Link wurde kopiert",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Teilen fehlgeschlagen",
+        description: "Meme konnte nicht geteilt werden",
+        variant: "destructive",
+      });
+    }
   };
 
   const categories = ["all", "Hero", "Villain", "Neutral", "Mystery"];
@@ -263,15 +401,12 @@ const MemeGenerator = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="relative">
+                <div className="relative mb-4">
                   <img 
                     src={generatedMeme} 
                     alt="Generated Meme"
                     className="w-full rounded-xl shadow-lg"
                   />
-                  <div className="absolute bottom-4 left-4 right-4 bg-black/70 text-white p-3 rounded-lg">
-                    <p className="font-bold text-center">{memeText}</p>
-                  </div>
                 </div>
                 
                 <div className="flex gap-3 mt-4">
@@ -304,9 +439,17 @@ const MemeGenerator = () => {
             </Card>
           )}
 
+          {/* Hidden Canvas für Meme-Erstellung */}
+          <canvas 
+            ref={canvasRef} 
+            style={{ display: 'none' }}
+            width="600" 
+            height="600"
+          />
+
           <div className="mt-8 text-center">
             <p className="text-xs text-muted-foreground">
-              🤖 Powered by KI • Bald verfügbar: DALL·E Integration
+              🤖 Powered by Canvas • Echte Meme-Erstellung mit deinen Charakteren
             </p>
           </div>
         </section>
