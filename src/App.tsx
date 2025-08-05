@@ -24,6 +24,7 @@ import NFTAccess from "./pages/NFTAccess";
 import MemeGenerator from "./pages/MemeGenerator";
 import GameMap from "./pages/GameMap";
 import VaultPage from "./pages/VaultPage";
+import BattlePage from "./pages/BattlePage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,7 @@ const App = () => (
               <Route path="/memes" element={<MemeGenerator />} />
               <Route path="/map" element={<GameMap />} />
               <Route path="/vault" element={<VaultPage />} />
+              <Route path="/battle" element={<BattlePage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
