@@ -20,6 +20,16 @@ const Game = () => {
     setSelectedAnswer(answerId);
   };
 
+  const handleSubmitAnswer = () => {
+    if (selectedAnswer) {
+      console.log("Antwort eingereicht:", selectedAnswer);
+      // Hier würde normalerweise die Antwort verarbeitet werden
+      alert(`Antwort ${selectedAnswer} wurde eingereicht! Level abgeschlossen!`);
+      // Reset für nächste Frage
+      setSelectedAnswer(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-crypto-dark">
       <Navigation />
@@ -88,6 +98,7 @@ const Game = () => {
               {selectedAnswer && isConnected && (
                 <div className="mt-6 pt-4 border-t border-border">
                   <Button 
+                    onClick={handleSubmitAnswer}
                     className="w-full bg-gradient-primary hover:bg-gradient-primary/90 text-white"
                     size="lg"
                   >
