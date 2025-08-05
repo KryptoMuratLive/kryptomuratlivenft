@@ -9,7 +9,13 @@ import { useToast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/Footer';
 import { Progress } from '@/components/ui/progress';
-import { Clock, Star, Gift, MapPin, Zap, Lock, Trophy, Play, Crown } from 'lucide-react';
+import { Clock, Star, Gift, MapPin, Zap, Lock, Trophy, Play, Crown, Timer, Image } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
+interface QuizOption {
+  label: string;
+  image?: string;
+}
 
 interface MiniQuest {
   id: number;
@@ -22,6 +28,11 @@ interface MiniQuest {
   requirements?: string;
   completed: boolean;
   progress: number;
+  type?: 'text' | 'image' | 'timer';
+  question?: string;
+  options?: string[] | QuizOption[];
+  answer?: string;
+  duration?: number;
 }
 
 const MINI_QUESTS: MiniQuest[] = [
@@ -34,7 +45,11 @@ const MINI_QUESTS: MiniQuest[] = [
     estimatedTime: "5-10 Min",
     category: "exploration",
     completed: false,
-    progress: 0
+    progress: 0,
+    type: "text",
+    question: "Was war das erste bekannte Meme mit einem Hund?",
+    options: ["Doge", "ShibaSwap", "Pepe"],
+    answer: "Doge"
   },
   {
     id: 2,
@@ -46,7 +61,15 @@ const MINI_QUESTS: MiniQuest[] = [
     category: "stealth",
     requirements: "Level 3 erreicht",
     completed: false,
-    progress: 0
+    progress: 0,
+    type: "image",
+    question: "Wähle das richtige Fahrzeug für die Flucht:",
+    options: [
+      { label: "Motorrad", image: "/lovable-uploads/8659deab-9234-4128-998d-97563a74bc19.png" },
+      { label: "Auto", image: "/lovable-uploads/b2fe4902-9a19-45b8-9bb7-58973b181eef.png" },
+      { label: "LKW", image: "/lovable-uploads/cba50bdb-cb2b-48b5-b69c-a8662f60f0d7.png" }
+    ],
+    answer: "Motorrad"
   },
   {
     id: 3,
@@ -57,7 +80,11 @@ const MINI_QUESTS: MiniQuest[] = [
     estimatedTime: "3-5 Min",
     category: "puzzle",
     completed: false,
-    progress: 0
+    progress: 0,
+    type: "text",
+    question: "Was bedeutet 'NFT'?",
+    options: ["Nice Fun Token", "Non-Fungible Token", "New Future Trade"],
+    answer: "Non-Fungible Token"
   },
   {
     id: 4,
@@ -69,7 +96,12 @@ const MINI_QUESTS: MiniQuest[] = [
     category: "stealth",
     requirements: "Livestream aktiv",
     completed: false,
-    progress: 0
+    progress: 0,
+    type: "timer",
+    question: "Schnell! Welchen Tunnel wählst du?",
+    options: ["Links", "Rechts", "Geradeaus"],
+    answer: "Links",
+    duration: 5000
   },
   {
     id: 5,
@@ -81,7 +113,11 @@ const MINI_QUESTS: MiniQuest[] = [
     category: "knowledge",
     requirements: "Community Voting",
     completed: false,
-    progress: 0
+    progress: 0,
+    type: "text",
+    question: "Wie nennt man eine Entscheidung durch die Mehrheit?",
+    options: ["Wahl", "Blockchain", "Voting"],
+    answer: "Voting"
   },
   {
     id: 6,
@@ -93,7 +129,11 @@ const MINI_QUESTS: MiniQuest[] = [
     category: "knowledge",
     requirements: "Alle 5 Quests abgeschlossen",
     completed: false,
-    progress: 0
+    progress: 0,
+    type: "text",
+    question: "Was ist das Symbol von MURAT?",
+    options: ["M", "🪙", "∞"],
+    answer: "M"
   }
 ];
 
@@ -104,6 +144,10 @@ export default function MiniSidequests() {
   const [completedQuests, setCompletedQuests] = useState<number[]>([]);
   const [selectedQuest, setSelectedQuest] = useState<MiniQuest | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [currentAnswer, setCurrentAnswer] = useState<string>('');
+  const [timeLeft, setTimeLeft] = useState<number>(0);
+  const [timerActive, setTimerActive] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -153,32 +197,56 @@ export default function MiniSidequests() {
   const startQuest = async (quest: MiniQuest) => {
     if (!address || !hasAccess) return;
     
-    setLoading(true);
     setSelectedQuest(quest);
+    setCurrentAnswer('');
+    setShowQuizModal(true);
     
-    try {
-      // Simulate quest start
+    // Start timer for timer-based quests
+    if (quest.type === 'timer' && quest.duration) {
+      setTimeLeft(quest.duration);
+      setTimerActive(true);
+    }
+  };
+
+  // Timer effect for timer-based quests
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (timerActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(prev => {
+          if (prev <= 1000) {
+            setTimerActive(false);
+            handleAnswerSubmit(currentAnswer);
+            return 0;
+          }
+          return prev - 100;
+        });
+      }, 100);
+    }
+    
+    return () => clearInterval(interval);
+  }, [timerActive, timeLeft, currentAnswer]);
+
+  const handleAnswerSubmit = (answer: string) => {
+    if (!selectedQuest) return;
+    
+    const isCorrect = answer === selectedQuest.answer;
+    setShowQuizModal(false);
+    setTimerActive(false);
+    
+    if (isCorrect) {
+      completeQuest(selectedQuest.id);
+    } else {
       toast({
-        title: `🚀 Quest gestartet!`,
-        description: `"${quest.title}" wurde aktiviert. Viel Erfolg!`,
-      });
-      
-      // In a real implementation, this would navigate to a quest-specific page
-      // or open a quest modal with interactive content
-      setTimeout(() => {
-        completeQuest(quest.id);
-      }, 2000); // Simulate quest completion for demo
-      
-    } catch (error) {
-      console.error('Error starting quest:', error);
-      toast({
-        title: "❌ Fehler",
-        description: "Quest konnte nicht gestartet werden.",
+        title: "❌ Falsche Antwort!",
+        description: "Versuche es noch einmal. Die Quest bleibt verfügbar.",
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
+    
+    setSelectedQuest(null);
+    setCurrentAnswer('');
   };
 
   const completeQuest = async (questId: number) => {
@@ -468,6 +536,87 @@ export default function MiniSidequests() {
       </main>
 
       <Footer />
+
+      {/* Quiz Modal */}
+      <Dialog open={showQuizModal} onOpenChange={setShowQuizModal}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {selectedQuest?.type === 'timer' && <Timer className="h-5 w-5 text-red-500" />}
+              {selectedQuest?.type === 'image' && <Image className="h-5 w-5 text-blue-500" />}
+              {selectedQuest?.title}
+            </DialogTitle>
+          </DialogHeader>
+
+          {selectedQuest && (
+            <div className="space-y-6">
+              {/* Timer Display */}
+              {selectedQuest.type === 'timer' && timerActive && (
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-red-500 mb-2">
+                    ⏱️ {Math.ceil(timeLeft / 1000)}s
+                  </div>
+                  <Progress value={(timeLeft / (selectedQuest.duration || 5000)) * 100} className="h-3" />
+                </div>
+              )}
+
+              {/* Question */}
+              <div className="text-center">
+                <h3 className="text-xl font-semibold mb-4">{selectedQuest.question}</h3>
+              </div>
+
+              {/* Answer Options */}
+              <div className="space-y-3">
+                {selectedQuest.type === 'image' ? (
+                  // Image-based options
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {(selectedQuest.options as QuizOption[])?.map((option, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleAnswerSubmit(option.label)}
+                        className={`p-4 border-2 rounded-lg transition-all hover:border-primary ${
+                          currentAnswer === option.label ? 'border-primary bg-primary/10' : 'border-border'
+                        }`}
+                      >
+                        <img 
+                          src={option.image} 
+                          alt={option.label}
+                          className="w-full h-32 object-cover rounded mb-2"
+                        />
+                        <p className="font-medium">{option.label}</p>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  // Text-based options
+                  <div className="space-y-2">
+                    {(selectedQuest.options as string[])?.map((option, index) => (
+                      <button
+                        key={index}
+                        onClick={() => selectedQuest.type === 'timer' ? handleAnswerSubmit(option) : setCurrentAnswer(option)}
+                        className={`w-full p-4 text-left border-2 rounded-lg transition-all hover:border-primary ${
+                          currentAnswer === option ? 'border-primary bg-primary/10' : 'border-border'
+                        }`}
+                      >
+                        <span className="font-medium">{String.fromCharCode(65 + index)})</span> {option}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Manual Submit for non-timer quests */}
+              {selectedQuest.type !== 'timer' && currentAnswer && (
+                <div className="text-center">
+                  <Button onClick={() => handleAnswerSubmit(currentAnswer)} size="lg">
+                    Antwort bestätigen
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
