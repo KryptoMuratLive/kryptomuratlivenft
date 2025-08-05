@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      game_progress: {
+        Row: {
+          choices_history: Json | null
+          created_at: string
+          current_step: number
+          has_jaeger_nft: boolean | null
+          id: string
+          inventory: Json | null
+          updated_at: string
+          wallet_address: string
+        }
+        Insert: {
+          choices_history?: Json | null
+          created_at?: string
+          current_step?: number
+          has_jaeger_nft?: boolean | null
+          id?: string
+          inventory?: Json | null
+          updated_at?: string
+          wallet_address: string
+        }
+        Update: {
+          choices_history?: Json | null
+          created_at?: string
+          current_step?: number
+          has_jaeger_nft?: boolean | null
+          id?: string
+          inventory?: Json | null
+          updated_at?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
       live_chat_messages: {
         Row: {
           created_at: string
