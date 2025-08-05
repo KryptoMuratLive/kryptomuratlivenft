@@ -19,6 +19,7 @@ import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import Barrierefreiheit from "./pages/Barrierefreiheit";
 import Whitepaper from "./pages/Whitepaper";
+import Game from "./pages/Game";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/barrierefreiheit" element={<Barrierefreiheit />} />
               <Route path="/whitepaper" element={<Whitepaper />} />
+              <Route path="/game" element={<Game />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
