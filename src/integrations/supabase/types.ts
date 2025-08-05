@@ -38,6 +38,56 @@ export type Database = {
         }
         Relationships: []
       }
+      memes: {
+        Row: {
+          created_at: string
+          id: string
+          image_data: string
+          top_text: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image_data: string
+          top_text: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image_data?: string
+          top_text?: string
+        }
+        Relationships: []
+      }
+      votes: {
+        Row: {
+          created_at: string
+          id: string
+          meme_id: string
+          voter_ip: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          meme_id: string
+          voter_ip: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          meme_id?: string
+          voter_ip?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_meme_id_fkey"
+            columns: ["meme_id"]
+            isOneToOne: false
+            referencedRelation: "memes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
