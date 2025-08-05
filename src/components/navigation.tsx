@@ -32,6 +32,7 @@ export const Navigation = () => {
     { name: "Voting", href: "/voting", icon: Vote },
     { name: "NFT Gallery", href: "/gallery", icon: Trophy },
     { name: "Story Game", href: "/game-story", icon: BookOpen },
+    { name: "Sidequests", href: "/sidequests", icon: Zap },
     { name: "Meme Battle", href: "/meme-battle", icon: Zap },
     { name: "Meme Galerie", href: "/meme-gallery", icon: Image },
     { name: "Staking", href: "/staking", icon: BarChart3 },

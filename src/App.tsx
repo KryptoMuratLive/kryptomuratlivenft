@@ -21,6 +21,9 @@ import Barrierefreiheit from "./pages/Barrierefreiheit";
 import Whitepaper from "./pages/Whitepaper";
 import Game from "./pages/Game";
 import GameStory from "./pages/GameStory";
+import GameStoryNew from "./pages/GameStoryNew";
+import MiniSidequests from "./pages/MiniSidequests";
+import AdminPanel from "./pages/AdminPanel";
 import NFTAccess from "./pages/NFTAccess";
 import MemeGenerator from "./pages/MemeGenerator";
 import MemeBattle from "./pages/MemeBattle";
@@ -57,6 +60,9 @@ const App = () => (
               <Route path="/whitepaper" element={<Whitepaper />} />
               <Route path="/game" element={<Game />} />
               <Route path="/game-story" element={<GameStory />} />
+              <Route path="/game-story-new" element={<GameStoryNew />} />
+              <Route path="/sidequests" element={<MiniSidequests />} />
+              <Route path="/admin-panel" element={<AdminPanel />} />
               <Route path="/nft" element={<NFTAccess />} />
               <Route path="/memes" element={<MemeGenerator />} />
               <Route path="/meme-battle" element={<MemeBattle />} />
