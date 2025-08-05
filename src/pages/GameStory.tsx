@@ -5,12 +5,14 @@ import { Badge } from '@/components/ui/badge';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
-import { RotateCcw, Trophy, Skull, Package } from 'lucide-react';
+import { RotateCcw, Trophy, Skull, Package, Lock } from 'lucide-react';
 import { NFTGate } from '@/components/NFTGate';
+import { checkNFTOwnership } from '@/lib/checkNFTOwnership';
 
 interface StoryOption {
   text: string;
   next: number;
+  requires?: 'jaeger' | 'special';
 }
 
 interface StoryStep {
@@ -50,8 +52,11 @@ const storyFlow: StoryStep[] = [
     id: 4,
     scene: '🧠 Der USB-Stick enthält ein geheimes Meme! Du hast Level 2 erreicht und ein Item erhalten.',
     reward: '🧩 Meme Decoder',
-    options: [],
-    isEnding: true,
+    options: [
+      { text: '🔓 Öffne versteckte Datei', next: 6, requires: 'jaeger' },
+      { text: '🚪 Normale Route fortsetzen', next: 7 }
+    ],
+    isEnding: false,
     isSuccess: true
   },
   {
@@ -60,6 +65,21 @@ const storyFlow: StoryStep[] = [
     options: [],
     isEnding: true,
     isSuccess: false
+  },
+  {
+    id: 6,
+    scene: '🧬 Die versteckte Datei enthält geheime Informationen über die nächste Mission. Du hast Zugang zu Level 3 erhalten!',
+    reward: '📁 Zugangscode Level 3',
+    options: [],
+    isEnding: true,
+    isSuccess: true
+  },
+  {
+    id: 7,
+    scene: '🛣️ Du folgst dem normalen Pfad und findest einen sicheren Ausgang. Mission erfolgreich abgeschlossen.',
+    options: [],
+    isEnding: true,
+    isSuccess: true
   }
 ];
 
@@ -67,20 +87,43 @@ export default function GameFlow() {
   const [step, setStep] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [hasNFTAccess, setHasNFTAccess] = useState(false);
+  const [hasJaegerNFT, setHasJaegerNFT] = useState(false);
   const [inventory, setInventory] = useState<string[]>([]);
   const [choiceHistory, setChoiceHistory] = useState<string[]>([]);
   const { toast } = useToast();
   
   const current = storyFlow[step];
 
-  const startGame = () => {
+  const startGame = async () => {
     setGameStarted(true);
     setStep(0);
     setChoiceHistory([]);
+    
+    // Check for special NFTs when starting the game
+    await checkSpecialNFTs();
+    
     toast({
       title: "Spiel gestartet!",
       description: "Treffe weise Entscheidungen um zu überleben.",
     });
+  };
+
+  const checkSpecialNFTs = async () => {
+    try {
+      // This would check for JÄGER NFT - using mock logic for now
+      // In a real implementation, you'd check specific NFT contracts
+      const mockJaegerOwnership = Math.random() > 0.7; // 30% chance for demo
+      setHasJaegerNFT(mockJaegerOwnership);
+      
+      if (mockJaegerOwnership) {
+        toast({
+          title: "🎯 JÄGER NFT erkannt!",
+          description: "Du hast Zugang zu speziellen Story-Optionen!",
+        });
+      }
+    } catch (error) {
+      console.error('Error checking special NFTs:', error);
+    }
   };
 
   const nextStep = (nextId: number, choiceText: string) => {
@@ -234,9 +277,16 @@ export default function GameFlow() {
             <h1 className="text-3xl font-bold text-foreground mb-2">
               🎮 KryptoMurat – Story Mode
             </h1>
-            <Badge variant="secondary" className="mb-4">
-              Schritt {step + 1} von {storyFlow.length}
-            </Badge>
+            <div className="flex justify-center items-center gap-2 mb-4">
+              <Badge variant="secondary">
+                Schritt {step + 1} von {storyFlow.length}
+              </Badge>
+              {hasJaegerNFT && (
+                <Badge variant="default" className="bg-yellow-500 text-black">
+                  🎯 JÄGER NFT aktiv
+                </Badge>
+              )}
+            </div>
           </div>
 
           {/* Story Card */}
@@ -260,16 +310,30 @@ export default function GameFlow() {
                 <h3 className="text-lg font-semibold text-foreground text-center">
                   Was ist deine Entscheidung?
                 </h3>
-                {current.options.map((option, index) => (
-                  <Button
-                    key={index}
-                    onClick={() => nextStep(option.next, option.text)}
-                    variant="outline"
-                    className="w-full text-left justify-start p-4 h-auto"
-                  >
-                    <span className="text-base">{option.text}</span>
-                  </Button>
-                ))}
+                {current.options.map((option, index) => {
+                  const isLocked = option.requires === 'jaeger' && !hasJaegerNFT;
+                  return (
+                    <Button
+                      key={index}
+                      onClick={() => !isLocked && nextStep(option.next, option.text)}
+                      variant={isLocked ? "ghost" : "outline"}
+                      disabled={isLocked}
+                      className={`w-full text-left justify-start p-4 h-auto ${
+                        isLocked ? 'opacity-50 cursor-not-allowed border-dashed' : ''
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        {isLocked && <Lock size={16} className="text-muted-foreground" />}
+                        <span className="text-base">{option.text}</span>
+                        {isLocked && (
+                          <Badge variant="outline" className="ml-auto text-xs">
+                            🎯 JÄGER NFT erforderlich
+                          </Badge>
+                        )}
+                      </span>
+                    </Button>
+                  );
+                })}
               </>
             ) : (
               <Card className={`border-2 ${current.isSuccess ? 'border-green-500 bg-green-50 dark:bg-green-950' : 'border-red-500 bg-red-50 dark:bg-red-950'}`}>
