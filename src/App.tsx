@@ -22,6 +22,7 @@ import Whitepaper from "./pages/Whitepaper";
 import Game from "./pages/Game";
 import NFTAccess from "./pages/NFTAccess";
 import MemeGenerator from "./pages/MemeGenerator";
+import GameMap from "./pages/GameMap";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
               <Route path="/game" element={<Game />} />
               <Route path="/nft" element={<NFTAccess />} />
               <Route path="/memes" element={<MemeGenerator />} />
+              <Route path="/map" element={<GameMap />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
