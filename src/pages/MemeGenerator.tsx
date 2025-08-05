@@ -14,34 +14,81 @@ const MemeGenerator = () => {
   const { isConnected } = useWallet();
   const { toast } = useToast();
   const [selectedCharacter, setSelectedCharacter] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [memeText, setMemeText] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedMeme, setGeneratedMeme] = useState<string | null>(null);
 
   const characters = [
     { 
-      id: "murat", 
-      name: "Murat", 
-      description: "Der Bitcoin-Jäger",
-      image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop"
+      id: "murat-happy", 
+      name: "Murat (Happy)", 
+      description: "Der fröhliche Bitcoin-Jäger",
+      image: "/lovable-uploads/d36d5880-d1ca-418d-a062-fb9da79c00c4.png",
+      category: "Hero"
     },
     { 
-      id: "jaeger", 
-      name: "Jäger", 
-      description: "Der mysteriöse Verfolger",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=400&fit=crop"
+      id: "cryptonerd", 
+      name: "CryptoNerd", 
+      description: "Der kluge Analyst",
+      image: "/lovable-uploads/61ea4fc5-4d61-43de-a337-42538027d5a7.png",
+      category: "Hero"
+    },
+    { 
+      id: "dj-decentral", 
+      name: "DJ DECENTRAL", 
+      description: "Der Musik-Crypto-Guru",
+      image: "/lovable-uploads/61ea4fc5-4d61-43de-a337-42538027d5a7.png",
+      category: "Hero"
+    },
+    { 
+      id: "krypto-queen", 
+      name: "KryptoQueen", 
+      description: "Die Königin der Kryptowelt",
+      image: "/lovable-uploads/61ea4fc5-4d61-43de-a337-42538027d5a7.png",
+      category: "Hero"
+    },
+    { 
+      id: "tiktok-gigachad", 
+      name: "TikTok Gigachad", 
+      description: "Der Social Media König",
+      image: "/lovable-uploads/61ea4fc5-4d61-43de-a337-42538027d5a7.png",
+      category: "Hero"
+    },
+    { 
+      id: "terminal-tom", 
+      name: "TerminalTom", 
+      description: "Der besorgte Entwickler",
+      image: "/lovable-uploads/61ea4fc5-4d61-43de-a337-42538027d5a7.png",
+      category: "Neutral"
     },
     { 
       id: "skull-rider", 
       name: "Skull Rider", 
       description: "Der dunkle Reiter",
-      image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=400&h=400&fit=crop"
+      image: "/lovable-uploads/1139925c-a258-4040-8931-e72b699f3960.png",
+      category: "Villain"
+    },
+    { 
+      id: "jaeger-boss", 
+      name: "Jäger Boss", 
+      description: "Der mysteriöse Anführer",
+      image: "/lovable-uploads/1139925c-a258-4040-8931-e72b699f3960.png",
+      category: "Villain"
     },
     { 
       id: "anonymeme", 
       name: "AnonyMeme", 
       description: "Der anonyme Memer",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=400&fit=crop"
+      image: "/lovable-uploads/61ea4fc5-4d61-43de-a337-42538027d5a7.png",
+      category: "Mystery"
+    },
+    { 
+      id: "murat-serious", 
+      name: "Murat (Serious)", 
+      description: "Der ernste Bitcoin-Jäger",
+      image: "/lovable-uploads/d36d5880-d1ca-418d-a062-fb9da79c00c4.png",
+      category: "Hero"
     }
   ];
 
@@ -83,6 +130,11 @@ const MemeGenerator = () => {
     });
   };
 
+  const categories = ["all", "Hero", "Villain", "Neutral", "Mystery"];
+  const filteredCharacters = selectedCategory === "all" 
+    ? characters 
+    : characters.filter(char => char.category === selectedCategory);
+
   return (
     <div className="min-h-screen bg-crypto-dark">
       <Navigation />
@@ -110,12 +162,27 @@ const MemeGenerator = () => {
               <CardTitle className="text-foreground text-xl">Charakter auswählen</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {/* Category Filter */}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {categories.map((category) => (
+                  <Button
+                    key={category}
+                    variant={selectedCategory === category ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedCategory(category)}
+                    className={selectedCategory === category ? "bg-bitcoin text-crypto-dark" : ""}
+                  >
+                    {category === "all" ? "Alle" : category}
+                  </Button>
+                ))}
+              </div>
+
               <Select value={selectedCharacter} onValueChange={setSelectedCharacter}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Wähle deinen Meme-Charakter..." />
                 </SelectTrigger>
                 <SelectContent>
-                  {characters.map((character) => (
+                  {filteredCharacters.map((character) => (
                     <SelectItem key={character.id} value={character.id}>
                       <div className="flex items-center gap-2">
                         <span>{character.name}</span>
@@ -132,13 +199,16 @@ const MemeGenerator = () => {
                 <div className="flex justify-center">
                   <div className="text-center">
                     <img 
-                      src={characters.find(c => c.id === selectedCharacter)?.image} 
-                      alt={characters.find(c => c.id === selectedCharacter)?.name}
-                      className="w-20 h-20 rounded-full mx-auto mb-2 object-cover border-2 border-bitcoin"
+                      src={filteredCharacters.find(c => c.id === selectedCharacter)?.image} 
+                      alt={filteredCharacters.find(c => c.id === selectedCharacter)?.name}
+                      className="w-24 h-24 rounded-full mx-auto mb-2 object-cover border-2 border-bitcoin"
                     />
                     <p className="text-sm text-muted-foreground">
-                      {characters.find(c => c.id === selectedCharacter)?.description}
+                      {filteredCharacters.find(c => c.id === selectedCharacter)?.description}
                     </p>
+                    <Badge variant="outline" className="mt-1">
+                      {filteredCharacters.find(c => c.id === selectedCharacter)?.category}
+                    </Badge>
                   </div>
                 </div>
               )}
