@@ -12,21 +12,7 @@
     "title": "KryptoMurat Live",
     "subtitle": "Jagd auf den Bitcoin",
     "description": "Erlebe die aufregende Welt der Kryptowährungen in Echtzeit!",
-    "cta_button": "Jetzt teilnehmen",
-    "game_start": "🎮 NFT-SPIEL STARTEN"
-  },
-  "nft_game": {
-    "title": "Bitcoin Avı",
-    "description": "Das ultimative interaktive NFT-Spiel ist hier! Wähle deinen Charakter, löse Meme-Rätsel, kämpfe in der Arena und sammle exklusive Belohnungen.",
-    "game_start": "🎮 Spiel starten",
-    "nft_check": "NFT-Zugang prüfen",
-    "game_modes": "Spielmodi",
-    "unique_nfts": "Einzigartige NFTs",
-    "characters": "Charaktere",
-    "possibilities": "Möglichkeiten",
-    "ready": "Bereit für das Abenteuer?",
-    "connect_wallet": "Verbinde deine Wallet und starte die Bitcoin-Jagd!",
-    "play_now": "JETZT SPIELEN"
+    "cta_button": "Jetzt teilnehmen"
   },
   "wallet": {
     "connect": "Wallet verbinden",
