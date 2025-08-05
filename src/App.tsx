@@ -21,6 +21,7 @@ import Barrierefreiheit from "./pages/Barrierefreiheit";
 import Whitepaper from "./pages/Whitepaper";
 import Game from "./pages/Game";
 import NFTAccess from "./pages/NFTAccess";
+import MemeGenerator from "./pages/MemeGenerator";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,7 @@ const App = () => (
               <Route path="/whitepaper" element={<Whitepaper />} />
               <Route path="/game" element={<Game />} />
               <Route path="/nft" element={<NFTAccess />} />
+              <Route path="/memes" element={<MemeGenerator />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
