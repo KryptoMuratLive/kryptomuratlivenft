@@ -49,7 +49,7 @@ export const HeroSection = () => {
           </h1>
           
           <h2 className="text-2xl md:text-4xl font-semibold mb-8 text-foreground">
-            {t('hero.subtitle')}
+            KryptoMurat Live
           </h2>
 
           {/* Subtitle */}
