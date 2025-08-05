@@ -39,7 +39,7 @@ export const HeroSection = () => {
           <div className="flex justify-center mb-6">
             <Badge variant="secondary" className="bg-red-600 text-white animate-pulse px-4 py-2">
               <div className="w-2 h-2 bg-white rounded-full mr-2 animate-ping" />
-              LIVE JETZT
+              {t('hero.live_now')}
             </Badge>
           </div>
 
@@ -49,14 +49,12 @@ export const HeroSection = () => {
           </h1>
           
           <h2 className="text-2xl md:text-4xl font-semibold mb-8 text-foreground">
-            KryptoMurat Live
+            {t('hero.subtitle')}
           </h2>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-            Verfolge Murats spannende Flucht vor dem Bitcoin-Jäger. 
-            <span className="text-bitcoin font-semibold"> Entscheide mit deiner Wallet</span> über 
-            den Verlauf der Geschichte und gewinne exklusive NFTs!
+            {t('hero.description')}
           </p>
 
           {/* Action Buttons */}
@@ -78,7 +76,7 @@ export const HeroSection = () => {
             <Button variant="voting" size="lg" className="text-lg px-8" asChild>
               <Link to="/voting">
                 <Vote className="mr-2" />
-                Jetzt Abstimmen
+                {t('hero.vote_now')}
               </Link>
             </Button>
           </div>

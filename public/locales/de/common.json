@@ -11,8 +11,11 @@
   "hero": {
     "title": "KryptoMurat Live",
     "subtitle": "Jagd auf den Bitcoin",
-    "description": "Erlebe die aufregende Welt der Kryptowährungen in Echtzeit!",
-    "cta_button": "Jetzt teilnehmen"
+    "description": "Verfolge Murats spannende Flucht vor dem Bitcoin-Jäger. Entscheide mit deiner Wallet über den Verlauf der Geschichte und gewinne exklusive NFTs!",
+    "cta_button": "Jetzt teilnehmen",
+    "game_start": "🎮 NFT Spiel starten",
+    "live_now": "LIVE JETZT",
+    "vote_now": "Jetzt Abstimmen"
   },
   "wallet": {
     "connect": "Wallet verbinden",
