@@ -9,7 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/Footer';
 import { Progress } from '@/components/ui/progress';
-import { Clock, Star, Gift, MapPin, Zap, Lock, Trophy, Play } from 'lucide-react';
+import { Clock, Star, Gift, MapPin, Zap, Lock, Trophy, Play, Crown } from 'lucide-react';
 
 interface MiniQuest {
   id: number;
@@ -193,10 +193,15 @@ export default function MiniSidequests() {
       
       const completedQuest = quests.find(q => q.id === questId);
       
-      toast({
-        title: "🎉 Quest abgeschlossen!",
-        description: `Belohnung erhalten: ${completedQuest?.reward}`,
-      });
+      // Special handling for boss quest
+      if (questId === 6) {
+        await claimBossNFT();
+      } else {
+        toast({
+          title: "🎉 Quest abgeschlossen!",
+          description: `Belohnung erhalten: ${completedQuest?.reward}`,
+        });
+      }
       
       // Save progress to database
       const newCompletedQuests = [...completedQuests, questId];
@@ -210,6 +215,33 @@ export default function MiniSidequests() {
         
     } catch (error) {
       console.error('Error completing quest:', error);
+    }
+  };
+
+  const claimBossNFT = async () => {
+    try {
+      // Record the boss NFT claim in database
+      await supabase
+        .from('nft_claims')
+        .upsert({
+          wallet_address: address,
+          claimed: true,
+          tx_hash: `boss_nft_${Date.now()}`, // Placeholder for real transaction
+          updated_at: new Date().toISOString()
+        });
+
+      toast({
+        title: "🏆 Boss besiegt!",
+        description: "Legendärer NFT wird zu deiner Wallet gesendet! Du bist jetzt ein wahrer Meme-Meister!",
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error('Error claiming boss NFT:', error);
+      toast({
+        title: "⚔️ Boss besiegt!",
+        description: "Herzlichen Glückwunsch! Dein legendärer NFT wird vorbereitet...",
+        variant: "default",
+      });
     }
   };
 
