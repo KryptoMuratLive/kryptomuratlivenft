@@ -58,17 +58,17 @@ export const HeroSection = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <Button variant="bitcoin" size="lg" className="text-lg px-8" asChild>
+              <Link to="/game">
+                <Play className="mr-2" />
+                🎮 NFT-Spiel Starten
+              </Link>
+            </Button>
+            
             <Button variant="wallet" size="lg" className="text-lg px-8" asChild>
               <Link to="/livestream">
                 <Wallet className="mr-2" />
                 Wallet Verbinden
-              </Link>
-            </Button>
-            
-            <Button variant="bitcoin" size="lg" className="text-lg px-8" asChild>
-              <Link to="/livestream">
-                <Play className="mr-2" />
-                Live Stream Starten
               </Link>
             </Button>
             
