@@ -82,6 +82,18 @@ const MINI_QUESTS: MiniQuest[] = [
     requirements: "Community Voting",
     completed: false,
     progress: 0
+  },
+  {
+    id: 6,
+    title: "👹 Boss-Level: Der Endgegner erscheint!",
+    description: "Nur wer alle vorherigen Missionen abgeschlossen hat, kann sich dem finalen Gegner stellen. Das ultimative Meme-Battle wartet!",
+    reward: "🏆 Legendärer NFT + Meister-Titel",
+    difficulty: "hard",
+    estimatedTime: "20-30 Min",
+    category: "knowledge",
+    requirements: "Alle 5 Quests abgeschlossen",
+    completed: false,
+    progress: 0
   }
 ];
 
@@ -313,74 +325,99 @@ export default function MiniSidequests() {
 
             {/* Quest List */}
             <div className="space-y-4">
-              {quests.map((quest) => (
-                <Card key={quest.id} className={`bg-card border-border transition-all hover:shadow-lg ${quest.completed ? 'opacity-75' : ''}`}>
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <CardTitle className="text-lg text-card-foreground flex items-center gap-2">
-                          {getCategoryIcon(quest.category)}
+              {quests.map((quest) => {
+                const isBossQuest = quest.id === 6;
+                const bossUnlocked = completedQuests.length >= 5;
+                const isLocked = isBossQuest && !bossUnlocked;
+                
+                if (isLocked) {
+                  return (
+                    <Card key={quest.id} className="bg-muted/30 border-dashed opacity-50">
+                      <CardContent className="pt-6 text-center">
+                        <h3 className="text-lg font-semibold text-muted-foreground mb-2 flex items-center justify-center gap-2">
+                          <Lock className="h-5 w-5" />
                           {quest.title}
-                          {quest.completed && <Badge className="bg-green-500">✅ Abgeschlossen</Badge>}
-                        </CardTitle>
-                        <p className="text-muted-foreground mt-2">{quest.description}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-wrap items-center gap-2 mt-4">
-                      <Badge variant="outline" className={getDifficultyColor(quest.difficulty)}>
-                        {quest.difficulty.toUpperCase()}
-                      </Badge>
-                      <Badge variant="secondary">
-                        <Clock className="h-3 w-3 mr-1" />
-                        {quest.estimatedTime}
-                      </Badge>
-                      <Badge variant="outline">
-                        🎁 {quest.reward}
-                      </Badge>
-                      {quest.requirements && (
-                        <Badge variant="outline" className="text-orange-500 border-orange-500">
-                          <Lock className="h-3 w-3 mr-1" />
-                          {quest.requirements}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          🔒 Diese Boss-Mission wird freigeschaltet, wenn du alle anderen 5 Quests abgeschlossen hast.
+                        </p>
+                        <Badge variant="outline" className="mt-3">
+                          {completedQuests.length}/5 Quests abgeschlossen
                         </Badge>
-                      )}
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent>
-                    {quest.progress > 0 && quest.progress < 100 && (
-                      <div className="mb-4">
-                        <div className="flex justify-between text-sm mb-2">
-                          <span className="text-muted-foreground">Fortschritt</span>
-                          <span className="text-foreground">{quest.progress}%</span>
+                      </CardContent>
+                    </Card>
+                  );
+                }
+                
+                return (
+                  <Card key={quest.id} className={`bg-card border-border transition-all hover:shadow-lg ${quest.completed ? 'opacity-75' : ''}`}>
+                    <CardHeader>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <CardTitle className="text-lg text-card-foreground flex items-center gap-2">
+                            {getCategoryIcon(quest.category)}
+                            {quest.title}
+                            {quest.completed && <Badge className="bg-green-500">✅ Abgeschlossen</Badge>}
+                          </CardTitle>
+                          <p className="text-muted-foreground mt-2">{quest.description}</p>
                         </div>
-                        <Progress value={quest.progress} className="h-2" />
                       </div>
-                    )}
                     
-                    <div className="flex gap-2">
-                      {!quest.completed ? (
-                        <Button
-                          onClick={() => startQuest(quest)}
-                          disabled={loading || (quest.requirements && !quest.requirements.includes('JÄGER'))}
-                          className="flex items-center gap-2"
-                        >
-                          <Play className="h-4 w-4" />
-                          {loading && selectedQuest?.id === quest.id ? 'Startet...' : 'Quest starten'}
-                        </Button>
-                      ) : (
-                        <Button variant="outline" disabled>
-                          ✅ Abgeschlossen
-                        </Button>
+                      <div className="flex flex-wrap items-center gap-2 mt-4">
+                        <Badge variant="outline" className={getDifficultyColor(quest.difficulty)}>
+                          {quest.difficulty.toUpperCase()}
+                        </Badge>
+                        <Badge variant="secondary">
+                          <Clock className="h-3 w-3 mr-1" />
+                          {quest.estimatedTime}
+                        </Badge>
+                        <Badge variant="outline">
+                          🎁 {quest.reward}
+                        </Badge>
+                        {quest.requirements && (
+                          <Badge variant="outline" className="text-orange-500 border-orange-500">
+                            <Lock className="h-3 w-3 mr-1" />
+                            {quest.requirements}
+                          </Badge>
+                        )}
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent>
+                      {quest.progress > 0 && quest.progress < 100 && (
+                        <div className="mb-4">
+                          <div className="flex justify-between text-sm mb-2">
+                            <span className="text-muted-foreground">Fortschritt</span>
+                            <span className="text-foreground">{quest.progress}%</span>
+                          </div>
+                          <Progress value={quest.progress} className="h-2" />
+                        </div>
                       )}
                       
-                      <Button variant="ghost" size="sm">
-                        📋 Details
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                      <div className="flex gap-2">
+                        {!quest.completed ? (
+                          <Button
+                            onClick={() => startQuest(quest)}
+                            disabled={loading || (quest.requirements && !quest.requirements.includes('JÄGER'))}
+                            className="flex items-center gap-2"
+                          >
+                            <Play className="h-4 w-4" />
+                            {loading && selectedQuest?.id === quest.id ? 'Startet...' : 'Quest starten'}
+                          </Button>
+                        ) : (
+                          <Button variant="outline" disabled>
+                            ✅ Abgeschlossen
+                          </Button>
+                        )}
+                        
+                        <Button variant="ghost" size="sm">
+                          📋 Details
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
 
             {/* Coming Soon */}
