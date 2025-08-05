@@ -12,7 +12,21 @@
     "title": "KryptoMurat Live",
     "subtitle": "Hunt for Bitcoin",
     "description": "Experience the exciting world of cryptocurrencies in real-time!",
-    "cta_button": "Join now"
+    "cta_button": "Join now",
+    "game_start": "🎮 Start NFT Game"
+  },
+  "nft_game": {
+    "title": "Hunt for Bitcoin",
+    "description": "The ultimate interactive NFT game is here! Choose your character, solve meme puzzles, fight in the arena and collect exclusive rewards.",
+    "game_start": "🎮 Start Game",
+    "nft_check": "Check NFT Access",
+    "game_modes": "Game Modes",
+    "unique_nfts": "Unique NFTs",
+    "characters": "Characters",
+    "possibilities": "Possibilities",
+    "ready": "Ready for the adventure?",
+    "connect_wallet": "Connect your wallet and start your hunt for Bitcoin!",
+    "play_now": "PLAY NOW"
   },
   "wallet": {
     "connect": "Connect Wallet",

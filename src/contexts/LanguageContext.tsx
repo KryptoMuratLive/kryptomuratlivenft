@@ -54,10 +54,28 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   });
 
   const [translationCache, setTranslationCache] = useState<Map<string, string>>(new Map());
+  const [translations, setTranslations] = useState<Record<string, any>>({});
   const [isTranslating, setIsTranslating] = useState(false);
 
   const currentConfig = SUPPORTED_LANGUAGES.find(lang => lang.code === currentLanguage)!;
   const isRTL = currentConfig.rtl || false;
+
+  // Load translation files
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const response = await fetch(`/locales/${currentLanguage}/common.json`);
+        if (response.ok) {
+          const data = await response.json();
+          setTranslations(data);
+        }
+      } catch (error) {
+        console.error(`Failed to load translations for ${currentLanguage}:`, error);
+      }
+    };
+
+    loadTranslations();
+  }, [currentLanguage]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, currentLanguage);
@@ -71,7 +89,23 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     setCurrentLanguage(language);
   };
 
-  // AI-powered translation function
+  // Function to get nested translation
+  const getNestedTranslation = (key: string): string => {
+    const keys = key.split('.');
+    let value = translations;
+    
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        return key; // Return original key if translation not found
+      }
+    }
+    
+    return typeof value === 'string' ? value : key;
+  };
+
+  // AI-powered translation function (now uses JSON files as fallback)
   const translate = async (text: string): Promise<string> => {
     if (currentLanguage === 'de') return text; // Original language is German
     
@@ -80,49 +114,34 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
       return translationCache.get(cacheKey)!;
     }
 
-    setIsTranslating(true);
-    try {
-      // For demo purposes, we'll use a simple translation
-      // In production, this would call OpenAI API or DeepL
-      const response = await fetch('/api/translate', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text,
-          from: 'de',
-          to: currentLanguage,
-        }),
-      });
-
-      if (response.ok) {
-        const { translation } = await response.json();
-        setTranslationCache(prev => new Map(prev.set(cacheKey, translation)));
-        return translation;
-      }
-    } catch (error) {
-      console.error('Translation error:', error);
-    } finally {
-      setIsTranslating(false);
+    // First try to find in loaded translations
+    const translation = getNestedTranslation(text);
+    if (translation !== text) {
+      setTranslationCache(prev => new Map(prev.set(cacheKey, translation)));
+      return translation;
     }
 
-    // Fallback: return original text
+    // If not found, return original text (in production you could call AI API here)
     return text;
   };
 
   // Synchronous translation function for immediate UI needs
-  const t = (text: string): string => {
-    if (currentLanguage === 'de') return text;
+  const t = (key: string): string => {
+    if (currentLanguage === 'de') return key;
     
-    const cacheKey = `${text}-${currentLanguage}`;
+    const cacheKey = `${key}-${currentLanguage}`;
     if (translationCache.has(cacheKey)) {
       return translationCache.get(cacheKey)!;
     }
 
-    // For immediate rendering, we'll trigger async translation
-    translate(text);
-    return text; // Return original until translation is ready
+    // Try to get from loaded translations
+    const translation = getNestedTranslation(key);
+    if (translation !== key) {
+      setTranslationCache(prev => new Map(prev.set(cacheKey, translation)));
+      return translation;
+    }
+
+    return key; // Return original key if no translation found
   };
 
   return (

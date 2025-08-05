@@ -3,8 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Gamepad2, Trophy, Map, Sparkles, Swords, Vault, Zap, Play } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export const NFTGameSection = () => {
+  const { t } = useTranslation();
   const gameFeatures = [
     {
       id: "game",
@@ -71,11 +73,10 @@ export const NFTGameSection = () => {
             🎮 NEUES NFT-SPIEL
           </Badge>
           <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-bitcoin via-bitcoin-glow to-electric-blue bg-clip-text text-transparent">
-            Jagd auf den Bitcoin
+            {t('nft_game.title')}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Das ultimative interaktive NFT-Spiel ist da! Wähle deinen Charakter, löse Meme-Rätsel, 
-            kämpfe in der Arena und sammle exklusive Belohnungen.
+            {t('nft_game.description')}
           </p>
           
           {/* Quick Start Buttons */}
@@ -83,14 +84,14 @@ export const NFTGameSection = () => {
             <Button size="lg" className="bg-gradient-primary hover:bg-gradient-primary/90 text-white px-8" asChild>
               <Link to="/game">
                 <Play className="mr-2" size={20} />
-                🎮 Spiel Starten
+                {t('nft_game.game_start')}
               </Link>
             </Button>
             
             <Button variant="outline" size="lg" className="px-8" asChild>
               <Link to="/nft">
                 <Trophy className="mr-2" size={20} />
-                NFT-Zugang prüfen
+                {t('nft_game.nft_check')}
               </Link>
             </Button>
           </div>
@@ -132,36 +133,35 @@ export const NFTGameSection = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
               <div className="text-3xl font-bold text-bitcoin mb-2">6</div>
-              <p className="text-muted-foreground">Spiel-Modi</p>
+              <p className="text-muted-foreground">{t('nft_game.game_modes')}</p>
             </div>
             <div>
               <div className="text-3xl font-bold text-green-500 mb-2">50+</div>
-              <p className="text-muted-foreground">Einzigartige NFTs</p>
+              <p className="text-muted-foreground">{t('nft_game.unique_nfts')}</p>
             </div>
             <div>
               <div className="text-3xl font-bold text-purple-500 mb-2">10</div>
-              <p className="text-muted-foreground">Charaktere</p>
+              <p className="text-muted-foreground">{t('nft_game.characters')}</p>
             </div>
             <div>
               <div className="text-3xl font-bold text-electric-blue mb-2">∞</div>
-              <p className="text-muted-foreground">Möglichkeiten</p>
+              <p className="text-muted-foreground">{t('nft_game.possibilities')}</p>
             </div>
           </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
+          <div className="text-center mt-16">
           <div className="bg-gradient-to-r from-bitcoin/10 to-electric-blue/10 rounded-2xl border border-bitcoin/20 p-8">
             <h3 className="text-2xl font-bold text-foreground mb-4">
-              Bereit für das Abenteuer?
+              {t('nft_game.ready')}
             </h3>
             <p className="text-muted-foreground mb-6">
-              Verbinde deine Wallet und starte deine Jagd auf den Bitcoin!
+              {t('nft_game.connect_wallet')}
             </p>
             <Button size="lg" className="bg-bitcoin hover:bg-bitcoin/90 text-crypto-dark px-8 font-bold" asChild>
               <Link to="/game">
                 <Zap className="mr-2" size={20} />
-                JETZT SPIELEN
+                {t('nft_game.play_now')}
               </Link>
             </Button>
           </div>

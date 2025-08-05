@@ -3,9 +3,12 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Wallet, Play, Vote, Trophy, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 export const HeroSection = () => {
+  const { t } = useTranslation();
+  
   return (
     <section className="relative min-h-screen bg-gradient-hero overflow-hidden">
       {/* Background Image with Overlay */}
@@ -42,11 +45,11 @@ export const HeroSection = () => {
 
           {/* Main Title */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-bitcoin via-bitcoin-glow to-electric-blue bg-clip-text text-transparent">
-            KryptoMurat Live
+            {t('hero.title')}
           </h1>
           
           <h2 className="text-2xl md:text-4xl font-semibold mb-8 text-foreground">
-            Jagd auf den Bitcoin
+            {t('hero.subtitle')}
           </h2>
 
           {/* Subtitle */}
@@ -61,14 +64,14 @@ export const HeroSection = () => {
             <Button variant="bitcoin" size="lg" className="text-lg px-8" asChild>
               <Link to="/game">
                 <Play className="mr-2" />
-                🎮 NFT-Spiel Starten
+                {t('hero.game_start')}
               </Link>
             </Button>
             
             <Button variant="wallet" size="lg" className="text-lg px-8" asChild>
               <Link to="/livestream">
                 <Wallet className="mr-2" />
-                Wallet Verbinden
+                {t('wallet.connect')}
               </Link>
             </Button>
             

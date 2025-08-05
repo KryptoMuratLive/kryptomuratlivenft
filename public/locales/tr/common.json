@@ -12,7 +12,21 @@
     "title": "KryptoMurat Live",
     "subtitle": "Bitcoin Avı",
     "description": "Kripto para dünyasının heyecanını gerçek zamanlı yaşayın!",
-    "cta_button": "Şimdi katıl"
+    "cta_button": "Şimdi katıl",
+    "game_start": "🎮 NFT Oyunu Başlat"
+  },
+  "nft_game": {
+    "title": "Bitcoin Avı",
+    "description": "Nihai interaktif NFT oyunu burada! Karakterini seç, meme bulmacalarını çöz, arenada savaş ve özel ödüller topla.",
+    "game_start": "🎮 Oyunu Başlat",
+    "nft_check": "NFT Erişimini Kontrol Et",
+    "game_modes": "Oyun Modları",
+    "unique_nfts": "Benzersiz NFT'ler",
+    "characters": "Karakterler",
+    "possibilities": "Olasılıklar",
+    "ready": "Maceraya hazır mısın?",
+    "connect_wallet": "Cüzdanını bağla ve Bitcoin avını başlat!",
+    "play_now": "ŞİMDİ OYNA"
   },
   "wallet": {
     "connect": "Cüzdan Bağla",
