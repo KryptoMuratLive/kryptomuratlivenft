@@ -5,7 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
-import { RotateCcw, Trophy, Skull } from 'lucide-react';
+import { RotateCcw, Trophy, Skull, Package } from 'lucide-react';
+import { NFTGate } from '@/components/NFTGate';
 
 interface StoryOption {
   text: string;
@@ -16,6 +17,7 @@ interface StoryStep {
   id: number;
   scene: string;
   options: StoryOption[];
+  reward?: string;
   isEnding?: boolean;
   isSuccess?: boolean;
 }
@@ -46,7 +48,8 @@ const storyFlow: StoryStep[] = [
   },
   {
     id: 4,
-    scene: '🧠 Der USB-Stick enthält ein geheimes Meme! Du hast Level 2 erreicht.',
+    scene: '🧠 Der USB-Stick enthält ein geheimes Meme! Du hast Level 2 erreicht und ein Item erhalten.',
+    reward: '🧩 Meme Decoder',
     options: [],
     isEnding: true,
     isSuccess: true
@@ -63,6 +66,8 @@ const storyFlow: StoryStep[] = [
 export default function GameFlow() {
   const [step, setStep] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
+  const [hasNFTAccess, setHasNFTAccess] = useState(false);
+  const [inventory, setInventory] = useState<string[]>([]);
   const [choiceHistory, setChoiceHistory] = useState<string[]>([]);
   const { toast } = useToast();
   
@@ -85,6 +90,16 @@ export default function GameFlow() {
       setChoiceHistory(prev => [...prev, choiceText]);
       
       const nextStory = storyFlow[index];
+      
+      // Add reward to inventory if exists
+      if (nextStory.reward) {
+        setInventory(prev => [...prev, nextStory.reward!]);
+        toast({
+          title: "Item erhalten!",
+          description: `Du hast ${nextStory.reward} erhalten!`,
+        });
+      }
+      
       if (nextStory.isEnding) {
         if (nextStory.isSuccess) {
           toast({
@@ -105,8 +120,48 @@ export default function GameFlow() {
   const resetGame = () => {
     setStep(0);
     setGameStarted(false);
+    setInventory([]);
     setChoiceHistory([]);
   };
+
+  const handleNFTAccess = (hasNFT: boolean) => {
+    setHasNFTAccess(hasNFT);
+    if (hasNFT) {
+      toast({
+        title: "Zugriff gewährt!",
+        description: "NFT verifiziert. Du kannst das Spiel starten.",
+      });
+    }
+  };
+
+  // NFT Gate Screen
+  if (!hasNFTAccess) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="mb-8">
+              <h1 className="text-4xl font-bold text-foreground mb-4">
+                🎮 KryptoMurat – Story Mode
+              </h1>
+              <p className="text-xl text-muted-foreground mb-4">
+                NFT-exklusives Abenteuer-Spiel
+              </p>
+              <Badge variant="outline" className="mb-6">
+                🔐 NFT Zugang erforderlich
+              </Badge>
+            </div>
+            
+            <NFTGate onConnect={handleNFTAccess} />
+          </div>
+        </div>
+        
+        <Footer />
+      </div>
+    );
+  }
 
   if (!gameStarted) {
     return (
@@ -122,6 +177,9 @@ export default function GameFlow() {
               <p className="text-xl text-muted-foreground">
                 Interaktives Abenteuer-Spiel
               </p>
+              <Badge variant="secondary" className="mt-2">
+                ✅ NFT Zugang verifiziert
+              </Badge>
             </div>
             
             <Card className="bg-card border-border">
@@ -141,6 +199,7 @@ export default function GameFlow() {
                     <ul className="text-sm text-muted-foreground space-y-1">
                       <li>• Treffe Entscheidungen durch Klicken der Optionen</li>
                       <li>• Jede Wahl führt zu unterschiedlichen Ergebnissen</li>
+                      <li>• Sammle Items für dein Inventar</li>
                       <li>• Versuche das beste Ende zu erreichen</li>
                       <li>• Bei Game Over kannst du neu starten</li>
                     </ul>
@@ -240,6 +299,27 @@ export default function GameFlow() {
               </Card>
             )}
           </div>
+
+          {/* Inventory */}
+          {inventory.length > 0 && (
+            <Card className="mt-6 bg-muted/50">
+              <CardHeader>
+                <CardTitle className="text-sm text-muted-foreground flex items-center gap-2">
+                  <Package size={16} />
+                  Dein Inventar:
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {inventory.map((item, index) => (
+                    <Badge key={index} variant="secondary" className="mr-2">
+                      {item}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Choice History */}
           {choiceHistory.length > 0 && (
