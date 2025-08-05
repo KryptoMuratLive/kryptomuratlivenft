@@ -181,7 +181,7 @@ const Game = () => {
   const handleSpecialAction = (action: string) => {
     switch (action) {
       case 'goto-story':
-        window.location.href = '/game-story';
+        window.location.href = '/game-story-new';
         break;
       case 'restart':
         setCurrentPhase(1);
