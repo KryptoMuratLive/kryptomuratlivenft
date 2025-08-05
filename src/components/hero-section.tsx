@@ -3,11 +3,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Wallet, Play, Vote, Trophy, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useTranslation } from "@/hooks/useTranslation";
 import heroBanner from "@/assets/hero-banner.jpg";
 
 export const HeroSection = () => {
-  const { t } = useTranslation();
   
   return (
     <section className="relative min-h-screen bg-gradient-hero overflow-hidden">
@@ -39,22 +37,24 @@ export const HeroSection = () => {
           <div className="flex justify-center mb-6">
             <Badge variant="secondary" className="bg-red-600 text-white animate-pulse px-4 py-2">
               <div className="w-2 h-2 bg-white rounded-full mr-2 animate-ping" />
-              {t('hero.live_now')}
+              LIVE JETZT
             </Badge>
           </div>
 
           {/* Main Title */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-bitcoin via-bitcoin-glow to-electric-blue bg-clip-text text-transparent">
-            {t('hero.title')}
+            KryptoMurat Live
           </h1>
           
           <h2 className="text-2xl md:text-4xl font-semibold mb-8 text-foreground">
-            {t('hero.subtitle')}
+            Jagd auf den Bitcoin
           </h2>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-            {t('hero.description')}
+            Verfolge Murats spannende Flucht vor dem Bitcoin-Jäger. 
+            <span className="text-bitcoin font-semibold"> Entscheide mit deiner Wallet</span> über 
+            den Verlauf der Geschichte und gewinne exklusive NFTs!
           </p>
 
           {/* Action Buttons */}
@@ -62,21 +62,21 @@ export const HeroSection = () => {
             <Button variant="bitcoin" size="lg" className="text-lg px-8" asChild>
               <Link to="/game">
                 <Play className="mr-2" />
-                {t('hero.game_start')}
+                🎮 NFT Spiel starten
               </Link>
             </Button>
             
             <Button variant="wallet" size="lg" className="text-lg px-8" asChild>
               <Link to="/livestream">
                 <Wallet className="mr-2" />
-                {t('wallet.connect')}
+                Wallet verbinden
               </Link>
             </Button>
             
             <Button variant="voting" size="lg" className="text-lg px-8" asChild>
               <Link to="/voting">
                 <Vote className="mr-2" />
-                {t('hero.vote_now')}
+                Jetzt Abstimmen
               </Link>
             </Button>
           </div>

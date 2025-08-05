@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { TranslatedText } from '@/hooks/useTranslation';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,39 +11,37 @@ export const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">KryptoMurat</h3>
             <p className="text-sm text-muted-foreground">
-              <TranslatedText>
-                Ein innovatives Web3-Projekt für Gaming, NFTs und Community-Interaktion.
-              </TranslatedText>
+              Ein innovatives Web3-Projekt für Gaming, NFTs und Community-Interaktion.
             </p>
             <p className="text-sm text-muted-foreground">
-              <TranslatedText>Herford, Deutschland</TranslatedText>
+              Herford, Deutschland
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="text-sm font-semibold">
-              <TranslatedText>Schnellzugriff</TranslatedText>
+              Schnellzugriff
             </h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/livestream" className="text-muted-foreground hover:text-foreground transition-colors">
-                  <TranslatedText>Live Stream</TranslatedText>
+                  Live Stream
                 </Link>
               </li>
               <li>
                 <Link to="/gallery" className="text-muted-foreground hover:text-foreground transition-colors">
-                  <TranslatedText>NFT Gallery</TranslatedText>
+                  NFT Gallery
                 </Link>
               </li>
               <li>
                 <Link to="/staking" className="text-muted-foreground hover:text-foreground transition-colors">
-                  <TranslatedText>Staking</TranslatedText>
+                  Staking
                 </Link>
               </li>
               <li>
                 <Link to="/voting" className="text-muted-foreground hover:text-foreground transition-colors">
-                  <TranslatedText>Voting</TranslatedText>
+                  Voting
                 </Link>
               </li>
             </ul>
@@ -53,11 +50,11 @@ export const Footer = () => {
           {/* Contact & Support */}
           <div className="space-y-4">
             <h4 className="text-sm font-semibold">
-              <TranslatedText>Kontakt & Support</TranslatedText>
+              Kontakt & Support
             </h4>
             <div className="space-y-2 text-sm">
               <p className="text-muted-foreground">
-                <TranslatedText>E-Mail:</TranslatedText>{' '}
+                E-Mail:{' '}
                 <a 
                   href="mailto:info@kryptomur.at" 
                   className="text-primary hover:underline"
@@ -66,9 +63,7 @@ export const Footer = () => {
                 </a>
               </p>
               <p className="text-xs text-muted-foreground">
-                <TranslatedText>
-                  Antwortzeit: 24-48 Stunden
-                </TranslatedText>
+                Antwortzeit: 24-48 Stunden
               </p>
             </div>
           </div>
@@ -80,7 +75,7 @@ export const Footer = () => {
             {/* Copyright */}
             <div className="text-xs text-muted-foreground">
               <span>© {currentYear.toString()} KryptoMurat. </span>
-              <TranslatedText>Alle Rechte vorbehalten.</TranslatedText>
+              Alle Rechte vorbehalten.
             </div>
 
             {/* Legal Links */}
@@ -89,21 +84,21 @@ export const Footer = () => {
                 to="/impressum" 
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <TranslatedText>Impressum</TranslatedText>
+                Impressum
               </Link>
               <span className="text-muted-foreground">•</span>
               <Link 
                 to="/datenschutz" 
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <TranslatedText>Datenschutzerklärung</TranslatedText>
+                Datenschutzerklärung
               </Link>
               <span className="text-muted-foreground">•</span>
               <Link 
                 to="/barrierefreiheit" 
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
-                <TranslatedText>Barrierefreiheit</TranslatedText>
+                Barrierefreiheit
               </Link>
             </div>
           </div>
@@ -111,9 +106,7 @@ export const Footer = () => {
           {/* Web3 Notice */}
           <div className="text-center mt-4 pt-4 border-t border-border">
             <p className="text-xs text-muted-foreground">
-              <TranslatedText>
-                🌐 Dezentrale Web3-Plattform • Keine Cookies • Anonyme Nutzung möglich
-              </TranslatedText>
+              🌐 Dezentrale Web3-Plattform • Keine Cookies • Anonyme Nutzung möglich
             </p>
           </div>
         </div>

@@ -4,8 +4,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useWallet } from "@/hooks/useWallet";
 import { LiveStatusBadge } from "@/components/LiveStatusBadge";
-import { LanguageSelector } from "@/components/LanguageSelector";
-import { TranslatedText } from "@/hooks/useTranslation";
 import { ORGANIZER_ADDRESS } from "@/lib/contracts";
 import { 
   Wallet, 
@@ -79,7 +77,7 @@ export const Navigation = () => {
                   size="sm"
                 >
                   <Wallet className="mr-2" size={16} />
-                  <TranslatedText>Wallet verbinden</TranslatedText>
+                  Wallet verbinden
                 </Button>
               </Link>
             ) : (
@@ -99,8 +97,6 @@ export const Navigation = () => {
               </div>
             )}
 
-            {/* Language Selector */}
-            <LanguageSelector />
 
             {isOrganizer && (
             <Button variant="ghost" size="sm" asChild>
@@ -148,14 +144,14 @@ export const Navigation = () => {
                       size="sm"
                     >
                       <Wallet className="mr-2" size={16} />
-                      <TranslatedText>Wallet verbinden</TranslatedText>
+                      Wallet verbinden
                     </Button>
                   </Link>
                 ) : (
                   <div className="space-y-2">
                     <Badge variant="secondary" className="bg-green-600 text-white w-full justify-center py-2">
                       <CheckCircle className="mr-2" size={14} />
-                      <TranslatedText>Verbunden</TranslatedText>: {address?.slice(0, 6)}...{address?.slice(-4)}
+                      Verbunden: {address?.slice(0, 6)}...{address?.slice(-4)}
                     </Badge>
                     <Button 
                       variant="outline" 
@@ -164,7 +160,7 @@ export const Navigation = () => {
                       onClick={disconnectWallet}
                     >
                       <LogOut className="mr-2" size={16} />
-                      <TranslatedText>Wallet trennen</TranslatedText>
+                      Wallet trennen
                     </Button>
                   </div>
                 )}
@@ -177,15 +173,11 @@ export const Navigation = () => {
                   <Button variant="outline" className="w-full" size="sm" asChild>
                     <Link to="/organizer">
                       <Settings className="mr-2" size={16} />
-                      <TranslatedText>Veranstalter-Dashboard</TranslatedText>
+                      Veranstalter-Dashboard
                     </Link>
                   </Button>
                 )}
 
-                {/* Language Selector for Mobile */}
-                <div className="pt-2">
-                  <LanguageSelector />
-                </div>
               </div>
             </div>
           </div>
