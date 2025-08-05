@@ -20,6 +20,7 @@ import Datenschutz from "./pages/Datenschutz";
 import Barrierefreiheit from "./pages/Barrierefreiheit";
 import Whitepaper from "./pages/Whitepaper";
 import Game from "./pages/Game";
+import GameStory from "./pages/GameStory";
 import NFTAccess from "./pages/NFTAccess";
 import MemeGenerator from "./pages/MemeGenerator";
 import MemeBattle from "./pages/MemeBattle";
@@ -55,6 +56,7 @@ const App = () => (
               <Route path="/barrierefreiheit" element={<Barrierefreiheit />} />
               <Route path="/whitepaper" element={<Whitepaper />} />
               <Route path="/game" element={<Game />} />
+              <Route path="/game-story" element={<GameStory />} />
               <Route path="/nft" element={<NFTAccess />} />
               <Route path="/memes" element={<MemeGenerator />} />
               <Route path="/meme-battle" element={<MemeBattle />} />

@@ -18,7 +18,8 @@ import {
   LogOut,
   CheckCircle,
   Image,
-  Zap
+  Zap,
+  BookOpen
 } from "lucide-react";
 
 export const Navigation = () => {
@@ -30,6 +31,7 @@ export const Navigation = () => {
     { name: "Privater Stream", href: "/private-stream", icon: Play },
     { name: "Voting", href: "/voting", icon: Vote },
     { name: "NFT Gallery", href: "/gallery", icon: Trophy },
+    { name: "Story Game", href: "/game-story", icon: BookOpen },
     { name: "Meme Battle", href: "/meme-battle", icon: Zap },
     { name: "Meme Galerie", href: "/meme-gallery", icon: Image },
     { name: "Staking", href: "/staking", icon: BarChart3 },
