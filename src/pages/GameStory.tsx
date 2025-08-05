@@ -5,11 +5,12 @@ import { Badge } from '@/components/ui/badge';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
-import { RotateCcw, Trophy, Skull, Package, Lock, Save } from 'lucide-react';
+import { RotateCcw, Trophy, Skull, Package, Lock, Save, Map } from 'lucide-react';
 import { NFTGate } from '@/components/NFTGate';
 import { checkNFTOwnership } from '@/lib/checkNFTOwnership';
 import { supabase } from '@/integrations/supabase/client';
 import { useWallet } from '@/hooks/useWallet';
+import StoryMap from '@/components/StoryMap';
 
 interface StoryOption {
   text: string;
@@ -19,7 +20,9 @@ interface StoryOption {
 
 interface StoryStep {
   id: number;
+  label: string;
   scene: string;
+  coordinates: [number, number];
   options: StoryOption[];
   reward?: string;
   isEnding?: boolean;
@@ -29,6 +32,8 @@ interface StoryStep {
 const storyFlow: StoryStep[] = [
   {
     id: 1,
+    label: 'Altstadtgasse',
+    coordinates: [11.576, 48.137], // Munich Old Town
     scene: '🚧 Du stehst in einer engen Altstadtgasse. Plötzlich taucht der Jäger auf! Was tust du?',
     options: [
       { text: '🔀 In die nächste Gasse fliehen', next: 2 },
@@ -37,6 +42,8 @@ const storyFlow: StoryStep[] = [
   },
   {
     id: 2,
+    label: 'Dunkle Gasse',
+    coordinates: [11.580, 48.135], // Nearby location
     scene: '🏃 Du läufst durch eine dunkle Gasse und entkommst knapp. Du findest einen USB-Stick. Was jetzt?',
     options: [
       { text: '📂 Öffnen und analysieren', next: 4 },
@@ -45,6 +52,8 @@ const storyFlow: StoryStep[] = [
   },
   {
     id: 3,
+    label: 'Mülltonne',
+    coordinates: [11.574, 48.139], // Dead end location
     scene: '🤢 Leider war die Mülltonne voll. Der Jäger hat dich gerochen. GAME OVER!',
     options: [],
     isEnding: true,
@@ -52,6 +61,8 @@ const storyFlow: StoryStep[] = [
   },
   {
     id: 4,
+    label: 'USB-Fundort',
+    coordinates: [11.585, 48.140], // Tech district
     scene: '🧠 Der USB-Stick enthält ein geheimes Meme! Du hast Level 2 erreicht und ein Item erhalten.',
     reward: '🧩 Meme Decoder',
     options: [
@@ -63,6 +74,8 @@ const storyFlow: StoryStep[] = [
   },
   {
     id: 5,
+    label: 'Vorsichtige Route',
+    coordinates: [11.572, 48.133], // Safe zone
     scene: '🔒 Du hast das Gerät nicht geöffnet. Vielleicht war das klug... oder eine verpasste Chance.',
     options: [],
     isEnding: true,
@@ -70,6 +83,8 @@ const storyFlow: StoryStep[] = [
   },
   {
     id: 6,
+    label: 'Geheime Datei',
+    coordinates: [11.590, 48.145], // Hidden location
     scene: '🧬 Die versteckte Datei enthält geheime Informationen über die nächste Mission. Du hast Zugang zu Level 3 erhalten!',
     reward: '📁 Zugangscode Level 3',
     options: [],
@@ -78,6 +93,8 @@ const storyFlow: StoryStep[] = [
   },
   {
     id: 7,
+    label: 'Sicherer Ausgang',
+    coordinates: [11.582, 48.142], // Exit location
     scene: '🛣️ Du folgst dem normalen Pfad und findest einen sicheren Ausgang. Mission erfolgreich abgeschlossen.',
     options: [],
     isEnding: true,
@@ -93,6 +110,8 @@ export default function GameFlow() {
   const [hasJaegerNFT, setHasJaegerNFT] = useState(false);
   const [inventory, setInventory] = useState<string[]>([]);
   const [choiceHistory, setChoiceHistory] = useState<string[]>([]);
+  const [unlockedSteps, setUnlockedSteps] = useState<number[]>([0]); // Start with first location unlocked
+  const [showMapView, setShowMapView] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   
@@ -121,6 +140,13 @@ export default function GameFlow() {
         setInventory(Array.isArray(data.inventory) ? data.inventory as string[] : []);
         setChoiceHistory(Array.isArray(data.choices_history) ? data.choices_history as string[] : []);
         setHasJaegerNFT(data.has_jaeger_nft || false);
+        
+        // Load unlocked steps - for demo, unlock steps up to current progress
+        const unlocked = [];
+        for (let i = 0; i <= data.current_step && i < storyFlow.length; i++) {
+          unlocked.push(i);
+        }
+        setUnlockedSteps(unlocked);
         
         toast({
           title: "Spielstand geladen!",
@@ -202,6 +228,11 @@ export default function GameFlow() {
       setStep(index);
       setChoiceHistory(prev => [...prev, choiceText]);
       
+      // Unlock the new location
+      if (!unlockedSteps.includes(index)) {
+        setUnlockedSteps(prev => [...prev, index]);
+      }
+      
       const nextStory = storyFlow[index];
       
       // Add reward to inventory if exists
@@ -233,6 +264,26 @@ export default function GameFlow() {
         }
       }
     }
+  };
+
+  const goToLocation = (locationIndex: number) => {
+    if (unlockedSteps.includes(locationIndex)) {
+      setStep(locationIndex);
+      toast({
+        title: "🗺️ Ort gewechselt",
+        description: `Du bist zu ${storyFlow[locationIndex].label} gereist.`,
+      });
+    }
+  };
+
+  const getMapLocations = () => {
+    return storyFlow.map((location, index) => ({
+      id: location.id,
+      label: location.label,
+      coordinates: location.coordinates,
+      isUnlocked: unlockedSteps.includes(index),
+      isCurrentLocation: index === step
+    }));
   };
 
   const resetGame = () => {
@@ -363,8 +414,8 @@ export default function GameFlow() {
               )}
             </div>
             
-            {/* Manual Save Button */}
-            <div className="flex justify-center mb-4">
+            {/* Action Buttons */}
+            <div className="flex justify-center items-center gap-2 mb-4">
               <Button 
                 onClick={saveGameProgress}
                 variant="outline"
@@ -373,85 +424,120 @@ export default function GameFlow() {
                 className="flex items-center gap-2"
               >
                 <Save size={16} />
-                {isLoading ? 'Lade...' : 'Spielstand speichern'}
+                {isLoading ? 'Lade...' : 'Speichern'}
+              </Button>
+              
+              <Button 
+                onClick={() => setShowMapView(!showMapView)}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <Map size={16} />
+                {showMapView ? 'Story' : 'Karte'}
               </Button>
             </div>
           </div>
 
-          {/* Story Card */}
-          <Card className="bg-card border-border mb-6">
-            <CardHeader>
-              <CardTitle className="text-xl text-card-foreground">
-                Aktuelle Situation
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-lg text-card-foreground leading-relaxed">
-                {current.scene}
-              </p>
-            </CardContent>
-          </Card>
+          {/* Map View */}
+          {showMapView && (
+            <Card className="bg-card border-border mb-6">
+              <CardHeader>
+                <CardTitle className="text-xl text-card-foreground flex items-center gap-2">
+                  <Map size={20} />
+                  Interaktive Karte - Freigeschaltete Orte
+                </CardTitle>
+                <CardDescription>
+                  Klicke auf verfügbare Orte, um dorthin zu reisen.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <StoryMap 
+                  locations={getMapLocations()}
+                  onLocationSelect={goToLocation}
+                />
+              </CardContent>
+            </Card>
+          )}
 
-          {/* Options or End Screen */}
-          <div className="space-y-4">
-            {current.options.length > 0 ? (
-              <>
-                <h3 className="text-lg font-semibold text-foreground text-center">
-                  Was ist deine Entscheidung?
-                </h3>
-                {current.options.map((option, index) => {
-                  const isLocked = option.requires === 'jaeger' && !hasJaegerNFT;
-                  return (
-                    <Button
-                      key={index}
-                      onClick={() => !isLocked && nextStep(option.next, option.text)}
-                      variant={isLocked ? "ghost" : "outline"}
-                      disabled={isLocked}
-                      className={`w-full text-left justify-start p-4 h-auto ${
-                        isLocked ? 'opacity-50 cursor-not-allowed border-dashed' : ''
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        {isLocked && <Lock size={16} className="text-muted-foreground" />}
-                        <span className="text-base">{option.text}</span>
-                        {isLocked && (
-                          <Badge variant="outline" className="ml-auto text-xs">
-                            🎯 JÄGER NFT erforderlich
-                          </Badge>
-                        )}
-                      </span>
-                    </Button>
-                  );
-                })}
-              </>
-            ) : (
-              <Card className={`border-2 ${current.isSuccess ? 'border-green-500 bg-green-50 dark:bg-green-950' : 'border-red-500 bg-red-50 dark:bg-red-950'}`}>
-                <CardContent className="pt-6 text-center">
-                  <div className="text-6xl mb-4">
-                    {current.isSuccess ? <Trophy className="mx-auto text-yellow-500" size={64} /> : <Skull className="mx-auto text-red-500" size={64} />}
-                  </div>
-                  <h2 className="text-2xl font-bold mb-4">
-                    {current.isSuccess ? '🎉 Erfolgreich!' : '💀 Game Over!'}
-                  </h2>
-                  <p className="text-muted-foreground mb-6">
-                    {current.isSuccess 
-                      ? 'Glückwunsch! Du hast das Level gemeistert.'
-                      : 'Nicht aufgeben! Versuche es nochmal mit einer anderen Strategie.'
-                    }
+          {!showMapView && (
+            <>
+              {/* Story Card */}
+              <Card className="bg-card border-border mb-6">
+                <CardHeader>
+                  <CardTitle className="text-xl text-card-foreground">
+                    📍 {current.label}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg text-card-foreground leading-relaxed">
+                    {current.scene}
                   </p>
-                  
-                  <Button 
-                    onClick={resetGame}
-                    variant="default"
-                    className="mr-2"
-                  >
-                    <RotateCcw className="mr-2" size={16} />
-                    Neues Spiel
-                  </Button>
                 </CardContent>
               </Card>
-            )}
-          </div>
+
+              {/* Options or End Screen */}
+              <div className="space-y-4">
+                {current.options.length > 0 ? (
+                  <>
+                    <h3 className="text-lg font-semibold text-foreground text-center">
+                      Was ist deine Entscheidung?
+                    </h3>
+                    {current.options.map((option, index) => {
+                      const isLocked = option.requires === 'jaeger' && !hasJaegerNFT;
+                      return (
+                        <Button
+                          key={index}
+                          onClick={() => !isLocked && nextStep(option.next, option.text)}
+                          variant={isLocked ? "ghost" : "outline"}
+                          disabled={isLocked}
+                          className={`w-full text-left justify-start p-4 h-auto ${
+                            isLocked ? 'opacity-50 cursor-not-allowed border-dashed' : ''
+                          }`}
+                        >
+                          <span className="flex items-center gap-2">
+                            {isLocked && <Lock size={16} className="text-muted-foreground" />}
+                            <span className="text-base">{option.text}</span>
+                            {isLocked && (
+                              <Badge variant="outline" className="ml-auto text-xs">
+                                🎯 JÄGER NFT erforderlich
+                              </Badge>
+                            )}
+                          </span>
+                        </Button>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <Card className={`border-2 ${current.isSuccess ? 'border-green-500 bg-green-50 dark:bg-green-950' : 'border-red-500 bg-red-50 dark:bg-red-950'}`}>
+                    <CardContent className="pt-6 text-center">
+                      <div className="text-6xl mb-4">
+                        {current.isSuccess ? <Trophy className="mx-auto text-yellow-500" size={64} /> : <Skull className="mx-auto text-red-500" size={64} />}
+                      </div>
+                      <h2 className="text-2xl font-bold mb-4">
+                        {current.isSuccess ? '🎉 Erfolgreich!' : '💀 Game Over!'}
+                      </h2>
+                      <p className="text-muted-foreground mb-6">
+                        {current.isSuccess 
+                          ? 'Glückwunsch! Du hast das Level gemeistert.'
+                          : 'Nicht aufgeben! Versuche es nochmal mit einer anderen Strategie.'
+                        }
+                      </p>
+                      
+                      <Button 
+                        onClick={resetGame}
+                        variant="default"
+                        className="mr-2"
+                      >
+                        <RotateCcw className="mr-2" size={16} />
+                        Neues Spiel
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </>
+          )}
 
           {/* Inventory */}
           {inventory.length > 0 && (
