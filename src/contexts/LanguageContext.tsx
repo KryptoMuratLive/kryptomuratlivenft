@@ -38,7 +38,7 @@ const detectBrowserLanguage = (): SupportedLanguage => {
     return browserLang;
   }
   
-  return 'en'; // fallback to English
+  return 'de'; // fallback to German (main language)
 };
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {

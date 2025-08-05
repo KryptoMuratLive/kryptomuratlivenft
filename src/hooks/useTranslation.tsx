@@ -55,7 +55,7 @@ export const useTranslation = () => {
   const { t, translate, currentLanguage, isTranslating } = useLanguage();
 
   const translateAsync = async (text: string): Promise<string> => {
-    if (currentLanguage === 'de') return text;
+    if (currentLanguage === 'de') return text; // German is main language
     return await translate(text);
   };
 
