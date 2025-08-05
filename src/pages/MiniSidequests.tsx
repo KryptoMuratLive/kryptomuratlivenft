@@ -116,16 +116,22 @@ export default function MiniSidequests() {
     if (!address) return;
     
     try {
-      // Load completed quests from game progress or create separate quest_progress table
       const { data } = await supabase
-        .from('game_progress')
-        .select('*')
+        .from('sidequest_progress')
+        .select('quest_ids')
         .eq('wallet_address', address)
         .single();
       
-      if (data?.choices_history) {
-        // Parse completed quest IDs from choices_history or implement separate tracking
-        setCompletedQuests([]);
+      if (data?.quest_ids && Array.isArray(data.quest_ids)) {
+        const questIds = data.quest_ids as number[];
+        setCompletedQuests(questIds);
+        // Update quests state with completion status
+        const updatedQuests = quests.map(q => ({
+          ...q,
+          completed: questIds.includes(q.id),
+          progress: questIds.includes(q.id) ? 100 : 0
+        }));
+        setQuests(updatedQuests);
       }
     } catch (error) {
       console.error('Error loading quest progress:', error);
@@ -181,14 +187,13 @@ export default function MiniSidequests() {
       });
       
       // Save progress to database
+      const newCompletedQuests = [...completedQuests, questId];
       await supabase
-        .from('game_progress')
+        .from('sidequest_progress')
         .upsert({
           wallet_address: address,
-          current_step: 0, // Keep existing step
-          inventory: [], // Add quest rewards to inventory
-          choices_history: completedQuests,
-          has_jaeger_nft: false
+          quest_ids: newCompletedQuests,
+          updated_at: new Date().toISOString()
         });
         
     } catch (error) {

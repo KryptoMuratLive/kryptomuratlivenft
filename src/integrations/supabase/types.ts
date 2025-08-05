@@ -119,6 +119,30 @@ export type Database = {
         }
         Relationships: []
       }
+      sidequest_progress: {
+        Row: {
+          created_at: string
+          id: string
+          quest_ids: Json
+          updated_at: string
+          wallet_address: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          quest_ids?: Json
+          updated_at?: string
+          wallet_address: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          quest_ids?: Json
+          updated_at?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
       votes: {
         Row: {
           created_at: string
