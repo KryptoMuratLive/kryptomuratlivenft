@@ -5,9 +5,11 @@ import { Badge } from '@/components/ui/badge';
 import { Navigation } from '@/components/navigation';
 import { Footer } from '@/components/Footer';
 import { useToast } from '@/hooks/use-toast';
-import { RotateCcw, Trophy, Skull, Package, Lock } from 'lucide-react';
+import { RotateCcw, Trophy, Skull, Package, Lock, Save } from 'lucide-react';
 import { NFTGate } from '@/components/NFTGate';
 import { checkNFTOwnership } from '@/lib/checkNFTOwnership';
+import { supabase } from '@/integrations/supabase/client';
+import { useWallet } from '@/hooks/useWallet';
 
 interface StoryOption {
   text: string;
@@ -84,15 +86,83 @@ const storyFlow: StoryStep[] = [
 ];
 
 export default function GameFlow() {
+  const { address, isConnected } = useWallet();
   const [step, setStep] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
   const [hasNFTAccess, setHasNFTAccess] = useState(false);
   const [hasJaegerNFT, setHasJaegerNFT] = useState(false);
   const [inventory, setInventory] = useState<string[]>([]);
   const [choiceHistory, setChoiceHistory] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   
   const current = storyFlow[step];
+
+  // Load saved progress on component mount
+  useEffect(() => {
+    if (address && hasNFTAccess) {
+      loadGameProgress();
+    }
+  }, [address, hasNFTAccess]);
+
+  const loadGameProgress = async () => {
+    if (!address) return;
+    
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('game_progress')
+        .select('*')
+        .eq('wallet_address', address)
+        .single();
+      
+      if (data && !error) {
+        setStep(data.current_step);
+        setInventory(Array.isArray(data.inventory) ? data.inventory as string[] : []);
+        setChoiceHistory(Array.isArray(data.choices_history) ? data.choices_history as string[] : []);
+        setHasJaegerNFT(data.has_jaeger_nft || false);
+        
+        toast({
+          title: "Spielstand geladen!",
+          description: "Dein gespeicherter Fortschritt wurde wiederhergestellt.",
+        });
+      }
+    } catch (error) {
+      console.error('Error loading game progress:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const saveGameProgress = async () => {
+    if (!address) return;
+    
+    try {
+      const { error } = await supabase
+        .from('game_progress')
+        .upsert({
+          wallet_address: address,
+          current_step: step,
+          inventory: inventory,
+          choices_history: choiceHistory,
+          has_jaeger_nft: hasJaegerNFT
+        });
+      
+      if (!error) {
+        toast({
+          title: "Spielstand gespeichert!",
+          description: "Dein Fortschritt wurde automatisch gespeichert.",
+        });
+      }
+    } catch (error) {
+      console.error('Error saving game progress:', error);
+      toast({
+        title: "Speichern fehlgeschlagen",
+        description: "Der Spielstand konnte nicht gespeichert werden.",
+        variant: "destructive",
+      });
+    }
+  };
 
   const startGame = async () => {
     setGameStarted(true);
@@ -126,7 +196,7 @@ export default function GameFlow() {
     }
   };
 
-  const nextStep = (nextId: number, choiceText: string) => {
+  const nextStep = async (nextId: number, choiceText: string) => {
     const index = storyFlow.findIndex(s => s.id === nextId);
     if (index >= 0) {
       setStep(index);
@@ -142,6 +212,11 @@ export default function GameFlow() {
           description: `Du hast ${nextStory.reward} erhalten!`,
         });
       }
+      
+      // Auto-save progress after each step
+      setTimeout(() => {
+        saveGameProgress();
+      }, 500);
       
       if (nextStory.isEnding) {
         if (nextStory.isSuccess) {
@@ -177,8 +252,8 @@ export default function GameFlow() {
     }
   };
 
-  // NFT Gate Screen
-  if (!hasNFTAccess) {
+  // NFT Gate Screen  
+  if (!isConnected || !hasNFTAccess) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
@@ -286,6 +361,20 @@ export default function GameFlow() {
                   🎯 JÄGER NFT aktiv
                 </Badge>
               )}
+            </div>
+            
+            {/* Manual Save Button */}
+            <div className="flex justify-center mb-4">
+              <Button 
+                onClick={saveGameProgress}
+                variant="outline"
+                size="sm"
+                disabled={isLoading}
+                className="flex items-center gap-2"
+              >
+                <Save size={16} />
+                {isLoading ? 'Lade...' : 'Spielstand speichern'}
+              </Button>
             </div>
           </div>
 
