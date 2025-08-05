@@ -92,6 +92,33 @@ export type Database = {
         }
         Relationships: []
       }
+      nft_claims: {
+        Row: {
+          claimed: boolean
+          created_at: string
+          id: string
+          tx_hash: string | null
+          updated_at: string
+          wallet_address: string
+        }
+        Insert: {
+          claimed?: boolean
+          created_at?: string
+          id?: string
+          tx_hash?: string | null
+          updated_at?: string
+          wallet_address: string
+        }
+        Update: {
+          claimed?: boolean
+          created_at?: string
+          id?: string
+          tx_hash?: string | null
+          updated_at?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
       votes: {
         Row: {
           created_at: string
