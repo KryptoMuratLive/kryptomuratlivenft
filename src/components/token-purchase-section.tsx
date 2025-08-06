@@ -156,7 +156,7 @@ export const TokenPurchaseSection = () => {
                       variant="bitcoin" 
                       size="lg" 
                       className="w-full text-lg"
-                      onClick={() => window.open(`https://quickswap.exchange/#/swap?outputCurrency=${MURAT_TOKEN_ADDRESS}`, '_blank')}
+                      onClick={() => window.open(`https://dapp.quickswap.exchange/swap/best/ETH/${MURAT_TOKEN_ADDRESS}`, '_blank')}
                     >
                       <ExternalLink className="mr-2" size={20} />
                       🔥 Jetzt auf QuickSwap kaufen
