@@ -68,7 +68,7 @@ Text unten:`;
     const memeText = gptData.choices?.[0]?.message?.content || "Fehler beim Text generieren";
 
     // 2. Generate meme image with DALL·E
-    const imagePrompt = `Cartoon style meme illustration of ${character} in the situation: ${situation}. Funny, colorful, high quality, digital art style`;
+    const imagePrompt = `Create a high-quality, colorful, digital art style cartoon caricature meme illustration of a person named ${character} in the situation: ${situation}. The image should be funny and whimsical with exaggerated expressions to make it humorous.`;
 
     console.log('Calling OpenAI DALL-E for image generation...');
     const dalleResponse = await fetch('https://api.openai.com/v1/images/generations', {

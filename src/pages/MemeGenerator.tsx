@@ -400,18 +400,18 @@ const MemeGenerator = () => {
                 <Button 
                   onClick={handleAiGenerateMeme} 
                   disabled={isAiGenerating}
-                  className="w-full bg-gradient-primary hover:bg-gradient-primary/90"
+                  className="w-full bg-gradient-primary hover:bg-gradient-primary/90 text-lg py-6 px-8"
                   size="lg"
                 >
                   {isAiGenerating ? (
                     <>
-                      <Zap className="mr-2 animate-spin" size={20} />
-                      KI generiert...
+                      <Zap className="mr-3 animate-spin" size={24} />
+                      Meme wird generiert...
                     </>
                   ) : (
                     <>
-                      <Bot className="mr-2" size={20} />
-                      🚀 KI Meme generieren
+                      <Bot className="mr-3" size={24} />
+                      🎨 Meme generieren
                     </>
                   )}
                 </Button>
