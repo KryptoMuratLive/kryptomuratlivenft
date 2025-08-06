@@ -130,40 +130,57 @@ export const TokenPurchaseSection = () => {
                   Token Swap über QuickSwap
                 </h3>
 
-                <div className="bg-secondary/30 rounded-lg p-4 mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h4 className="font-semibold text-bitcoin">Direkter Swap</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Tausche ETH, USDT oder andere Token gegen $MURAT
-                      </p>
+                <div className="bg-secondary/30 rounded-lg p-6 mb-6 text-center">
+                  <div className="mb-6">
+                    <h4 className="font-semibold text-bitcoin text-xl mb-2">🚀 Jetzt $MURAT Token kaufen</h4>
+                    <p className="text-muted-foreground mb-4">
+                      Klicke auf den Button unten, um direkt zu QuickSwap zu gelangen und $MURAT Token zu kaufen.
+                    </p>
+                  </div>
+
+                  {/* Token Address Info */}
+                  <div className="bg-background/50 rounded-lg p-4 mb-6">
+                    <h5 className="font-semibold text-foreground mb-2">📋 Token Contract Address:</h5>
+                    <div className="bg-secondary/50 rounded p-2 text-sm font-mono break-all">
+                      0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD
                     </div>
-                    <ExternalLink className="text-electric-blue" size={20} />
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Kopiere diese Adresse wenn du manuell auf QuickSwap suchst
+                    </p>
                   </div>
 
-                  {/* QuickSwap Embed */}
-                  <div className="bg-background rounded-lg overflow-hidden border border-border">
-                    <iframe
-                      src="https://quickswap.exchange/#/swap?outputCurrency=0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD"
-                      className="w-full h-[600px] border-none"
-                      style={{ borderRadius: '8px' }}
-                      allow="clipboard-read; clipboard-write; web-share"
-                      title="QuickSwap Token Exchange"
-                    />
+                  {/* Action Buttons */}
+                  <div className="space-y-4">
+                    <Button 
+                      variant="bitcoin" 
+                      size="lg" 
+                      className="w-full text-lg"
+                      onClick={() => window.open('https://quickswap.exchange/#/swap?outputCurrency=0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD', '_blank')}
+                    >
+                      <ExternalLink className="mr-2" size={20} />
+                      🔥 Jetzt auf QuickSwap kaufen
+                    </Button>
+                    
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => window.open('https://dexscreener.com/polygon/0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD', '_blank')}
+                      >
+                        📊 Chart ansehen
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => {
+                          navigator.clipboard.writeText('0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD');
+                          alert('✅ Contract Address kopiert!');
+                        }}
+                      >
+                        📋 Adresse kopieren
+                      </Button>
+                    </div>
                   </div>
-                </div>
-
-                {/* External Link Button */}
-                <div className="flex gap-4">
-                  <Button 
-                    variant="bitcoin" 
-                    size="lg" 
-                    className="flex-1"
-                    onClick={() => window.open('https://quickswap.exchange/#/swap?outputCurrency=0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD', '_blank')}
-                  >
-                    <ExternalLink className="mr-2" size={16} />
-                    In neuem Tab öffnen
-                  </Button>
                 </div>
               </div>
             </Card>
