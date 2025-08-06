@@ -10,13 +10,13 @@ const Whitepaper = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-foreground mb-4">
-            🧾 Whitepaper – MURAT Token
+            📜 Whitepaper – MURAT Token
           </h1>
           <p className="text-xl text-muted-foreground">
             Interaktive, dezentrale Web3-Plattform mit MURAT-Token
           </p>
           <Badge variant="outline" className="mt-4">
-            Version 2.0 - Januar 2025
+            Stand: August 2025
           </Badge>
         </div>
 
@@ -30,8 +30,10 @@ const Whitepaper = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground leading-relaxed">
-                MURAT ist mehr als ein Token – es ist die Grundlage eines interaktiven, dezentralen Entertainment- und Community-Ökosystems.
-                Unser Ziel ist es, ein globales Web3-Erlebnis zu erschaffen, bei dem Zuschauer nicht nur konsumieren, sondern live teilnehmen, mitentscheiden und profitieren – durch Livestreams, Abstimmungen, NFTs und ein einzigartiges Game-Konzept: "Jagd auf den Bitcoin".
+                MURAT ist mehr als ein Token – es ist das Herzstück einer interaktiven, dezentralen Web3-Plattform, die Livestreaming, Community-Voting, Meme-Kultur und NFTs in einem einzigartigen Konzept vereint.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Das Hauptspiel: „Jagd auf den Bitcoin" – eine Mischung aus Live-Abenteuer, Meme-Battle und Community-Voting – verbindet Unterhaltung, Partizipation und Krypto-Ökonomie auf neue Weise.
               </p>
             </CardContent>
           </Card>
@@ -45,10 +47,18 @@ const Whitepaper = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <p className="text-muted-foreground leading-relaxed">
-                MURAT ist die Basis einer Web3-Plattform, auf der ein dezentral gesteuertes Live-Spiel stattfindet – mit realen Elementen, Live-Voting, NFT-Zugang und einem Token, der nicht nur als Währung dient, sondern als Schlüssel zur Mitgestaltung.
+                Unser Ziel ist es, ein globales, nutzerzentriertes Web3-Ökosystem zu schaffen, bei dem Creator und Community gemeinsam agieren, entscheiden und profitieren.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Zuschauer weltweit – ob aus Deutschland, der Türkei, den USA oder Japan – können live in das Geschehen eingreifen. Ob im Voting, durch NFT-Besitz oder mit eigenen Inhalten: Web3 gehört der Community, nicht zentralen Plattformen.
+                Die Plattform ist so gestaltet, dass Nutzer durch:
+              </p>
+              <ul className="space-y-2 text-muted-foreground ml-4">
+                <li>• NFTs</li>
+                <li>• Token-Besitz</li>
+                <li>• Live-Interaktion</li>
+              </ul>
+              <p className="text-muted-foreground leading-relaxed">
+                aktiv am Geschehen teilnehmen – nicht nur passiv zuschauen.
               </p>
             </CardContent>
           </Card>
@@ -166,18 +176,15 @@ const Whitepaper = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                5. Einnahmemodell (Fair und nachhaltig)
+                5. Einnahmemodell
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-muted-foreground leading-relaxed">
-                Der Creator verdient nicht über Preismanipulation, sondern über:
-              </p>
               <ul className="space-y-2 text-muted-foreground ml-4">
-                <li>📦 Plattformnutzung (NFTs, Zugang, Voting)</li>
-                <li>📊 1 % Transaktionsgebühr als Treasury-Zufluss</li>
-                <li>🔐 Treasury-Wallets mit Sperrzeit & Offenlegung</li>
-                <li>👥 Community-Einnahmen durch Aktivität & Belohnungen</li>
+                <li>🧠 Plattformnutzung (Zugang nur für Tokenholder)</li>
+                <li>🖼 NFT-Minting (z. B. Meme-NFTs, Spielkarten, Sammlerstücke)</li>
+                <li>📊 1 % Transaktionsgebühr → fließt in die Treasury</li>
+                <li>🔐 Kein zentrales Halten von User-Funds</li>
               </ul>
             </CardContent>
           </Card>
@@ -190,12 +197,30 @@ const Whitepaper = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <ul className="space-y-2 text-muted-foreground">
-                <li>✅ Anti-Dump-Funktion: Verkaufsbegrenzung pro Wallet / Zeit</li>
-                <li>✅ Sell-Tax (3 %): Aufgeteilt auf Treasury, Burn, Community</li>
-                <li>✅ Cooldown zwischen Käufen/Verkäufen</li>
-                <li>✅ Contract wird auf Polygonscan verifiziert & öffentlich dokumentiert</li>
-              </ul>
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="bg-muted/30 p-4 rounded-lg">
+                    <h4 className="font-semibold mb-2">✅ Anti-Dump</h4>
+                    <p className="text-sm text-muted-foreground">Verkaufsbegrenzung pro Wallet / Zeitfenster</p>
+                  </div>
+                  <div className="bg-muted/30 p-4 rounded-lg">
+                    <h4 className="font-semibold mb-2">✅ Sell-Tax 3 %</h4>
+                    <p className="text-sm text-muted-foreground">Aufgeteilt auf Treasury, Burn (1 %), Community</p>
+                  </div>
+                  <div className="bg-muted/30 p-4 rounded-lg">
+                    <h4 className="font-semibold mb-2">✅ Cooldown</h4>
+                    <p className="text-sm text-muted-foreground">Wartezeit zwischen Trades</p>
+                  </div>
+                  <div className="bg-muted/30 p-4 rounded-lg">
+                    <h4 className="font-semibold mb-2">✅ Blacklist-Funktion</h4>
+                    <p className="text-sm text-muted-foreground">Schutz vor böswilligen Wallets</p>
+                  </div>
+                  <div className="bg-muted/30 p-4 rounded-lg">
+                    <h4 className="font-semibold mb-2">✅ Token-Gate-Prüfung</h4>
+                    <p className="text-sm text-muted-foreground">Zugang zu Inhalten nur mit mind. 10 MURAT Token</p>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
@@ -203,7 +228,7 @@ const Whitepaper = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                7. NFT- & Game-Integration
+                7. NFT- und Game-Integration
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -212,83 +237,105 @@ const Whitepaper = () => {
                   🎮 Spiel: „Jagd auf den Bitcoin"
                 </h3>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  Ein reales Game, bei dem Zuschauer über den Ausgang mitentscheiden. Der „Gejagte" (Creator) muss Herausforderungen bestehen – die Community entscheidet per Live-Voting, wie der Weg verläuft. NFT-Pässe geben Einflussrechte, Voting-Stimmen, Belohnungen und Zugang zu exklusiven Inhalten.
+                  Ein interaktives Livestream-Game, in dem der Creator auf der Flucht ist – und die Community live entscheidet, was passiert. Spieler mit NFTs haben Voting-Rechte, Belohnungen, Einfluss auf Story-Entscheidungen.
                 </p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold mb-3 flex items-center">
-                  📦 NFT Use Cases:
+                  📦 NFT-Arten:
                 </h3>
                 <ul className="space-y-2 text-muted-foreground ml-4">
-                  <li>• Zugangs-NFTs („Jagdpass")</li>
-                  <li>• Creator Cards & Memes</li>
-                  <li>• Belohnungs-NFTs</li>
-                  <li>• Sammlerstücke mit Seriencharakter</li>
-                  <li>• Custom-NFTs mit Creator-Interaktion</li>
+                  <li>🎫 Zugangspässe (Jagdpass)</li>
+                  <li>🧠 Creator-Memes</li>
+                  <li>🏆 Belohnungen aus Rätseln & Battles</li>
+                  <li>🎨 Limitierte Sammel-NFTs</li>
+                  <li>🤖 Automatisch generierte Meme-NFTs (KI-basiert)</li>
                 </ul>
               </div>
             </CardContent>
           </Card>
 
-          {/* Multichain-Strategie */}
+          {/* Meme Generator + Minting-Modul */}
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                8. Multichain-Strategie
+                8. Meme Generator + Minting-Modul
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                Das Projekt ist von Beginn an multichain-kompatibel geplant:
-              </p>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-border">
-                  <thead>
-                    <tr className="bg-muted/50">
-                      <th className="border border-border p-3 text-left">Chain</th>
-                      <th className="border border-border p-3 text-left">Rolle</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border border-border p-3">Polygon</td>
-                      <td className="border border-border p-3">Hauptchain für Token & NFTs (niedrige Gebühren)</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-border p-3">Base / Arbitrum</td>
-                      <td className="border border-border p-3">Erweiterung für neue Zielgruppen</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-border p-3">Ethereum L1</td>
-                      <td className="border border-border p-3">Für Premium-NFTs / CEX-Kompatibilität</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-border p-3">Solana (optional)</td>
-                      <td className="border border-border p-3">Crossover-Zugang für Game-Items</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <ul className="space-y-2 text-muted-foreground ml-4">
+                <li>📸 Bilder & Memes werden automatisiert erzeugt (GPT + DALL·E)</li>
+                <li>🪙 NFT-Minting-Logik vorhanden, aber bewusst später aktiviert</li>
+                <li>🎭 Charaktere wiederverwendbar für Branding & Wiedererkennung</li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* Multichain & Wallet-Kompatibilität */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-2xl">
+                9. Multichain & Wallet-Kompatibilität
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-muted/30 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">Polygon</h4>
+                  <p className="text-sm text-muted-foreground">Hauptchain für Token + NFT</p>
+                </div>
+                <div className="bg-muted/30 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">Ethereum L1 (optional)</h4>
+                  <p className="text-sm text-muted-foreground">CEX-Zugang & Premium-Assets</p>
+                </div>
+                <div className="bg-muted/30 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">Base / Arbitrum / Solana</h4>
+                  <p className="text-sm text-muted-foreground">Geplante Brücken für Zielgruppen-Erweiterung</p>
+                </div>
+                <div className="bg-muted/30 p-4 rounded-lg">
+                  <h4 className="font-semibold mb-2">Wallet-Support</h4>
+                  <p className="text-sm text-muted-foreground">MetaMask, Rabby, Phantom, Trust - Voller Zugang mit WalletConnect v2</p>
+                </div>
+              </div>
+              <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary">
+                <p className="text-sm text-muted-foreground">
+                  Email Login / Crossmint – Optional für nicht-kryptoaffine User
+                </p>
               </div>
             </CardContent>
           </Card>
 
-          {/* Globale Beteiligung */}
+          {/* Globale Community & Zugänge */}
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                9. Globale Beteiligung
+                10. Globale Community & Zugänge
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                <strong>Grenzenlos:</strong> Die Plattform ist so konzipiert, dass Nutzer weltweit teilnehmen können – unabhängig von Sprache oder Standort:
-              </p>
               <ul className="space-y-2 text-muted-foreground ml-4">
-                <li>🌐 Wallet-Login per MetaMask / WalletConnect</li>
-                <li>🗳️ Voting per Token- oder NFT-Ownership</li>
-                <li>🎥 Livestream mit KI-gestützter Sprachübersetzung (Whisper + Marian + Piper)</li>
-                <li>🛠️ Webseite & Inhalte auf mehreren Sprachen verfügbar</li>
+                <li>🌐 Wallet-Login via WalletConnect / MetaMask</li>
+                <li>🗳️ Voting auf der Seite nur mit NFT/MURAT</li>
+                <li>🎥 Livestream per Livepeer + KI-Sprachübersetzung (Whisper + MarianMT)</li>
+                <li>🌍 Webseite in Deutsch + Englisch</li>
               </ul>
+            </CardContent>
+          </Card>
+
+          {/* Website-Zugang via Token-Gate */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-2xl">
+                11. Website-Zugang via Token-Gate
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-muted-foreground leading-relaxed">
+                Bereiche wie /game, /stream, /airdrop, /vote und /mint sind nur nutzbar, wenn ein Wallet mindestens 10 MURAT Token hält.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Verknüpfung erfolgt clientseitig über Lovable (React, Vite, Tailwind), mit TokenCheck-Komponente.
+              </p>
             </CardContent>
           </Card>
 
@@ -296,22 +343,17 @@ const Whitepaper = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                10. Rechtliche Struktur & Schutz
+                12. Rechtliches & Transparenz
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <ul className="space-y-2 text-muted-foreground">
-                <li>• Rechtssichere Tokenstruktur nach EU-Maßstab (kein Security-Token, kein Versprechen auf Gewinne)</li>
-                <li>• Creator haftet nicht für Verluste der Käufer</li>
-                <li>• NFTs sind als digitale Sammelobjekte klassifiziert</li>
-                <li>• Keine zentralisierte Verwahrung oder Kontrolle über User-Funds</li>
-                <li>• Alle Wallets werden dezentral verwaltet</li>
+                <li>❌ Kein Security-Token</li>
+                <li>✅ Kein Verwahrgeschäft</li>
+                <li>📄 Offenlegung aller Developer-Wallets</li>
+                <li>✅ Dokumentierte Contract-Verifikation (Polygonscan)</li>
+                <li>⚖ EU-konform, keine Gewinnversprechen</li>
               </ul>
-              <div className="bg-muted/50 p-4 rounded-lg border-l-4 border-primary mt-4">
-                <p className="text-sm text-muted-foreground">
-                  Der Creator bleibt ideengebender Host, nicht Herausgeber einer Finanzdienstleistung. Plattform = Community-getrieben.
-                </p>
-              </div>
             </CardContent>
           </Card>
 
@@ -319,7 +361,7 @@ const Whitepaper = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                11. Roadmap (2025–2026)
+                13. Roadmap
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -327,37 +369,37 @@ const Whitepaper = () => {
                 <div className="border-l-4 border-primary pl-4">
                   <h3 className="font-semibold text-primary">Q3 2025</h3>
                   <p className="text-sm text-muted-foreground">
-                    Token-Launch auf Polygon, Whitepaper, Website live
+                    Token-Launch, Whitepaper, Website
                   </p>
                 </div>
                 <div className="border-l-4 border-muted pl-4">
                   <h3 className="font-semibold">Q4 2025</h3>
                   <p className="text-sm text-muted-foreground">
-                    NFT-Kollektion, Voting-System, TikTok-Kampagne
+                    Meme-Battle-Spiel (Test), TikTok-Strategie
                   </p>
                 </div>
                 <div className="border-l-4 border-muted pl-4">
                   <h3 className="font-semibold">Q1 2026</h3>
                   <p className="text-sm text-muted-foreground">
-                    Livestream-Gate & Community-Spiel-Voting
+                    NFT-Minting-Logik aktivieren
                   </p>
                 </div>
                 <div className="border-l-4 border-muted pl-4">
                   <h3 className="font-semibold">Q2 2026</h3>
                   <p className="text-sm text-muted-foreground">
-                    Multichain-Integration & CoinGecko/CMC Listing
+                    DAO-Voting, Staking, Partner-Integration
                   </p>
                 </div>
                 <div className="border-l-4 border-muted pl-4">
                   <h3 className="font-semibold">Q3 2026</h3>
                   <p className="text-sm text-muted-foreground">
-                    Staking, Creator-NFT-Markt, Launch auf BitMart/MEXC
+                    Mobile-App, Crossmint-Login, Community-Quests
                   </p>
                 </div>
                 <div className="border-l-4 border-muted pl-4">
                   <h3 className="font-semibold">Q4 2026</h3>
                   <p className="text-sm text-muted-foreground">
-                    Metaverse-Testzugänge, Crosschain-Brücke, Mobile-App
+                    CEX-Listing, Metaverse-Demo, Streaming-Events
                   </p>
                 </div>
               </div>
@@ -368,22 +410,22 @@ const Whitepaper = () => {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                12. Schlusswort
+                14. Schlusswort
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="bg-muted/50 p-6 rounded-lg border-l-4 border-primary">
                 <h3 className="text-lg font-semibold mb-3">
-                  MURAT ist nicht einfach nur ein Token.
+                  MURAT steht für mehr als Krypto.
                 </h3>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  Es ist der Eintritt in ein neues, aktives Web3-Erlebnis, das Creator, Community und Technologie auf eine neue Stufe bringt.
+                  Es ist die Bühne für Kreative, Streamer, Meme-Liebhaber und Web3-Entdecker.
                 </p>
                 <p className="text-muted-foreground leading-relaxed mb-4">
-                  Mit MURAT baust du keine Plattform für Konsumenten, sondern ein System für Mitgestalter. Jeder kann etwas beitragen. Jeder kann Teil der Geschichte werden. 
+                  Gemeinsam schaffen wir eine Plattform, in der alle teilhaben, mitentscheiden – und durch echte Beteiligung belohnt werden.
                 </p>
-                <p className="text-primary font-semibold">
-                  Und du bist der Erste, der das startet.
+                <p className="text-primary font-bold text-center text-xl">
+                  MURAT gehört dir.
                 </p>
               </div>
             </CardContent>
