@@ -5,10 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Download, Share2, Zap } from "lucide-react";
+import { Sparkles, Download, Share2, Zap, Bot } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const MemeGenerator = () => {
   const { isConnected } = useWallet();
@@ -19,6 +22,13 @@ const MemeGenerator = () => {
   const [memeText, setMemeText] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedMeme, setGeneratedMeme] = useState<string | null>(null);
+  
+  // AI Generator States
+  const [aiCharacter, setAiCharacter] = useState("Murat");
+  const [aiSituation, setAiSituation] = useState("wird von der Motorradgang gejagt");
+  const [aiMemeText, setAiMemeText] = useState("");
+  const [aiMemeImage, setAiMemeImage] = useState("");
+  const [isAiGenerating, setIsAiGenerating] = useState(false);
 
   const characters = [
     { 
@@ -222,6 +232,64 @@ const MemeGenerator = () => {
     }
   };
 
+  // AI-powered meme generation
+  const handleAiGenerateMeme = async () => {
+    if (!aiCharacter.trim() || !aiSituation.trim()) {
+      toast({
+        title: "Eingabe unvollständig",
+        description: "Bitte füllen Sie alle Felder aus",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsAiGenerating(true);
+    setAiMemeText("");
+    setAiMemeImage("");
+
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-meme', {
+        body: { character: aiCharacter, situation: aiSituation }
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+
+      setAiMemeText(data.memeText);
+      setAiMemeImage(data.memeImage);
+      toast({
+        title: "AI Meme generiert!",
+        description: "Ihr KI-generiertes Meme ist bereit",
+      });
+
+    } catch (error) {
+      console.error('AI Meme generation error:', error);
+      toast({
+        title: "Fehler beim Generieren",
+        description: error.message || "AI Meme konnte nicht erstellt werden",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAiGenerating(false);
+    }
+  };
+
+  const downloadAiImage = () => {
+    if (aiMemeImage) {
+      const link = document.createElement('a');
+      link.href = aiMemeImage;
+      link.download = `ai-meme-${aiCharacter}-${Date.now()}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   const handleDownload = () => {
     if (!generatedMeme) return;
     
@@ -278,14 +346,14 @@ const MemeGenerator = () => {
       <Navigation />
       
       <main className="pt-20 pb-16">
-        <section className="p-6 max-w-2xl mx-auto text-center">
-          <div className="mb-8">
+        <section className="p-6 max-w-4xl mx-auto">
+          <div className="text-center mb-8">
             <Sparkles className="mx-auto mb-4 text-bitcoin" size={64} />
             <h1 className="text-3xl font-bold mb-4 text-foreground">
               🖼️ Meme-Generator
             </h1>
             <p className="mb-4 text-muted-foreground">
-              Wähle einen Charakter & schreibe deinen Meme-Text für epische KryptoMurat Memes
+              Erstelle Memes mit KI-Power oder unseren vorgefertigten Charakteren
             </p>
             
             {!isConnected && (
@@ -293,6 +361,123 @@ const MemeGenerator = () => {
                 💡 Tipp: Verbinde deine Wallet für NFT-Belohnungen
               </Badge>
             )}
+          </div>
+
+          {/* AI Meme Generator Section */}
+          <Card className="bg-card border-border mb-8">
+            <CardHeader>
+              <CardTitle className="text-foreground text-xl flex items-center gap-2">
+                <Bot className="text-bitcoin" size={24} />
+                🧠 KI Meme Generator
+                <Badge variant="outline" className="ml-2">GPT + DALL·E</Badge>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* AI Input Section */}
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="ai-character">👤 Charakter</Label>
+                  <Input
+                    id="ai-character"
+                    value={aiCharacter}
+                    onChange={(e) => setAiCharacter(e.target.value)}
+                    placeholder="z.B. Murat, Batman, Spongebob..."
+                    className="bg-background"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="ai-situation">🎭 Situation</Label>
+                  <Input
+                    id="ai-situation"
+                    value={aiSituation}
+                    onChange={(e) => setAiSituation(e.target.value)}
+                    placeholder="z.B. wird von der Polizei verfolgt..."
+                    className="bg-background"
+                  />
+                </div>
+
+                <Button 
+                  onClick={handleAiGenerateMeme} 
+                  disabled={isAiGenerating}
+                  className="w-full bg-gradient-primary hover:bg-gradient-primary/90"
+                  size="lg"
+                >
+                  {isAiGenerating ? (
+                    <>
+                      <Zap className="mr-2 animate-spin" size={20} />
+                      KI generiert...
+                    </>
+                  ) : (
+                    <>
+                      <Bot className="mr-2" size={20} />
+                      🚀 KI Meme generieren
+                    </>
+                  )}
+                </Button>
+              </div>
+
+              {/* AI Results Section */}
+              <div className="space-y-4">
+                {/* AI Meme Text */}
+                {aiMemeText && (
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">📝 KI Meme Text</h3>
+                    <div className="bg-muted/50 p-4 rounded-lg border">
+                      <pre className="whitespace-pre-wrap text-sm font-mono">
+                        {aiMemeText}
+                      </pre>
+                    </div>
+                  </div>
+                )}
+
+                {/* AI Meme Image */}
+                {aiMemeImage && (
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-lg font-semibold">🖼️ KI Meme Bild</h3>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={downloadAiImage}
+                        className="flex items-center gap-2"
+                      >
+                        <Download className="h-4 w-4" />
+                        Download
+                      </Button>
+                    </div>
+                    <div className="relative group">
+                      <img 
+                        src={aiMemeImage} 
+                        alt="KI Generiertes Meme" 
+                        className="w-full rounded-lg border shadow-lg transition-transform group-hover:scale-[1.02]" 
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Placeholder when no AI content */}
+                {!aiMemeText && !aiMemeImage && !isAiGenerating && (
+                  <div className="border-2 border-dashed border-muted rounded-lg p-8 text-center">
+                    <div className="text-4xl mb-2">🤖</div>
+                    <h3 className="font-semibold mb-2">KI bereit!</h3>
+                    <p className="text-muted-foreground text-sm">
+                      Gib Charakter und Situation ein, dann lass die KI arbeiten
+                    </p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Manual Meme Generator Section */}
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              🎨 Manueller Meme Generator
+            </h2>
+            <p className="text-muted-foreground">
+              Erstelle Memes mit unseren vorgefertigten Charakteren
+            </p>
           </div>
 
           <Card className="bg-card border-border mb-6">
