@@ -13,7 +13,9 @@ const Index = () => {
       <HeroSection />
       <LiveStreamSection />
       <NFTGameSection />
-      <TokenPurchaseSection />
+      <div id="buy-token">
+        <TokenPurchaseSection />
+      </div>
       <CommunityHubSection />
       <Footer />
     </div>
