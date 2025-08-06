@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { MURAT_TOKEN_ADDRESS } from "@/lib/constants";
 import { 
   ShoppingCart, 
   ArrowUpDown, 
@@ -142,7 +143,7 @@ export const TokenPurchaseSection = () => {
                   <div className="bg-background/50 rounded-lg p-4 mb-6">
                     <h5 className="font-semibold text-foreground mb-2">📋 Token Contract Address:</h5>
                     <div className="bg-secondary/50 rounded p-2 text-sm font-mono break-all">
-                      0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD
+                      {MURAT_TOKEN_ADDRESS}
                     </div>
                     <p className="text-xs text-muted-foreground mt-2">
                       Kopiere diese Adresse wenn du manuell auf QuickSwap suchst
@@ -155,7 +156,7 @@ export const TokenPurchaseSection = () => {
                       variant="bitcoin" 
                       size="lg" 
                       className="w-full text-lg"
-                      onClick={() => window.open('https://quickswap.exchange/#/swap?outputCurrency=0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD', '_blank')}
+                      onClick={() => window.open(`https://quickswap.exchange/#/swap?outputCurrency=${MURAT_TOKEN_ADDRESS}`, '_blank')}
                     >
                       <ExternalLink className="mr-2" size={20} />
                       🔥 Jetzt auf QuickSwap kaufen
@@ -165,7 +166,7 @@ export const TokenPurchaseSection = () => {
                       <Button 
                         variant="outline" 
                         size="sm"
-                        onClick={() => window.open('https://dexscreener.com/polygon/0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD', '_blank')}
+                        onClick={() => window.open(`https://dexscreener.com/polygon/${MURAT_TOKEN_ADDRESS}`, '_blank')}
                       >
                         📊 Chart ansehen
                       </Button>
@@ -173,7 +174,7 @@ export const TokenPurchaseSection = () => {
                         variant="outline" 
                         size="sm"
                         onClick={() => {
-                          navigator.clipboard.writeText('0x04296ee51cd6fdfEE0CB1016A818F17b8ae7a1dD');
+                          navigator.clipboard.writeText(MURAT_TOKEN_ADDRESS);
                           alert('✅ Contract Address kopiert!');
                         }}
                       >
