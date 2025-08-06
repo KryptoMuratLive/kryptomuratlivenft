@@ -12,16 +12,6 @@ import {
 } from "lucide-react";
 
 export const TokenPurchaseSection = () => {
-  const tokenStats = {
-    price: "$0.85",
-    change24h: "+12.5%",
-    volume: "$245,000",
-    marketCap: "$8.5M"
-  };
-
-  const formatNumber = (num: string) => {
-    return num;
-  };
 
   return (
     <section id="buy-token" className="py-20 bg-crypto-dark">
@@ -40,55 +30,9 @@ export const TokenPurchaseSection = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Token Stats */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Price Overview */}
-            <Card className="bg-card/80 backdrop-blur border-border">
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-6 flex items-center">
-                  <TrendingUp className="mr-2 text-bitcoin" />
-                  Token Statistiken
-                </h3>
-
-                <div className="space-y-4">
-                  <div className="bg-secondary/30 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-muted-foreground">Aktueller Preis</span>
-                      <DollarSign className="text-bitcoin" size={16} />
-                    </div>
-                    <div className="text-2xl font-bold text-bitcoin">
-                      {tokenStats.price}
-                    </div>
-                    <div className="text-sm text-electric-blue">
-                      {tokenStats.change24h} (24h)
-                    </div>
-                  </div>
-
-                  <div className="bg-secondary/30 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-muted-foreground">Handelsvolumen</span>
-                      <Coins className="text-electric-blue" size={16} />
-                    </div>
-                    <div className="text-2xl font-bold text-electric-blue">
-                      {tokenStats.volume}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      24h Volumen
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="bg-secondary/30 rounded-lg p-3 text-center">
-                      <div className="text-lg font-bold text-foreground">{tokenStats.marketCap}</div>
-                      <div className="text-xs text-muted-foreground">Market Cap</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Token Benefits */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Token Benefits */}
+          <div className="lg:col-span-1">
             <Card className="bg-card/80 backdrop-blur border-border">
               <div className="p-6">
                 <h3 className="text-lg font-semibold mb-4 flex items-center">
