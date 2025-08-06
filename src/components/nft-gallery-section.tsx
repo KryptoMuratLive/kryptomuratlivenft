@@ -224,20 +224,9 @@ export const NFTGallerySection = () => {
                 )}
 
                 {/* Locked Overlay */}
-                {!nft.owned && !nft.isLive && (
+                {!nft.owned && (
                   <div className="absolute inset-0 bg-crypto-dark/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Lock className="text-bitcoin" size={48} />
-                  </div>
-                )}
-
-                {/* Live Event Overlay */}
-                {!nft.owned && nft.isLive && (
-                  <div className="absolute inset-0 bg-crypto-dark/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <img 
-                      src="/lovable-uploads/faccb983-94d7-4e0e-8125-87eef49a84d6.png" 
-                      alt="I Love XRP" 
-                      className="w-32 h-32 object-cover rounded-lg"
-                    />
                   </div>
                 )}
 
