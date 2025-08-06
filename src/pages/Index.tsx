@@ -13,11 +13,8 @@ const Index = () => {
     <div className="min-h-screen bg-crypto-dark">
       <Navigation />
       <HeroSection />
-      <NFTGameSection />
       <LiveStreamSection />
-      <VotingSection />
-      <TokenPurchaseSection />
-      <NFTGallerySection />
+      <NFTGameSection />
       <CommunityHubSection />
       <Footer />
     </div>
