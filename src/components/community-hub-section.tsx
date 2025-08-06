@@ -139,9 +139,11 @@ export const CommunityHubSection = () => {
                     <MessageSquare className="mr-2 text-electric-blue" />
                     Neueste Diskussionen
                   </h3>
-                  <Button variant="outline" size="sm">
-                    <ExternalLink className="mr-2" size={16} />
-                    Alle anzeigen
+                  <Button variant="outline" size="sm" asChild>
+                    <a href="https://t.me/kryptomurat" target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="mr-2" size={16} />
+                      Telegram öffnen
+                    </a>
                   </Button>
                 </div>
 
@@ -182,9 +184,11 @@ export const CommunityHubSection = () => {
                 </div>
 
                 <div className="mt-6 text-center">
-                  <Button variant="bitcoin" className="w-full">
-                    <MessageSquare className="mr-2" />
-                    An Diskussion teilnehmen
+                  <Button variant="bitcoin" className="w-full" asChild>
+                    <a href="https://t.me/kryptomurat" target="_blank" rel="noopener noreferrer">
+                      <MessageSquare className="mr-2" />
+                      An Diskussion teilnehmen
+                    </a>
                   </Button>
                 </div>
               </div>
@@ -260,10 +264,12 @@ export const CommunityHubSection = () => {
                   <div className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg">
                     <div className="flex items-center space-x-2">
                       <MessageSquare className="text-bitcoin" size={16} />
-                      <span className="text-sm">Discord</span>
+                      <span className="text-sm">Telegram</span>
                     </div>
-                    <Button size="sm" variant="ghost">
-                      Beitreten
+                    <Button size="sm" variant="ghost" asChild>
+                      <a href="https://t.me/kryptomurat" target="_blank" rel="noopener noreferrer">
+                        Beitreten
+                      </a>
                     </Button>
                   </div>
                 </div>
@@ -276,9 +282,11 @@ export const CommunityHubSection = () => {
                 <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
                 
                 <div className="space-y-3">
-                  <Button variant="bitcoin" className="w-full" size="sm">
-                    <MessageSquare className="mr-2" size={16} />
-                    Neuen Post erstellen
+                  <Button variant="bitcoin" className="w-full" size="sm" asChild>
+                    <a href="https://t.me/kryptomurat" target="_blank" rel="noopener noreferrer">
+                      <MessageSquare className="mr-2" size={16} />
+                      Telegram Community
+                    </a>
                   </Button>
                   
                   <Button variant="outline" className="w-full" size="sm">
