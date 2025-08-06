@@ -74,10 +74,10 @@ export const HeroSection = () => {
             </Button>
             
             <Button variant="voting" size="lg" className="text-lg px-8" asChild>
-              <Link to="/voting">
+              <a href="#buy-token">
                 <Vote className="mr-2" />
-                Jetzt Abstimmen
-              </Link>
+                Token kaufen
+              </a>
             </Button>
           </div>
 
