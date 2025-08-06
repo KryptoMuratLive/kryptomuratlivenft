@@ -35,7 +35,7 @@ export const Navigation = () => {
     { name: "Sidequests", href: "/sidequests", icon: Zap },
     { name: "Meme Battle", href: "/meme-battle", icon: Zap },
     { name: "Meme Galerie", href: "/meme-gallery", icon: Image },
-    { name: "Staking", href: "/staking", icon: BarChart3 },
+    { name: "Token kaufen", href: "#buy-token", icon: BarChart3 },
     { name: "Mint NFT", href: "/mint", icon: Users },
     { name: "Whitepaper", href: "/whitepaper", icon: CheckCircle },
   ];

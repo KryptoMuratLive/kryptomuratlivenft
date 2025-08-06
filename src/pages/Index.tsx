@@ -6,6 +6,7 @@ import { VotingSection } from "@/components/voting-section";
 import { Footer } from "@/components/Footer";
 import { NFTGallerySection } from "@/components/nft-gallery-section";
 import { CommunityHubSection } from "@/components/community-hub-section";
+import { TokenPurchaseSection } from "@/components/token-purchase-section";
 
 const Index = () => {
   return (
@@ -15,6 +16,7 @@ const Index = () => {
       <NFTGameSection />
       <LiveStreamSection />
       <VotingSection />
+      <TokenPurchaseSection />
       <NFTGallerySection />
       <CommunityHubSection />
       <Footer />
