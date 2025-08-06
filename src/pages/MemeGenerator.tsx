@@ -30,6 +30,17 @@ const MemeGenerator = () => {
   const [aiMemeImage, setAiMemeImage] = useState("");
   const [isAiGenerating, setIsAiGenerating] = useState(false);
 
+  // Input cleaning function for better AI processing
+  const cleanInput = (text: string): string => {
+    return text
+      .replace(/[äÄ]/g, 'ae')
+      .replace(/[öÖ]/g, 'oe')
+      .replace(/[üÜ]/g, 'ue')
+      .replace(/[ß]/g, 'ss')
+      .replace(/[^a-zA-Z0-9 .,?!-]/g, '')
+      .trim();
+  };
+
   const characters = [
     { 
       id: "murat-happy", 
@@ -248,8 +259,12 @@ const MemeGenerator = () => {
     setAiMemeImage("");
 
     try {
+      // Clean inputs for better AI processing
+      const cleanedCharacter = cleanInput(aiCharacter);
+      const cleanedSituation = cleanInput(aiSituation);
+      
       const { data, error } = await supabase.functions.invoke('generate-meme', {
-        body: { character: aiCharacter, situation: aiSituation }
+        body: { character: cleanedCharacter, situation: cleanedSituation }
       });
 
       if (error) {
