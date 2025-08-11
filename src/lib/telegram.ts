@@ -1,7 +1,5 @@
-// Telegram Bot API integration
-
-const BOT_TOKEN = "7862770623:AAEmy3TgM_EK-RnSo1nYIg0H78JPJOvNjS0";
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${BOT_TOKEN}`;
+// Telegram Bot API integration via Supabase Edge Function
+import { supabase } from "@/integrations/supabase/client";
 
 export interface TelegramMessage {
   chat_id: string | number;
@@ -11,27 +9,18 @@ export interface TelegramMessage {
 
 export const sendMessage = async (chatId: string | number, text: string): Promise<boolean> => {
   try {
-    const response = await fetch(`${TELEGRAM_API_URL}/sendMessage`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text,
-        parse_mode: 'HTML',
-      }),
+    const { data, error } = await supabase.functions.invoke('telegram', {
+      body: { chatId, message: text }
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Telegram API error:', errorData);
-      throw new Error(`Telegram API error: ${errorData.description}`);
+    if (error) {
+      console.error('Telegram edge function error:', error);
+      return false;
     }
 
-    return true;
-  } catch (error) {
-    console.error('Error sending Telegram message:', error);
+    return Boolean(data?.success);
+  } catch (err) {
+    console.error('Error invoking telegram function:', err);
     return false;
   }
 };
@@ -41,17 +30,21 @@ export const sendVoteNotification = async (chatId: string | number, voteData: {
   choice: string;
   timestamp: string;
 }): Promise<boolean> => {
-  const message = `
-🗳️ <b>Neue Abstimmung!</b>
+  try {
+    const { data, error } = await supabase.functions.invoke('telegram', {
+      body: { chatId, type: 'vote', data: voteData }
+    });
 
-👤 Wallet: <code>${voteData.wallet.slice(0, 6)}...${voteData.wallet.slice(-4)}</code>
-✅ Wahl: <b>${voteData.choice}</b>
-🕐 Zeit: ${new Date(voteData.timestamp).toLocaleString('de-DE')}
+    if (error) {
+      console.error('Telegram edge function error (vote):', error);
+      return false;
+    }
 
-#KryptoMurat #LiveVoting
-  `.trim();
-
-  return await sendMessage(chatId, message);
+    return Boolean(data?.success);
+  } catch (err) {
+    console.error('Error invoking telegram function (vote):', err);
+    return false;
+  }
 };
 
 export const sendStreamNotification = async (chatId: string | number, streamData: {
@@ -59,19 +52,21 @@ export const sendStreamNotification = async (chatId: string | number, streamData
   viewerCount: number;
   isLive: boolean;
 }): Promise<boolean> => {
-  const message = `
-🔴 <b>Live Stream Update!</b>
+  try {
+    const { data, error } = await supabase.functions.invoke('telegram', {
+      body: { chatId, type: 'stream', data: streamData }
+    });
 
-📺 ${streamData.title}
-👥 ${streamData.viewerCount} Zuschauer
-${streamData.isLive ? '🟢 LIVE' : '🔴 OFFLINE'}
+    if (error) {
+      console.error('Telegram edge function error (stream):', error);
+      return false;
+    }
 
-Jetzt einschalten: /livestream
-
-#KryptoMurat #LiveStream
-  `.trim();
-
-  return await sendMessage(chatId, message);
+    return Boolean(data?.success);
+  } catch (err) {
+    console.error('Error invoking telegram function (stream):', err);
+    return false;
+  }
 };
 
 export const sendNFTMintNotification = async (chatId: string | number, mintData: {
@@ -79,15 +74,19 @@ export const sendNFTMintNotification = async (chatId: string | number, mintData:
   tokenId: string;
   transactionHash: string;
 }): Promise<boolean> => {
-  const message = `
-💎 <b>Neues NFT geminted!</b>
+  try {
+    const { data, error } = await supabase.functions.invoke('telegram', {
+      body: { chatId, type: 'mint', data: mintData }
+    });
 
-👤 Wallet: <code>${mintData.wallet.slice(0, 6)}...${mintData.wallet.slice(-4)}</code>
-🎫 Token ID: #${mintData.tokenId}
-🔗 TX: <code>${mintData.transactionHash.slice(0, 10)}...</code>
+    if (error) {
+      console.error('Telegram edge function error (mint):', error);
+      return false;
+    }
 
-#KryptoMurat #NFT #Mint
-  `.trim();
-
-  return await sendMessage(chatId, message);
+    return Boolean(data?.success);
+  } catch (err) {
+    console.error('Error invoking telegram function (mint):', err);
+    return false;
+  }
 };

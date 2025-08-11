@@ -2,3 +2,6 @@ project_id = "jmsngfbiyqzzwhdgouoo"
 
 [functions.generate-meme]
 verify_jwt = false
+
+[functions.telegram]
+verify_jwt = false
