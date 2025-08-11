@@ -12,10 +12,12 @@ import { Sparkles, Download, Share2, Zap, Bot } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-
+import { useAccount, useSignMessage } from "wagmi";
 const MemeGenerator = () => {
   const { isConnected } = useWallet();
   const { toast } = useToast();
+  const { address } = useAccount();
+  const { signMessageAsync } = useSignMessage();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedCharacter, setSelectedCharacter] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -259,12 +261,18 @@ const MemeGenerator = () => {
     setAiMemeImage("");
 
     try {
-      // Require Supabase login for AI generation
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (!sessionData?.session) {
+      if (!isConnected) {
         toast({
-          title: "Login erforderlich",
-          description: "Bitte melden Sie sich an, um KI-Memes zu generieren.",
+          title: "Wallet erforderlich",
+          description: "Bitte verbinde deine Wallet, um KI-Memes zu generieren.",
+          variant: "destructive",
+        });
+        return;
+      }
+      if (!address) {
+        toast({
+          title: "Adresse fehlt",
+          description: "Wallet-Adresse konnte nicht ermittelt werden.",
           variant: "destructive",
         });
         return;
@@ -272,9 +280,21 @@ const MemeGenerator = () => {
       // Clean inputs for better AI processing
       const cleanedCharacter = cleanInput(aiCharacter);
       const cleanedSituation = cleanInput(aiSituation);
+
+      const issuedAt = new Date().toISOString();
+      const expirationTime = new Date(Date.now() + 5 * 60 * 1000).toISOString();
+      const nonce = Math.random().toString(36).slice(2);
+
+      const message = `KryptoMurat Meme Access
+Address: ${address}
+Nonce: ${nonce}
+Issued At: ${issuedAt}
+Expires At: ${expirationTime}`;
+
+      const signature = await signMessageAsync({ account: address as `0x${string}`, message });
       
       const { data, error } = await supabase.functions.invoke('generate-meme', {
-        body: { character: cleanedCharacter, situation: cleanedSituation }
+        body: { character: cleanedCharacter, situation: cleanedSituation, address, signature, nonce, issuedAt, expirationTime }
       });
 
       if (error) {
@@ -296,7 +316,7 @@ const MemeGenerator = () => {
       console.error('AI Meme generation error:', error);
       const msg = String(error?.message || error || '');
       const desc = /401|unauthorized|jwt/i.test(msg)
-        ? 'Nicht autorisiert. Bitte melden Sie sich an, um KI-Memes zu generieren.'
+        ? 'Nicht autorisiert. Bitte Wallet verbinden und Signatur freigeben.'
         : (msg || 'AI Meme konnte nicht erstellt werden');
       toast({
         title: "Fehler beim Generieren",

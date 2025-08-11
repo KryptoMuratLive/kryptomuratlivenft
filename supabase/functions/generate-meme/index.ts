@@ -1,4 +1,5 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
+import { verifyMessage } from "https://esm.sh/ethers@6.11.1";
 
 const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
 
@@ -22,7 +23,7 @@ Deno.serve(async (req) => {
     const requestBody = await req.json();
     console.log('Request body:', requestBody);
     
-    const { character, situation } = requestBody;
+    const { character, situation, address, signature, nonce, issuedAt, expirationTime } = requestBody;
 
     if (!openAIApiKey) {
       console.error('OpenAI API key not configured');
@@ -34,7 +35,47 @@ Deno.serve(async (req) => {
       throw new Error('Character and situation are required');
     }
 
-    console.log(`Generating meme for character: ${character}, situation: ${situation}`);
+    // Wallet signature verification (stateless, no user data stored)
+    if (!address || !signature || !nonce || !issuedAt || !expirationTime) {
+      console.error('Missing signature fields');
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const now = Date.now();
+    const exp = new Date(expirationTime).getTime();
+    if (!exp || exp < now) {
+      console.error('Expired signature');
+      return new Response(JSON.stringify({ error: 'Unauthorized (expired)' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    const authMessage = `KryptoMurat Meme Access\nAddress: ${address}\nNonce: ${nonce}\nIssued At: ${issuedAt}\nExpires At: ${expirationTime}`;
+
+    let recoveredAddress = '';
+    try {
+      recoveredAddress = verifyMessage(authMessage, signature);
+    } catch (e) {
+      console.error('Signature verification error:', e);
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (!recoveredAddress || recoveredAddress.toLowerCase() !== String(address).toLowerCase()) {
+      console.error('Signature does not match address');
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log(`Authorized meme generation for ${address}. Character: ${character}, situation: ${situation}`);
 
     // 1. Generate meme text with GPT
     const textPrompt = `Erstelle einen witzigen zweizeiligen Meme-Text über ${character} in folgender Situation: ${situation}. Maximal 100 Zeichen pro Zeile. Format:
