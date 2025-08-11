@@ -259,6 +259,16 @@ const MemeGenerator = () => {
     setAiMemeImage("");
 
     try {
+      // Require Supabase login for AI generation
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData?.session) {
+        toast({
+          title: "Login erforderlich",
+          description: "Bitte melden Sie sich an, um KI-Memes zu generieren.",
+          variant: "destructive",
+        });
+        return;
+      }
       // Clean inputs for better AI processing
       const cleanedCharacter = cleanInput(aiCharacter);
       const cleanedSituation = cleanInput(aiSituation);
@@ -282,11 +292,15 @@ const MemeGenerator = () => {
         description: "Ihr KI-generiertes Meme ist bereit",
       });
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('AI Meme generation error:', error);
+      const msg = String(error?.message || error || '');
+      const desc = /401|unauthorized|jwt/i.test(msg)
+        ? 'Nicht autorisiert. Bitte melden Sie sich an, um KI-Memes zu generieren.'
+        : (msg || 'AI Meme konnte nicht erstellt werden');
       toast({
         title: "Fehler beim Generieren",
-        description: error.message || "AI Meme konnte nicht erstellt werden",
+        description: desc,
         variant: "destructive",
       });
     } finally {
