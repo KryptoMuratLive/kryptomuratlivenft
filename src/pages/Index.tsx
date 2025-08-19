@@ -1,6 +1,5 @@
 import { Navigation } from "@/components/navigation";
 import { HeroSection } from "@/components/hero-section";
-import { NFTGameSection } from "@/components/nft-game-section";
 import { LiveStreamSection } from "@/components/live-stream-section";
 import { Footer } from "@/components/Footer";
 import { CommunityHubSection } from "@/components/community-hub-section";
@@ -12,7 +11,6 @@ const Index = () => {
       <Navigation />
       <HeroSection />
       <LiveStreamSection />
-      <NFTGameSection />
       <div id="buy-token">
         <TokenPurchaseSection />
       </div>

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/navigation";
-import { NFTGate } from "@/components/NFTGate";
-// import { LivePlayer } from "@/components/LivePlayer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -70,26 +68,13 @@ const LiveStream = () => {
 
         {/* NFT Gate or Stream */}
         <div className="max-w-4xl mx-auto">
-          {!isConnected ? (
-            <NFTGate onConnect={handleNFTVerification} />
-          ) : !hasNFT ? (
-            <div className="text-center p-12 bg-card rounded-xl border border-border">
-              <h3 className="text-2xl font-bold text-foreground mb-4">
-                Exklusiver Zugang erforderlich
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Du benötigst ein Jäger-NFT, um den Live-Stream zu sehen.
-              </p>
-              <div className="space-y-4">
-                <Button variant="default" size="lg" onClick={() => window.location.href = '/mint'}>
-                  NFT jetzt minten
-                </Button>
-                <Button variant="outline" onClick={() => window.location.reload()}>
-                  NFT-Zugang erneut prüfen
-                </Button>
-              </div>
-            </div>
-          ) : (
+          <div className="text-center p-12 bg-card rounded-xl border border-border">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              KryptoMurat Live Stream
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Verfolge Murats Abenteuer in der Krypto-Welt!
+            </p>
             <div className="aspect-video bg-black rounded-xl overflow-hidden">
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
@@ -97,11 +82,11 @@ const LiveStream = () => {
                     <Eye className="text-black" size={32} />
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-2">Live Stream</h3>
-                  <p className="text-gray-300">Willkommen beim KryptoMurat Live Stream!</p>
+                  <p className="text-gray-300">Stream ist momentan offline</p>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Quick Actions */}

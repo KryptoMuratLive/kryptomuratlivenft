@@ -8,7 +8,6 @@ import { LiveProvider } from './contexts/LiveContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Index from "./pages/Index";
 import LiveStream from "./pages/LiveStream";
-import PrivateStream from "./pages/PrivateStream";
 import Voting from "./pages/Voting";
 import Staking from "./pages/Staking";
 import Mint from "./pages/Mint";
@@ -19,18 +18,12 @@ import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import Barrierefreiheit from "./pages/Barrierefreiheit";
 import Whitepaper from "./pages/Whitepaper";
-import Game from "./pages/Game";
-import GameStory from "./pages/GameStory";
-import GameStoryNew from "./pages/GameStoryNew";
-import MiniSidequests from "./pages/MiniSidequests";
 import AdminPanel from "./pages/AdminPanel";
-import NFTAccess from "./pages/NFTAccess";
 import MemeGenerator from "./pages/MemeGenerator";
 import MemeBattle from "./pages/MemeBattle";
 import MemeGallery from "./pages/MemeGallery";
-import GameMap from "./pages/GameMap";
-import VaultPage from "./pages/VaultPage";
 import BattlePage from "./pages/BattlePage";
+import Game from "./pages/Game";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,7 +40,6 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/livestream" element={<LiveStream />} />
-              <Route path="/private-stream" element={<PrivateStream />} />
               <Route path="/voting" element={<Voting />} />
               <Route path="/staking" element={<Staking />} />
               <Route path="/mint" element={<Mint />} />
@@ -58,17 +50,11 @@ const App = () => (
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/barrierefreiheit" element={<Barrierefreiheit />} />
               <Route path="/whitepaper" element={<Whitepaper />} />
-              <Route path="/game" element={<Game />} />
-              <Route path="/game-story" element={<GameStory />} />
-              <Route path="/game-story-new" element={<GameStoryNew />} />
-              <Route path="/sidequests" element={<MiniSidequests />} />
               <Route path="/admin-panel" element={<AdminPanel />} />
-              <Route path="/nft" element={<NFTAccess />} />
               <Route path="/memes" element={<MemeGenerator />} />
               <Route path="/meme-battle" element={<MemeBattle />} />
               <Route path="/meme-gallery" element={<MemeGallery />} />
-              <Route path="/map" element={<GameMap />} />
-              <Route path="/vault" element={<VaultPage />} />
+              <Route path="/game" element={<Game />} />
               <Route path="/battle" element={<BattlePage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
