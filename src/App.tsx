@@ -20,9 +20,6 @@ import Barrierefreiheit from "./pages/Barrierefreiheit";
 import Whitepaper from "./pages/Whitepaper";
 import AdminPanel from "./pages/AdminPanel";
 import MemeGenerator from "./pages/MemeGenerator";
-import MemeBattle from "./pages/MemeBattle";
-import MemeGallery from "./pages/MemeGallery";
-import BattlePage from "./pages/BattlePage";
 import Game from "./pages/Game";
 import NotFound from "./pages/NotFound";
 
@@ -52,10 +49,7 @@ const App = () => (
               <Route path="/whitepaper" element={<Whitepaper />} />
               <Route path="/admin-panel" element={<AdminPanel />} />
               <Route path="/memes" element={<MemeGenerator />} />
-              <Route path="/meme-battle" element={<MemeBattle />} />
-              <Route path="/meme-gallery" element={<MemeGallery />} />
               <Route path="/game" element={<Game />} />
-              <Route path="/battle" element={<BattlePage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
