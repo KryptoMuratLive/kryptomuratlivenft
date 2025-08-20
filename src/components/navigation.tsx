@@ -27,16 +27,12 @@ export const Navigation = () => {
   const { address, isConnected, isConnecting, connectWallet, disconnectWallet } = useWallet();
 
   const navigation = [
-    { name: "Live Stream (Events)", href: "/livestream", icon: Play },
-    { name: "Privater Stream", href: "/private-stream", icon: Play },
+    { name: "Live Stream", href: "/livestream", icon: Play },
     { name: "Voting", href: "/voting", icon: Vote },
-    { name: "NFT Gallery", href: "/gallery", icon: Trophy },
-    { name: "Story Game", href: "/game-story", icon: BookOpen },
-    { name: "Sidequests", href: "/sidequests", icon: Zap },
-    { name: "Meme Battle", href: "/meme-battle", icon: Zap },
-    { name: "Meme Galerie", href: "/meme-gallery", icon: Image },
+    { name: "NFT Spiel", href: "/game", icon: Trophy },
+    { name: "Staking", href: "/staking", icon: BarChart3 },
+    { name: "Meme Generator", href: "/memes", icon: Image },
     { name: "Token kaufen", href: "#buy-token", icon: BarChart3 },
-    { name: "Mint NFT", href: "/mint", icon: Users },
     { name: "Whitepaper", href: "/whitepaper", icon: CheckCircle },
   ];
 
